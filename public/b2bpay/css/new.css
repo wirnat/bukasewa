@@ -1,0 +1,31 @@
+.top-menu{
+    position: absolute;
+    width: 1440px;
+    height: 100px;
+    left: 0px;
+    top: 0px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 5px 15px rgba(51, 51, 51, 0.15);
+}
+.logo{
+    position: absolute;
+    width: 204px;
+    height: 74px;
+    left: 153px;
+    top: 13px;
+
+    background: url(image.png);
+}
+.top-menu li{
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 33px;
+    /* identical to box height */
+
+
+    color: rgba(51, 51, 51, 0.72);
+
+}

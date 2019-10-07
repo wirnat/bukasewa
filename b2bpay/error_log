@@ -1,0 +1,2 @@
+[23-Sep-2019 20:29:56 Asia/Jakarta] PHP Warning:  require_once(config/config.php): failed to open stream: No such file or directory in /home/bukasewa/public_html/b2bpay/index.php on line 3
+[23-Sep-2019 20:29:56 Asia/Jakarta] PHP Fatal error:  require_once(): Failed opening required 'config/config.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/bukasewa/public_html/b2bpay/index.php on line 3

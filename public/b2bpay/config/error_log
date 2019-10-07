@@ -1,0 +1,10 @@
+[02-Oct-2019 23:56:30 Asia/Jakarta] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/bukasewa/public_html/b2bpay/config/config.php on line 7
+[02-Oct-2019 23:56:30 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to a member function query() on boolean in /home/bukasewa/public_html/b2bpay/config/searchdata.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/bukasewa/public_html/b2bpay/config/searchdata.php on line 5
+[02-Oct-2019 23:56:32 Asia/Jakarta] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/bukasewa/public_html/b2bpay/config/config.php on line 7
+[02-Oct-2019 23:56:32 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to a member function query() on boolean in /home/bukasewa/public_html/b2bpay/config/searchdata.php:5
+Stack trace:
+#0 {main}
+  thrown in /home/bukasewa/public_html/b2bpay/config/searchdata.php on line 5
