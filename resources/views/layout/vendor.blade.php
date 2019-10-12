@@ -166,7 +166,7 @@
         </div>
         <div class="pull-left info">
           <p>{{$me->name}}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          <a href="#"><i class="fa fa-circle text-success"></i> {{$me->nama_paket}}</a>
         </div>
       </div>
       <!-- search form -->

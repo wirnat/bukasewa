@@ -92,6 +92,7 @@ $(function(){
                 confirmButtonText: 'Yap, Lanjutkan!'
               }).then((result) => {
                 if (result.value) {
+                    $(".overlays").show();
                     $.ajax({
                         type: "POST",
                         url: "/api/tambahiklan",
@@ -101,9 +102,17 @@ $(function(){
                         processData: false,
                         dataType: "JSON",
                         success:function(){
+
                             Swal.fire("Iklan berhasil didaftarkan","","success").then(function (result) {
                                 if (result.value) {
                                     window.location.href = "/vendor/iklan/kelola";
+                                }
+                            })
+                        },error:function(){
+                            Swal.fire("Terjadi kesalahan","Coba lagi?","error").then(function (result) {
+                                $(".overlays").hide();
+                                if (result.value) {
+                                    $("a[href='#finish']").click();
                                 }
                             })
                         }

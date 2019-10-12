@@ -1,5 +1,5 @@
 @extends('layout.customer')
-@section('title','Dashboard')
+@section('title','Beli paket iklan')
 @section('content')
 <!-- Sub banner start -->
 <div class="sub-banner overview-bgi">
@@ -25,7 +25,7 @@
             </div>
             <div class="row">
                 @foreach ($paket as $p)
-                    <div class="col-lg-4 col-md-4" >
+                    <div class="col-lg-3 col-md-3" >
                         <div class="pricing-3 mb-50 clearfix">
                             <div class="price-header">
                                 <div class="title">{{$p->nama_paket}}</div>
@@ -58,8 +58,17 @@
                                         <i class="fa fa-close"></i> Free Ads ke 50 web
                                     @endif
                                     </li>
+                                    <li>
+                                        @if ($p->max_iklan>0)
+                                            <b>{{$p->max_iklan}} Maksimum Iklan</b>
+                                        @else
+                                            <b style="color:gold">Iklan Takterbatas</b>
+                                        @endif
+                                    </li>
                                 </ul>
-                                <div class="button"><a href="#" class="btn btn-outline pricing-btn">Get started</a></div>
+                                @if ()
+                                <div class="button"><a href="#" class="btn btn-outline pricing-btn">Beli sekarang</a></div>
+                                @endif
                             </div>
                         </div>
                     </div> 

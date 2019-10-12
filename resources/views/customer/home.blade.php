@@ -29,7 +29,12 @@
     </div>
 </div>
 <!-- Categories end-->
+<div id="divrekomen" >
+<center>
+<button data-toggle="modal" data-target="#modalcari" id="carihunian" class="btn button-md button-theme"><i class="fa fa-map-marker"></i> Cari hunian disekitarmu</button>
+</center>
 <div class="clearfix"></div>
+
 <!-- Rekomendasi -->
 <div style="margin-top: 50px" class="mt-50 recently-properties chevron-icon">
     <div class="container">
@@ -49,6 +54,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- Cari Apa Section -->
 {{-- <div style="margin-top: 50px" class="mb-100 our-service">
@@ -94,7 +100,6 @@
                 </div>
             </div>
         </div>
-        <button data-toggle="modal" data-target="#modalcari" id="carihunian" class="btn button-md button-theme">Lihat Hunian Terdekat</button>
     </div>
 </div> --}}
 <!-- Cari Apa end -->
@@ -235,8 +240,12 @@
                         html+='<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">';
                         html+='<div class="property-2">';
                         html+='<div class="property-img">';
-                        html+='<div class="featured">Rekomendasi</div>';
-                        html+='<div class="price-ratings"><div class="price">'+response[0].harga+'</div></div>';
+                        if (response[index].paket=="3A") {
+                            html+='<div class="platinum">Hot</div>';
+                        }else{
+                            html+='<div class="featured">Rekomendasi</div>';
+                        }
+                        html+='<div class="price-ratings"><div class="price">'+response[index].harga+'</div></div>';
                         html+='<img style="object-fit:cover;width: 360px;height: 270px;" src="/'+response[index].link+'" alt="Image Rekomen" class="img-responsive">';
                         html+='<div class="property-overlay">';
                         html+='<a href="/detail/properti/'+response[index].id_properti+'" class="overlay-link"><i class="fa fa-link"></i></a>';
@@ -270,8 +279,8 @@
                 });
                 console.log(pos);
             }, function() {
-                Swal.fire("Lokasimu tidak terdeteksi, pastikan mengizinkan pengambilan lokasi","","error")
-                handleLocationError(true, infoWindow, map.getCenter());
+                // Swal.fire("Lokasimu tidak terdeteksi, pastikan mengizinkan pengambilan lokasi","","error");
+                $("#divrekomen").hide();
             });
             } else {
             // Browser doesn't support Geolocation

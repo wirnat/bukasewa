@@ -264,12 +264,12 @@
                                                 <p>{{$properti->alamat}}</p>
                                             </div>
                                             <div class="helping-center">
-                                                @if ($status!="in")
+                                                {{-- @if ($status!="in")
                                                     <div id="infohide">
                                                             <div class="icon"><i class="fa fa-phone"></i></div>
                                                             <button id="sign" style="background-color: #d20023;border-color:#d20023;" class="btn btn-primary"><i class="fa fa-eye"></i> Hubungi Pemilik</button>
                                                     </div>
-                                                @else
+                                                @else --}}
                                                     <div id="infoshow">
                                                             <div class="icon"><i class="fa fa-phone"></i></div>
                                                             <h4>Phone</h4>
@@ -282,9 +282,9 @@
                                                                 }
                                                             ?>
                                                             
-                                                            <p><a href="https://api.whatsapp.com/send?phone={{$wa}}">+{{$wa}}</a> </p>
+                                                            <p><a href="https://api.whatsapp.com/send?phone={{$wa}}&text=Halo%20kak%20aku%20mendapatkan%20informasi%20dari%20https://bukasewa.com/detail/properti/{{$properti->id_properti}},%20apakah%20masih%20tersedia%20huniannya?">+{{$wa}}</a> </p>
                                                     </div>
-                                                @endif
+                                                {{-- @endif --}}
                                             </div>
                                         </div>
                             </div>

@@ -54,8 +54,7 @@ class Iklan extends Controller
             'harga'=>$harga,
             'luasruangan'=>$r->luas,
             'whatsapp'=>$r->hp,
-            'region'=>$r->region,
-            'paket'=>"0A"
+            'region'=>$r->region
         ]);
 
         if ($r->status=="sewa") {
@@ -127,7 +126,7 @@ class Iklan extends Controller
 
     public function kelolaiklan()
     {
-        $data['me']=auth()->user();
+        $data['me']=DB::table('users')->join("paket","paket.id_paket","=","users.paket")->select("users.*","nama_paket",DB::raw('(select count(*) from properti where properti.id_user=users.id and aktif="aktif") as jumlah_iklan'))->where("users.id",auth()->user()->id)->first();
         $data['properti']=DB::table('properti')->join("kategori","kategori.id","=","properti.kategori")->select("properti.*","kategori.kategori as kat")->where("id_user",auth()->user()->id)->get();
         return view("vendors.kelola_iklan",$data);
     }
@@ -136,7 +135,7 @@ class Iklan extends Controller
         $data["allfitur"]=DB::table('fitur')->get();
         $data["imgs"]=DB::table('properti_img')->where("tipe","img")->where("id_properti",$id)->get();
         $data['fitur']=DB::table('fitur')->select("fitur.*",DB::raw("if(properti_fitur.id_properti='".$id."','checked','') as cek"))->leftJoin("properti_fitur","properti_fitur.id_fitur","=","fitur.id_fitur")->where("id_properti",$id)->get();
-        $data['me']=auth()->user();
+        $data['me']=DB::table('users')->join("paket","paket.id_paket","=","users.paket")->select("users.*","nama_paket",DB::raw('(select count(*) from properti where properti.id_user=users.id and aktif="aktif") as jumlah_iklan'))->where("users.id",auth()->user()->id)->first();
         $data['kategori']=DB::table('kategori')->get();
         $data['provinsi']=DB::table('region')->get();
         $data['properti']=DB::table('properti')->where("id_properti",$id)->first();
@@ -240,7 +239,7 @@ class Iklan extends Controller
                 $link="img/properties/".$name; 
                 DB::table('properti_img')->insert(['id_properti'=>$r->id,"link"=>$link,"tag"=>"myimg","tipe"=>"img","uploaded_by"=>auth()->user()->id]);
             }
-        }
+        }   
 
         $data["link"]=$link;
         $data["id"]=DB::table('properti_img')->where("link",$link)->first()->id_img;
@@ -253,5 +252,38 @@ class Iklan extends Controller
         return response()->json("Gambar berhasil dihapus");
     }
 
+    public function api_updateStatus(Request $r)
+    {
+        $status=DB::table('properti')->where('id_properti',$r->id)->first()->aktif;
+        $message=null;
+        $respon=null;
+        $me=DB::table('users')->join("paket","paket.id_paket","=","users.paket")->select("users.*","nama_paket",DB::raw('(select count(*) from properti where properti.id_user=users.id and aktif="aktif") as jumlah_iklan'))->where("users.id",auth()->user()->id)->first();
+        $paket=DB::table('paket')->where("id_paket",$me->paket)->first();
+        $data=[];
+        if ($status=="aktif"){
+            $message="nonaktif" ;
+            DB::table('properti')->where('id_properti',$r->id)->update(['aktif'=>$message]);
+            $data['message']="Iklan berhasil di".$message."kan";
+            $data['status']="success";
+        }else if($status=="nonaktif") {
+            $message="aktif" ;
+            if ($me->jumlah_iklan>$paket->max_iklan-1) {
+                DB::table('properti')->where('id_properti',$r->id)->update(['aktif'=>'nonaktif']);
+                $data['message']="Iklan gagal diaktifkan, max iklan anda ".$paket->max_iklan;
+                $data['status']="error";
+            }else{
+                $message="aktif" ;
+                DB::table('properti')->where('id_properti',$r->id)->update(['aktif'=>$message]);
+                $data['message']="Iklan berhasil di".$message."kan";
+                $data['status']="success";
+            }
+        }
+        
+        $data['statuz']='status '.$status;
+        $data['jumlahpaket']=$me->jumlah_iklan;
+        $data['maxiklan']=$paket->max_iklan;
+        $respon=response()->json($data);
+        return $respon; 
+    }
 }
 

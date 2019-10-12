@@ -47,9 +47,6 @@ Route::post('/api/getfitur/detail', "Vendor\Iklan@fitur");
 Route::post('/api/insert/image', "Vendor\Iklan@insertImg");
 Route::post('/api/delete/img', "Vendor\Iklan@deleteImg");
 Route::post('/api/update/hunian/lokasi', "Vendor\Iklan@api_updateLokasi");
-Route::post('/api/update/hunian/status', function(Request $r){
-    DB::table('properti')->where('id_properti',$r->id)->update(['aktif'=>$r->aktif]);
-    return response()->json("Iklan berhasil di".$r->aktif."kan"); 
-});
+Route::post('/api/update/hunian/status', 'Vendor\Iklan@api_updateStatus');
 
 });

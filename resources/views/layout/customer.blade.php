@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
+    
         {{-- async --}}
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNc257lpFxxKmJxqKzdgshuSHDUdtRDmE&libraries=places"  defer></script>
     <!-- Google Tag Manager -->
@@ -40,6 +41,8 @@
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link rel="stylesheet" type="text/css" href="/nest/css/ie10-viewport-bug-workaround.css">
+    {{-- custom css --}}
+    <link rel="stylesheet" type="text/css" href="/css/cst.css">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script type="text/javascript" src="/nest/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -67,6 +70,9 @@
         .carauseleye{
             height: 500px;
             object-fit: cover;
+        }
+        .visible-lg, .visible-md, .visible-sm, .visible-xs {
+            display: block;
         }
     </style>
     @yield('header')

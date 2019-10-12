@@ -17,6 +17,12 @@
 
     <!-- STYLE CSS -->
 	<link rel="stylesheet" href="/mywizard/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/mycss.css">
+	<div class="overlays">  
+	<div id="overlay">
+		<img src="/loading.gif" alt="Loading" />
+	</div>
+	</div>
 	<style>
 		.swal2-popup {
 			font-size: 1.6rem !important;
@@ -444,16 +450,10 @@
                 mark(pos);
             });
         
-        
-        
-        
         $("#maplokasi").css("width", "100%");
         google.maps.event.trigger(map, "resize");
         map.setCenter(l);
         console.log('modal loaded');
-        
-        
-
     });
 
     function init() {

@@ -27,12 +27,12 @@
                 <td>
                     @if ($p->aktif=="aktif")                        
                     <label class="switch">
-                        <input id="status" onchange="swix('{{$p->id_properti}}')" checked type="checkbox">
+                        <input id="{{$p->id_properti}}" class="status" onclick="swix('{{$p->id_properti}}')" checked type="checkbox">
                         <span class="slider"></span>
                     </label>
                     @else
                     <label class="switch">
-                        <input id="status" onchange="swix('{{$p->id_properti}}')" type="checkbox">
+                        <input id="{{$p->id_properti}}" class="status" onclick="swix('{{$p->id_properti}}')" type="checkbox">
                         <span class="slider"></span>
                     </label>
                     @endif
@@ -47,28 +47,23 @@
 @endsection
 @section('footer')
     <script>
-        function swix(id){
-            if ($("#status").is(":checked")) {
-               console.log("on:"+id);
-               set(id,'aktif')
-            }else{
-               console.log("off:"+id);
-               set(id,'nonaktif')
-            }
-        }
         
-        function set(id,status){
+        
+        function swix(id){
             $.ajax({
             type: "POST",
             url: "/api/update/hunian/status",
             data: {
                 _token:"{{csrf_token()}}",
-                aktif:status,
                 id:id
             },
             dataType: "JSON",
             success: function (response) {
-                toast(response,"success")
+                toast(response.message,response.status)
+                if (response.status=="error") {
+                    $("#"+id).remove();
+                    console.log("uncek")
+                }
             },
             error:function(){
                 toast("Maaf, terjadi kesalahan","error")

@@ -42,24 +42,61 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
-    {
-        if ($e instanceof ModelNotFoundException) {
-            $e = new NotFoundHttpException($e->getMessage(), $e);
-        }
+    // public function render($request, Exception $e)
+    // {
+    //     if ($e instanceof ModelNotFoundException) {
+    //         $e = new NotFoundHttpException($e->getMessage(), $e);
+    //     }
 
+    //     if ($e instanceof TokenMismatchException) {
+    //         return redirect()->back()->withInput($request->except('password'))->withErrors(['Validation Token was expired. Please try again']);
+    //     }
+
+    //     // You can add your own exception here
+    //     // so redirect to the home route
+    //     if ($e instanceof NotFoundHttpException) {
+    //         return redirect()->route('home');
+    //     }
+
+    //     return parent::render($request, $e);
+    // }
+
+
+    public function render($request, Exception $e)
+{
+    if ($this->isHttpException($e)) {
+        if ($e instanceof ModelNotFoundException) {
+                    $e = new NotFoundHttpException($e->getMessage(), $e);
+        }
         if ($e instanceof TokenMismatchException) {
             return redirect()->back()->withInput($request->except('password'))->withErrors(['Validation Token was expired. Please try again']);
         }
+        
+        switch ($e->getStatusCode()) {
 
-        // You can add your own exception here
-        // so redirect to the home route
-        if ($e instanceof NotFoundHttpException) {
-            return redirect()->route('home');
+            // not authorized
+            case '403':
+                return \Response::view('errors.403',array(),403);
+                break;
+
+            // not found
+            case '404':
+                return \Response::view('errors.404',array(),404);
+                break;
+
+            // internal error
+            case '500':
+                return \Response::view('errors.500',array(),500);
+                break;
+
+            default:
+                return $this->renderHttpException($e);
+                break;
         }
-
+    } else {
         return parent::render($request, $e);
     }
+}
 
     /**
      * Convert an authentication exception into an unauthenticated response.
