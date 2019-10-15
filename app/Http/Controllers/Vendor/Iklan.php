@@ -236,6 +236,7 @@ class Iklan extends Controller
             for ($i=0; $i < count($imgs) ; $i++) {
                 $name=uniqid("img").$imgs[$i]->getClientOriginalName();
                 $this->wm->add($imgs[$i],"img/properties/".$name);
+                
                 $link="img/properties/".$name; 
                 DB::table('properti_img')->insert(['id_properti'=>$r->id,"link"=>$link,"tag"=>"myimg","tipe"=>"img","uploaded_by"=>auth()->user()->id]);
             }

@@ -59,10 +59,25 @@
             },
             dataType: "JSON",
             success: function (response) {
-                toast(response.message,response.status)
                 if (response.status=="error") {
+                    //iklan berlebihan
                     $("#"+id).remove();
-                    console.log("uncek")
+                    Swal.fire({
+                    title: 'Maksimum iklanmu '+response.maxiklan,
+                    text: "Beli paket iklan untuk menambah iklan dan mendapatkan keuntungan serta kemudahan lainnya",
+                    type: 'error',
+                    showCancelButton: true,
+                    cancelButtonText: 'Lain kali',
+                    confirmButtonText: 'Beli paket sekarang?'
+                    }).then((result) => {
+                    if (result.value) {
+                        window.location.href="/belipaket"
+                    }else{
+                        window.location.href="/vendor/iklan/kelola"
+                    }
+                    })
+                }else{
+                    toast(response.message,response.status)
                 }
             },
             error:function(){

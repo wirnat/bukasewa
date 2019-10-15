@@ -14,6 +14,8 @@
     <!-- End Google Tag Manager -->
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Temukan hunian dengan harga termurah, terpercaya, dan berkualitas hanya disini...">
+    <meta property="og:image" content="/img/metaimg2.jpg">
     <meta charset="utf-8">
     {{-- api gmap --}}
     <!-- External CSS libraries -->
@@ -133,14 +135,43 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="navbar-collapse collapse" role="navigation" aria-expanded="true" id="app-navigation">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
-                            Promotion
+                    <li class="mega-dropdown" >
+                        <a onmouseenter="shownav()" tabindex="0"  data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                            Lokasi  <span class="caret"></span>
                         </a>
+                        <ul  class="dropdown-menu mega-dropdown-menu row">
+                            <li class="col-lg-6 col-xs-6 col-sm-6">
+                                <ul id="listkampus">
+                                    <li class="dropdown-header">Dekat kampus</li>
+                                </ul>
+                            </li>
+                            <li class="col-lg-6 col-xs-6 col-sm-6">
+                                <ul>
+                                    <li class="dropdown-header">Paling dicari</li>
+                                    <li><a href="faq.html">Faq 1</a></li>
+                                    <li><a href="faq-2.html">Faq 2</a></li>
+                                    <li><a href="gallery-1.html">Gallery 1</a></li>
+                                    <li><a href="gallery-2.html">Gallery 2</a></li>
+                                    <li><a href="gallery-3.html">Gallery 3</a></li>
+                                    <li><a href="properties-comparison.html">Properties Comparison</a></li>
+                                    <li><a href="search-brand.html">Search Brand</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </li>
                     <li onclick="window.location.href='/hunian'">
                         <a  tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
                             List Hunian
+                        </a>
+                    </li>
+                    <li onclick="window.location.href='/hunian'">
+                        <a  tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                            Bandingkan
+                        </a>
+                    </li>
+                    <li onclick="window.location.href='/hunian'">
+                        <a  tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                            Promo
                         </a>
                     </li>
                 </ul>
@@ -477,7 +508,6 @@
 <script src="/nest/js/app.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="/nest/js/ie10-viewport-bug-workaround.js"></script>
 <!-- Custom javascript -->
@@ -485,7 +515,9 @@
 {{-- swal2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 {{-- cari button --}}
+
 <script>
+    var show="false";
     $(document).ready(function () {
         autocomplete = new google.maps.places.Autocomplete(document.getElementById('searchlokasi'),
                 { types: ['geocode'] });
@@ -542,8 +574,29 @@
 			rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
 			return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 		}
-
+        function shownav() {
+            if (show=="true") {
+                
+            } else {
+                $.ajax({
+                    type: "post",
+                    url: "/get/kampus",
+                    data: {
+                        _token:"{{csrf_token()}}"
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        for (let index = 0; index < response.length; index++) {
+                            $("#listkampus").append('<li><a href="#">'+response[index].nama+'</a></li>');
+                        }
+                    }
+                });
+                show="true";
+            }
+            
+        }
 </script>
+<script src="/js/loadnav.js"></script>
 @yield('footer')
 </body>
 

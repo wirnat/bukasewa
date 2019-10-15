@@ -50,7 +50,7 @@
 <div id="overlay">
     <img src="/loading.gif" alt="Loading" />
 </div>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition fixed skin-red-light sidebar-mini">
     
 <div style="display:none" class="wrapper">
 
@@ -480,7 +480,8 @@
 <script src="/adminlte/dist/js/demo.js"></script>
 {{-- swal2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
- 
+<script src="/js/app.js"></script>
+
 <script>
     $(document).ready(function () {
       $('#overlay').fadeOut();

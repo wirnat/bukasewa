@@ -1,5 +1,5 @@
 @extends('layout.customer')
-@section('title',"Home")
+@section('title',"Bukasewa")
 @section('content')
 
 <!-- Categories strat -->
@@ -286,6 +286,8 @@
             // Browser doesn't support Geolocation
             handleLocationError(false, infoWindow, map.getCenter());
                 Swal.fire("Terjadi kesalahan pada geolokasi, coba reload halaman ini","","error")
+                // Swal.fire("Lokasimu tidak terdeteksi, pastikan mengizinkan pengambilan lokasi","","error");
+                $("#divrekomen").hide();
             }
 
             //modal

@@ -29,7 +29,10 @@ Route::get('belipaket/',"Vendor\Iklan@pricing");
 Route::get('hunian/kategori/{id}', 'Property@kategori');
 Route::get('hunian/', 'Property@list');
 Route::get('hunian/region/{id}', 'Property@regionlist');
-
+Route::post('/get/kampus', function () {
+    $data=DB::table('tempat')->where('tag','kampus')->get();
+    return response()->json($data);
+});
 
 //vendor panel
 Route::group(['middleware' => [MdVendor::class]], function () {
@@ -48,5 +51,4 @@ Route::post('/api/insert/image', "Vendor\Iklan@insertImg");
 Route::post('/api/delete/img', "Vendor\Iklan@deleteImg");
 Route::post('/api/update/hunian/lokasi', "Vendor\Iklan@api_updateLokasi");
 Route::post('/api/update/hunian/status', 'Vendor\Iklan@api_updateStatus');
-
 });

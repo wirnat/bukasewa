@@ -267,6 +267,13 @@
                             <img src="/{{$img->link}}" alt="gambar propertimu" style="width:100%" onclick="clickImg(this,'{{$img->id_img}}');">
                         </div>
                     @endforeach
+                    <div style="display: none" id="up-progress" style="background-color: #43480b63;
+                    margin-top: 10px;" id="{{$img->id_img}}" class="column">
+                        <div class="progress progress-sm active">
+                            <div id="progress" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"  style="width: 0%">
+                            </div>
+                        </div>
+                    </div>
                       </div>
                       <div  id="expandedImg1" class="container">
                         <button style="font-size: 20px;" onclick="deleteImg()" class="btn btn-danger small closebtn"><i class="fa fa-trash-o"></i></button>
@@ -316,7 +323,7 @@ var geolng;
 var endaddress;
 
 $(document).ready(function () {
-    
+
     $("#lokasihunian").val('{{$properti->alamat}}');
     
     $("#pilihlokasi").click(function () { 
@@ -475,7 +482,7 @@ function openmap() {
         console.log("map open");
         $("#mapmodal").modal("show");
     }
-
+var uploadPercentage=0;
 function uploadimgs() {
     var fd=new FormData();
     totalfiles = document.getElementById('imgs').files.length;
@@ -485,24 +492,28 @@ function uploadimgs() {
     fd.append("_token","{{csrf_token()}}");
     fd.append("id","{{$properti->id_properti}}");
 
-    $.ajax({
-        type: "POST",
-        url: "/api/insert/image",
-        data: fd,
-        contentType: false, // The content type used when sending data to the server.
-        cache: false, // To unable request pages to be cached
-        processData: false,
-        dataType: "JSON",
-        uploadProgress: function(event, position, total, percentComplete) {
-            var percentVal = percentComplete + '%';
-            console.log("testt");
-        },
-        success: function (response) {
-            $("#myimg").append('<div id="'+response.id+'" class="column"><img src="/'+response.link+'" alt="gambar propertimu" style="width:100%" onclick="clickImg(this,'+response.id+');"></div>');
-            toast("Gambar berhasil ditambahkan","success")
-            $("#expandedImg").attr("src","/"+response.link);
+    axios.post("/api/insert/image",fd,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            onUploadProgress: function( progressEvent ) {
+                $("#up-progress").show();
+                uploadPercentage = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) );
+                console.log(uploadPercentage);
+                $("div#progress").css("width", uploadPercentage+'%');
+            }.bind(this)
         }
-    });
+        )
+        .then(res => {
+            $("#up-progress").hide();
+            $("#myimg").append('<div id="'+res.data.id+'" class="column"><img src="/'+res.data.link+'" alt="gambar propertimu" style="width:100%" onclick="clickImg(this,'+res.data.id+');"></div>');
+            toast("Gambar berhasil ditambahkan","success")
+            $("#expandedImg").attr("src","/"+res.data.link);
+        })
+        .catch(err => {
+            console.error(err); 
+        })
 }
 function insertharga(durasi,harga) {
     $.ajax({
