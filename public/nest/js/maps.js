@@ -609,7 +609,7 @@ function generateMap(latitude, longitude, mapProvider, layout) {
 
     var map = L.map('map', {
         center: [latitude, longitude],
-        zoom: 14,
+        zoom: 9,
         scrollWheelZoom: false
     });
 
@@ -625,6 +625,7 @@ function generateMap(latitude, longitude, mapProvider, layout) {
         if (property.type_icon) {
             icon = '<img src="' + property.type_icon + '">';
         }
+        console.log("z");
         var color = '';
         var markerContent =
             '<div class="map-marker ' + color + '">' +

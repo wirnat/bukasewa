@@ -1,9 +1,11 @@
 @extends('layout.customer')
 @section('title',"Bukasewa")
+@section('meta-desk','Temukan hunian dengan harga termurah, terpercaya, dan berkualitas hanya disini...')
+@section('meta-img','/img/metaimg2.jpg')
 @section('content')
 
 <!-- Categories strat -->
-<div style="margin-top: 50px" class="categories">
+<div id="div-tempat" style="margin-top: 50px" class="categories">
     <div class="container">
         <!-- Main title -->
         <div class="main-title">
@@ -14,7 +16,7 @@
             @foreach ($region as $rg)                        
             <div class="col-sm-6 col-lg-6 col-xs-6 col-pad wow fadeInUp delay-04s">
                 <div class="category">
-                    <div onclick="window.location.href='/hunian/region/{{$rg->id}}'" style="background-image: url('{{$rg->img}}')" class="category_bg_box">
+                    <div onclick="loadregion({{$rg->lat}},{{$rg->lng}},'{{$rg->provinsi}}')" style="background-image: url('{{$rg->img}}')" class="category_bg_box">
                         <div class="category-overlay">
                             <div class="category-content">
                                     {{-- <div class="category-subtitle">{{$rg->jumlah}}</div> --}}
@@ -29,6 +31,44 @@
     </div>
 </div>
 <!-- Categories end-->
+<div id="div-map" style="margin-top:50px;margin-bottom:50px;display:none" class="container">
+    <br>
+    <div class="main-title">
+            <h1>Cari hunian dan Ayo jelajahi dunia !</h1>
+        </div>
+    <div class="row">
+            <div class="col-lg-8 col-xs-12 col-md-6">
+                    <div id="map"></div>
+            </div>
+            <div class="col-lg-4 col-xs-12 col-md-6">
+                    <button style="margin-bottom:10px" id="back" type="button" class="btn button-sm button-theme"><i  class="fa fa-backward"></i> Kembali</button>
+                <div class="form-group">
+                    <select class="selectpicker search-fields" name="property-status" data-live-search="true" data-live-search-placeholder="Search value">
+                        <option>Kabupaten</option>
+                        <option>For Sale</option>
+                        <option>For Rent</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select class="selectpicker search-fields" name="property-status" data-live-search="true" data-live-search-placeholder="Search value">
+                        <option>Kampus</option>
+                        <option>For Sale</option>
+                        <option>For Rent</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <select class="selectpicker search-fields" name="property-status" data-live-search="true" data-live-search-placeholder="Search value">
+                        <option>Tempat Wisata</option>
+                        <option>For Sale</option>
+                        <option>For Rent</option>
+                    </select>
+                </div>
+            </div>
+    </div>
+</div>
+
 <div id="divrekomen" >
 <center>
 <button data-toggle="modal" data-target="#modalcari" id="carihunian" class="btn button-md button-theme"><i class="fa fa-map-marker"></i> Cari hunian disekitarmu</button>
@@ -138,6 +178,7 @@
 
 @endsection
 @section('footer')
+<script src="/nest/js/maps.js"></script>
 <div class="modal property-modal fade" id="propertyModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -197,10 +238,68 @@
         </div>
     </div>
 </div>
+    <div class="modal property-modal fade" id="regionModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="provinsi">Ak
+                    </h5>
+                    <p id="prov_dec">
+                    </p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row modal-raw">
+                        <div class="col-lg-6 modal-left">
+                            
+                        </div>
+                        <div class="col-lg-6 modal-right">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
-        
+        var latitude = 51.541216;
+        var longitude = -0.095678;
+        var providerName = 'Hydda.Full';
         var token='{{csrf_token()}}';
         var pos="";
+        var id_prov=null;
+        var data_tempat=[];
+        
+        function loadregion(lat,lng,id) {
+            $("#div-tempat").slideUp();
+            $("#div-map").slideDown();
+            // latitude=lat;
+            // longitude=lng;
+            id_prov=id;
+            generateMap(latitude, longitude, providerName);
+
+            // $.ajax({
+            //     type: "post",
+            //     url: "/get/tempat",
+            //     data: {
+            //         prov:id_prov,
+            //         _token:'{{csrf_token()}}'
+            //     },
+            //     dataType: "JSON",
+            //     success: function (response) {
+            //     }
+            // });
+        }
+
+        $("#back").click(function (e) {
+            // $("#div-map").slideUp(); 
+            // $("#div-tempat").slideDown();
+
+            window.location.href="/";
+        });
+
         $(function () {
             var geocoder = new google.maps.Geocoder;
            // Try HTML5 geolocation.
@@ -341,6 +440,7 @@
                 }
             });
         }
+
 
         function magnify (id) {
             $(".new").remove();

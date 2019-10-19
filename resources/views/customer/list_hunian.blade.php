@@ -1,6 +1,7 @@
 @extends('layout.customer')
 @section('title',$title)
-
+@section('meta-desk','Temukan hunian dengan harga termurah, terpercaya, dan berkualitas hanya disini...')
+@section('meta-img','/img/metaimg2.jpg')
 @section('content')
 <div style="padding-top:20px" class="properties-section-body content-area">
     <div class="container">
@@ -35,9 +36,19 @@
                                         @if (!empty($jarak))
                                             <div style="background: #2a2e2742;" class="property-tag button alt featured">
                                                 @if ($p->distance<1)
-                                                <h5 style="color: #ffffff;">{{intval($p->distance*1000)}}m</h5> dari lokasimu
+                                                <h5 style="color: #ffffff;">{{intval($p->distance*1000)}}m</h5> dari
+                                                    @if (!empty($tag))
+                                                        {{$tag."mu"}}
+                                                    @else
+                                                        lokasimu
+                                                    @endif 
                                                 @else
-                                                    <h5 style="color: #ffffff;">{{intval($p->distance)}}km</h5> dari lokasimu
+                                                    <h5 style="color: #ffffff;">{{intval($p->distance)}}km</h5> dari 
+                                                    @if (!empty($tag))
+                                                        {{$tag."mu"}}
+                                                    @else
+                                                        lokasimu
+                                                    @endif
                                                 @endif
                                             </div>
                                         @endif
@@ -48,8 +59,8 @@
                                             <a href="/detail/properti/{{$p->id_properti}}" class="overlay-link">
                                                 <i style="padding-top: 30%;" class="fa fa-link"></i>
                                             </a>
-                                            <a onclick="loadmodal('{{$p->id_properti}}')" class="overlay-link property-video" title="Lexus GS F">
-                                                <i style="padding-top: 30%;" class="fa fa-video-camera"></i>
+                                            <a onclick="loadmodal('{{$p->id_properti}}')" class="overlay-link property-video" title="Lihat gambar">
+                                                <i style="padding-top: 30%;" class="fa fa-eye"></i>
                                             </a>
                                             <div onclick="magnify('{{$p->id_properti}}')" id="imgmagnify" class="property-magnify-gallery">
                                                 <a  href="{{$p->link}}" class="overlay-link">
@@ -206,6 +217,7 @@
     </div>
     <script>
     var token='{{csrf_token()}}';
+    
     function loadmodal(id) {
         $(".new").remove();
         $('#propertyModal').modal('show');
@@ -231,9 +243,14 @@
                     $("ul.bullets").append("<li class='new'><i class='"+response.fitur[i].icon+"'></i>"+response.fitur[i].fitur+"</li>");
                 }
                 //detail harga
-                for (i=0;i<response.harga.length;i++) {
+                if (response.properti.status=="sewa") {
+                    for (i=0;i<response.harga.length;i++) {
                     $("dl#detailharga").append("<dl class='new'><dt>/"+response.harga[i].durasi+"</dt><dd>"+response.harga[i].harga+"</dd></dl>");
                 }
+                } else {
+                    $("dl#detailharga").append("<dl class='new'><dt>Harga Jual</dt><dd>"+response.hargajual+"</dd></dl>");
+                }
+                
                 //img
                 for (i=0;i<response.img.length;i++) {
                     if (response.img[i].tipe=="img") {

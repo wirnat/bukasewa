@@ -37,6 +37,12 @@ class Iklan extends Controller
         $harga="-";
         $id=uniqid("h");
 
+        $me=DB::table('users')->join("paket","paket.id_paket","=","users.paket")->select("users.*","nama_paket",DB::raw('(select count(*) from properti where properti.id_user=users.id and aktif="aktif") as jumlah_iklan'))->where("users.id",auth()->user()->id)->first();
+        $paket=DB::table('paket')->where("id_paket",$me->paket)->first();
+
+        
+        
+
         DB::table('properti')->insert([
             'id_properti'=>$id,
             "properti"=>$r->nama,
@@ -57,6 +63,20 @@ class Iklan extends Controller
             'region'=>$r->region
         ]);
 
+        //deklarasi response
+        $data['message']="Sukses menambahkan iklan";
+        $data['status']="success";
+        $data['desc']="";
+
+        //ubah nonaktif jika lebih dari max iklan di paket
+        if ($me->jumlah_iklan>$paket->max_iklan-1) {
+            DB::table('properti')->where('id_properti',$id)->update(['aktif'=>'nonaktif']);
+            $data['message']="Iklan ditambahkan, tapi tidak dapat diaktifkan. Silahkan upgrade paket !";
+            $data['status']="info";
+            $data['desc']="Kamu hanya bisa memiliki ".$paket->max_iklan." iklan aktif";
+        }
+
+        //menghitung dan insert harga
         if ($r->status=="sewa") {
             if ($r->harian!="0"||!empty($r->harian)) {
                 DB::table('sewa')->insert([
@@ -119,7 +139,7 @@ class Iklan extends Controller
             $video="https://www.youtube.com/embed/".$video;
             DB::table('properti_img')->insert(['id_properti'=>$id,"link"=>$video,"tag"=>"myvideo","tipe"=>"video","uploaded_by"=>auth()->user()->id]);
         }
-        return response()->json("Sukses Menambah");
+        return response()->json($data);
 
        
     }

@@ -177,7 +177,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         //custom
         Intervention\Image\ImageServiceProvider::class,
-
+        Way\Generators\GeneratorsServiceProvider::class,
+        Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
     ],
 
     /*

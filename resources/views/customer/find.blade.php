@@ -1,5 +1,7 @@
 @extends('layout.customer')
 @section('title',"Cari Hunian")
+@section('meta-desk','Temukan hunian dengan harga termurah, terpercaya, dan berkualitas hanya disini...')
+@section('meta-img','/img/metaimg2.jpg')
 @section('content')
 <!-- Map content start -->
 

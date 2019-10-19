@@ -16,20 +16,46 @@ class Property extends Controller
     }
     public function list()
     {
-        $data['properti']=DB::table('properti')->select("users.name as pemilik","kategori.kategori as kat","properti.*","properti_img.link")->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->orderBy("diupdate_pada","desc")->leftJoin("users","users.id","=","properti.id_user")->groupBy("id_properti")->join("kategori","kategori.id","=","properti.kategori")->where("aktif","aktif")->get();
+        $data['properti']=DB::table('properti')->select("users.name as pemilik","kategori.kategori as kat","properti.*","properti_img.link")->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->orderBy("dibuat_pada","desc")->leftJoin("users","users.id","=","properti.id_user")->groupBy("id_properti")->join("kategori","kategori.id","=","properti.kategori")->where("aktif","aktif")->get();
         $data['kategori']=$this->kategori;
         $data['title']="Semua Hunian";
         return view("customer.list_hunian",$data);
     }
-    public function regionlist($id_region)
+    public function regionlist($prov)
     {
-        $data['properti']=DB::table('properti')->select("users.name as pemilik","kategori.kategori as kat","properti.*","properti_img.link")->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->orderBy("diupdate_pada","desc")->leftJoin("users","users.id","=","properti.id_user")->join("kategori","kategori.id","=","properti.kategori")
-        ->where("properti.region",$id_region)->groupBy("id_properti")->where("aktif","aktif")->get();
-        $data['region']=DB::table('region')->select("region.*",DB::raw("(select count(properti.id_properti) from properti where region.id=properti.region) as jumlah"))->leftJoin("properti","properti.region","=","region.id")->where("region.id",$id_region)->first();
+        $data['properti']=DB::table('properti')->select("users.name as pemilik","kategori.kategori as kat","properti.*","properti_img.link","region.provinsi")->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->orderBy("dibuat_pada","desc")->
+        leftJoin('region',"region.id","=","properti.region")->
+        leftJoin("users","users.id","=","properti.id_user")->join("kategori","kategori.id","=","properti.kategori")
+        ->where("region.provinsi",$prov)->groupBy("id_properti")->where("aktif","aktif")->get();
+        $data['region']=DB::table('region')->select("region.*",DB::raw("(select count(properti.id_properti) from properti where region.id=properti.region) as jumlah"))->leftJoin("properti","properti.region","=","region.id")->where("region.provinsi",$prov)->first();
         $data['kategori']=$this->kategori;
         $data['pencarian']=count($data['properti'])." Hunian murah daerah ".$data['region']->provinsi;
         $data['title']=$data['region']->provinsi;
         // print_r();
+        return view("customer.list_hunian",$data);
+    }
+
+    public function around($tempat)
+    {
+        $data_tempat=DB::table('tempat')->where("nama",$tempat)->first();
+        $data['properti']=DB::table('properti')->select("users.name as pemilik","kategori.kategori as kat","properti.*","properti_img.link","region.provinsi",
+        DB::raw("
+        111.111 *
+            DEGREES(ACOS(LEAST(COS(RADIANS(properti.lat))
+                * COS(RADIANS(".$data_tempat->latitude."))
+                * COS(RADIANS(properti.lng - ".$data_tempat->longitude."))
+                + SIN(RADIANS(properti.lat))
+                * SIN(RADIANS(".$data_tempat->latitude.")), 1.0))) AS distance"))->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->orderBy("distance","asc")->
+        leftJoin('region',"region.id","=","properti.region")->
+        leftJoin("users","users.id","=","properti.id_user")->join("kategori","kategori.id","=","properti.kategori")
+        ->having("distance","<","5")->groupBy("id_properti")->where("aktif","aktif")->get();
+        $data['kategori']=$this->kategori;
+        $data['tag']=$data_tempat->tag;
+        $data['jarak']="show";
+        $data['pencarian']=count($data['properti'])." Hunian disekitar $data_tempat->tag ".$tempat;
+        $data['title']="Hunian disekitar ";
+        // print_r();
+
         return view("customer.list_hunian",$data);
     }
 
@@ -55,7 +81,7 @@ class Property extends Controller
         }if (!empty($r->status)) {
             $properti=$properti->where("status",$r->status);
         }if (!empty($r->toilet)) {
-            $properti=$properti->where("toilet",">=",$r->toilet);
+            $properti=$properti->where("toilet",$r->toilet);
         }if (!empty($r->kamar)) {
             $properti=$properti->where("kamar",">=",$r->kamar);
         }if ($r->jarak=="show") {
@@ -98,13 +124,14 @@ class Property extends Controller
     }
     public function api_detailproperti(Request $r)
     {
+        
         $data['properti']=DB::table('properti')->where('id_properti',$r->id)->first();
         $data['fitur']=DB::table('properti_fitur')->join("fitur","fitur.id_fitur","=","properti_fitur.id_fitur")->where('id_properti',$r->id)->get();
         $data['img']=DB::table('properti_img')->where('id_properti',$r->id)->get();
         if ($data['properti']->status=='sewa') {
             $data['harga']=DB::table('sewa')->where('id_property',$r->id)->get();
         } else {
-            $data['harga']=DB::table('beli')->where('id_property',$r->id)->get();
+            $data['hargajual']=$data['properti']->harga;
         }
         
         return response()->json($data);
@@ -116,7 +143,7 @@ class Property extends Controller
     }
     public function detail($id)
     {
-        $data['properti']=DB::table('properti')->where('id_properti',$id)->first();
+        $data['properti']=DB::table('properti')->leftJoin('region','region.id',"=","properti.region")->where('properti.id_properti',$id)->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->where('properti_img.tipe',"img")->first();
         $data['fitur']=DB::table('properti_fitur')->join("fitur","fitur.id_fitur","=","properti_fitur.id_fitur")->where('id_properti',$id)->get();
         $data['img']=DB::table('properti_img')->where('id_properti',$id)->where("tipe","img")->get();
         $data['harga']=DB::table('sewa')->where('id_property',$id)->get();

@@ -14,8 +14,8 @@
     <!-- End Google Tag Manager -->
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Temukan hunian dengan harga termurah, terpercaya, dan berkualitas hanya disini...">
-    <meta property="og:image" content="/img/metaimg2.jpg">
+    <meta name="description" content="@yield('meta-desk')">
+    <meta property="og:image" content="@yield('meta-img')">
     <meta charset="utf-8">
     {{-- api gmap --}}
     <!-- External CSS libraries -->
@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" id="style_sheet" href="/nest/css/skins/default.css">
 
     <!-- Favicon icon -->
-    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon" >
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" >
 
     <!-- Google fonts -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800%7CPlayfair+Display:400,700%7CRoboto:100,300,400,400i,500,700">
@@ -129,7 +129,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a style="padding:10px" href="/" class="logo">
-                    <img src="/img/17.png" alt="logo buka sewa">
+                    <img src="/img/logo.png" alt="logo buka sewa">
                 </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -314,10 +314,9 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                     <div class="form-group">
                                         <select class="selectpicker search-fields" name="toilet">
-                                            <option>Toilet</option>
-                                            <option value="1">>1</option>
-                                            <option value="4">>4</option>
-                                            <option value="8">>8</option>
+                                            <option value="dalam">Toilet</option>
+                                            <option value="dalam">Dalam</option>
+                                            <option value="luar">Luar</option>
                                         </select>
                                     </div>
                                 </div>
@@ -587,7 +586,7 @@
                     dataType: "json",
                     success: function (response) {
                         for (let index = 0; index < response.length; index++) {
-                            $("#listkampus").append('<li><a href="#">'+response[index].nama+'</a></li>');
+                            $("#listkampus").append('<li><a href="/hunian-murah-disekitar/'+response[index].nama+'">'+response[index].nama+'</a></li>');
                         }
                     }
                 });

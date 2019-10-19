@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -130,17 +131,25 @@
 	                <h4></h4>
 	                <section>
 	                    <div class="form-row" style="margin-bottom: 26px;">
-	                    	<label for="">
+							<i class="lnr lnr-home"></i>
+							<label for="">
 	                    		<i class="fa fa-map-signs"></i> Provinsi
 	                    	</label>
 	                    	<div class="form-holder">
 	                    	    <select class="form-control" id="provinsi">
-	                    	        @foreach($provinsi as $prov)
-	                    	        <option style="background-color:#dd1c1c" value="{{$prov->id}}">
-	                    	            {{$prov->provinsi}}
+	                    	        	                    	        <option style="background-color:#dd1c1c" value="1">
+	                    	            Bali
 	                    	        </option>
-	                    	        @endforeach
-	                    	    </select>
+	                    	        	                    	        <option style="background-color:#dd1c1c" value="2">
+	                    	            Yogyakarta
+	                    	        </option>
+	                    	        	                    	        <option style="background-color:#dd1c1c" value="3">
+	                    	            Jakarta
+	                    	        </option>
+	                    	        	                    	        <option style="background-color:#dd1c1c" value="4">
+	                    	            Bandung
+	                    	        </option>
+	                    	        	                    	    </select>
 							</div>
 						</div>
 	                    <div class="form-row" style="margin-bottom: 26px;">
@@ -157,7 +166,7 @@
                                 <i class="fa fa-whatsapp"></i> Nomor Whatsapp
 	                    	</label>
 	                    	<div class="form-holder">
-                                <input id="hp" type="text" placeholder="Contoh: 6281xxxxxx" class="form-control">
+                                <input id="hp" type="number" placeholder="Contoh: 6281xxxxxx" class="form-control">
                                 <small>NB: Awali dengan kode negara dan pastikan nomor terintegrasi dengan whatsapp</small>
 							</div>
 						</div>	
@@ -180,10 +189,12 @@
 	                    	</label>
 	                    	<div class="form-holder">
 	                    		<select name="" id="kategori" class="form-control">
-									@foreach ($kategori as $kat)
-										<option value="{{$kat->id}}" class="option">{{$kat->kategori}}</option>
-									@endforeach
-								</select>
+																			<option value="1" class="option">Kos</option>
+																			<option value="2" class="option">Rumah</option>
+																			<option value="3" class="option">Villa</option>
+																			<option value="4" class="option">Tanah</option>
+																			<option value="5" class="option">Apartemen</option>
+																	</select>
 								<i class="zmdi zmdi-caret-down"></i>
 	                    	</div>
 						</div>
@@ -193,7 +204,7 @@
 									Gambar* :
 								</label>
 								<div class="form-holder">
-									<input id="gambar" accept="jpg||png" type="file" multiple name="myimg" id="myimg">
+									<input id="gambar" accept="image/gif, image/jpeg, image/png" type="file" multiple name="myimg" id="myimg">
 									<small><span class="fa fa-info-circle"></span> Tahan <span style="color:yellow">ctrl</span> dan klik gambar untuk multiselect</small>
 								</div>
 							</div>
@@ -230,7 +241,7 @@
 										<span class="checkmark"></span>
 									</label>
 									<label class="female">
-										<input id="rjual" type="radio" name="gender" value="female">Dijual<br>
+										<input onclick="notready()" disabled id="rjual" type="radio" name="gender" value="female">Dijual<br>
 										<span class="checkmark"></span>
 									</label>
 								</div>
@@ -310,14 +321,77 @@
 							<div class="col-lg-4 col-xs-12 col-sm-12 col-md-4">
 								<div class="form-group">
 									<label>Fitur</label>
-									@foreach ($fitur as $f)
-										<div class="checkbox">
+																			<div class="checkbox">
 											<label>
-												<input class="get_value" value="{{$f->id_fitur}}" type="checkbox" /><i class="flaticon {{$f->icon}}"></i> {{$f->fitur}}
+												<input class="get_value" value="1" type="checkbox" /><i class="flaticon flaticon-weightlifting"></i> Gym
 											</label>
 										</div>
-									@endforeach
-								</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="2" type="checkbox" /><i class="flaticon flaticon-transport"></i> Parkir
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="3" type="checkbox" /><i class="flaticon flaticon-wifi"></i> Wifi
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="4" type="checkbox" /><i class="flaticon flaticon-air-conditioner"></i> AC
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="5" type="checkbox" /><i class="flaticon flaticon-people-2"></i> Kolam Renang
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="6" type="checkbox" /><i class="flaticon flaticon-building"></i> Alarm
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="7" type="checkbox" /><i class="flaticon flaticon-old-telephone-ringing"></i> Telepon
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="8" type="checkbox" /><i class="flaticon flaticon-monitor"></i> TV
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="9" type="checkbox" /><i class="flaticon flaticon-holidays"></i> Pemanas Air
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="10" type="checkbox" /><i class="flaticon flaticon-bars"></i> Dapur
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="11" type="checkbox" /><i class="flaticon flaticon-building"></i> Kebun
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="12" type="checkbox" /><i class="flaticon fa fa-group"></i> Ruang tamu
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="13" type="checkbox" /><i class="flaticon fa fa-history"></i> Kunjungan 24jam
+											</label>
+										</div>
+																			<div class="checkbox">
+											<label>
+												<input class="get_value" value="14" type="checkbox" /><i class="flaticon flaticon-security"></i> Security
+											</label>
+										</div>
+																	</div>
 							</div>
 						</div>
 					</section>
@@ -329,23 +403,15 @@
         <div class="modal fade" id="mapmodal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                        <div style="width:60%" class="pac-card" id="pac-card">
-                          <div>
-                            <div id="title">
-                              <i class="fa fa-marker"></i> Drag penanda atau masukkan lokasi pada form
-                            </div>
-                          </div>
-                          <div id="pac-container">
-                            <input style="background:rgba(0, 0, 0, 0.28);" class="form-control" id="input-lokasi" type="text"
-                                placeholder="Enter a location">
-                          </div>
-                        </div>
                         <div style="height:400px;width:400px;width:100%" id="maplokasi"></div>
-                    <div class="modal-footer">
-                        
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button id="pilihlokasi" type="button" class="btn btn-danger"><i class="fa fa-map-signs"></i> Pilih</button>
-                    </div>
+						<div class="modal-footer">
+							
+							<input style="background-color: #00000059;" class="form-control" placeholder="masukkan lokasi disni atau drag penanda" type="text" id="input-lokasi">        
+							
+							<br>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+							<button id="pilihlokasi" type="button" class="btn btn-danger"><i class="fa fa-map-signs"></i> Pilih</button>
+						</div>
                 </div>
             </div>
         </div>
@@ -376,9 +442,11 @@
 	var totalfiles=0;
 	var marker=null;
 	var pos;
+	var setlokasi=null;
     $(document).ready(function () {
         $("#pilihlokasi").click(function () { 
             $("#lokasi").val(endaddress);
+			setlokasi="true";
             $("#mapmodal").modal("hide");
 		});
 		$("#rsewa").click(function (e) {
@@ -452,31 +520,39 @@
         
         $("#maplokasi").css("width", "100%");
         google.maps.event.trigger(map, "resize");
-        map.setCenter(l);
+        map.setCenter(pos);
         console.log('modal loaded');
     });
 
     function init() {
-         // The map, centered at L
-         map = new google.maps.Map(document.getElementById('maplokasi'), {zoom: 15, center: l});
-         geocoder=new google.maps.Geocoder();
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function (position) {
-                    pos={
-                        lat:position.coords.latitude,
-                        lng:position.coords.longitude
-                    };
-                    mark(pos)
-                    map.setCenter(pos);
-                },
-                function () {
-                    handleLocationError(true,infoWindow,map.getCenter());
-                }
-            );
-        } else {
-            handleLocationError(false,infoWindow,map.getCenter());
-        }
+			// The map, centered at L
+			map = new google.maps.Map(document.getElementById('maplokasi'), {zoom: 14, center: pos});
+			geocoder=new google.maps.Geocoder();
+			
+			console.log(endaddress);
+			if (setlokasi=="true") {
+				mark(pos)
+				console.log(pos);
+			} else {
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(
+						function (position) {
+							pos={
+								lat:position.coords.latitude,
+								lng:position.coords.longitude
+							};
+							mark(pos)
+							map.setCenter(pos);
+						},
+						function () {
+							handleLocationError(true,infoWindow,map.getCenter());
+						}
+					);
+				} else {
+					handleLocationError(false,infoWindow,map.getCenter());
+				}
+			}
+			
     }
     
     function mark(loc){
@@ -490,7 +566,6 @@
         geolat=marker.position.lat();
         geolng=marker.position.lng();
         geocode(geocoder,map);
-        map.setCenter(loc);
         //ketika marker di drag
         google.maps.event.addListener(marker,'dragend',function() {
             pos={lat:marker.position.lat(),lng:marker.position.lng()}
@@ -511,6 +586,7 @@
                         if (results[0]) {
                             console.log("endaddress: "+results[0].formatted_address);
                             endaddress=results[0].formatted_address;
+							$("#input-lokasi").val(endaddress);
                         }
                         else{
                             window.alert("Error:Tidak Dapat Data Lokasi");
@@ -552,6 +628,10 @@
 		type: tipe,
 		title: teks
 		})
+	}
+
+	function notready() {
+		Swal.fire('Fitur ini belum tersedia','','info');
 	}
 
 </script>

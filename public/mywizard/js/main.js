@@ -101,9 +101,9 @@ $(function(){
                         cache: false, // To unable request pages to be cached
                         processData: false,
                         dataType: "JSON",
-                        success:function(){
+                        success:function(response){
 
-                            Swal.fire("Iklan berhasil didaftarkan","","success").then(function (result) {
+                            Swal.fire(response.message,response.desc,response.status).then(function (result) {
                                 if (result.value) {
                                     window.location.href = "/vendor/iklan/kelola";
                                 }

@@ -28,11 +28,18 @@ Route::post('signing/', "Customer@signing");
 Route::get('belipaket/',"Vendor\Iklan@pricing");
 Route::get('hunian/kategori/{id}', 'Property@kategori');
 Route::get('hunian/', 'Property@list');
-Route::get('hunian/region/{id}', 'Property@regionlist');
+Route::get('hunian-murah-di/{provinsi}', 'Property@regionlist');
+Route::get('hunian-murah-disekitar/{tempat}', 'Property@around');
 Route::post('/get/kampus', function () {
     $data=DB::table('tempat')->where('tag','kampus')->get();
     return response()->json($data);
 });
+Route::post('/get/tempat', function () {
+    $data=DB::table('tempat')->get();
+    echo json_encode($data);
+});
+
+
 
 //vendor panel
 Route::group(['middleware' => [MdVendor::class]], function () {

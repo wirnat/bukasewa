@@ -1,5 +1,7 @@
 @extends('layout.customer')
 @section('title',"Detail Property: $properti->properti")
+@section('meta-desk',substr($properti->alamat, 0, 70) . '...')
+@section('meta-img',$properti->link)
 @section('content')
 
     <div style="margin-top:50px;padding-right: 0px; 
@@ -236,6 +238,10 @@
                                         <div class="main-title-2">
                                                 <h1><span>Harga</span></h1>
                                         </div>
+                                        <div class="alert alert-info wow fadeInRight delay-03s animated" role="alert" style="visibility: visible; animation-name: fadeInRight;">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                Harga sewaktu-waktu bisa <strong>berubah</strong>
+                                            </div>
                                         @if ($properti->status=="sewa")
                                             <ul class="list-unstyled list-cat">
                                                 @foreach ($harga as $h)
@@ -282,7 +288,7 @@
                                                                 }
                                                             ?>
                                                             
-                                                            <p><a href="https://api.whatsapp.com/send?phone={{$wa}}&text=Halo%20kak%20aku%20mendapatkan%20informasi%20dari%20https://bukasewa.com/detail/properti/{{$properti->id_properti}},%20apakah%20masih%20tersedia%20huniannya?">+{{$wa}}</a> </p>
+                                                            <p><a href="https://api.whatsapp.com/send?phone={{$wa}}&text=Halo%20kak%20,%20apakah%20masih%20tersedia%20huniannya?%0A%0Aaku%20mendapatkan%20informasi%20dari%20https://bukasewa.com/detail/properti/{{$properti->id_properti}}">+{{$wa}}</a> </p>
                                                     </div>
                                                 {{-- @endif --}}
                                             </div>
