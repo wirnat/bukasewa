@@ -38,14 +38,22 @@
                                                 @if ($p->distance<1)
                                                 <h5 style="color: #ffffff;">{{intval($p->distance*1000)}}m</h5> dari
                                                     @if (!empty($tag))
+                                                        @if ($tag=="kampus")
                                                         {{$tag."mu"}}
+                                                        @else
+                                                        tujuanmu
+                                                        @endif
                                                     @else
                                                         lokasimu
                                                     @endif 
                                                 @else
                                                     <h5 style="color: #ffffff;">{{intval($p->distance)}}km</h5> dari 
                                                     @if (!empty($tag))
+                                                        @if ($tag=="kampus")
                                                         {{$tag."mu"}}
+                                                        @else
+                                                        tujuanmu
+                                                        @endif
                                                     @else
                                                         lokasimu
                                                     @endif
@@ -56,8 +64,8 @@
                                         <div class="property-price">{{$p->harga}}</div>
                                         <img style="object-fit: cover;width: 360px;height: 270px" src="/{{$p->link}}" alt="fp" class="img-responsive">
                                         <div class="property-overlay">
-                                            <a href="/detail/properti/{{$p->id_properti}}" class="overlay-link">
-                                                <i style="padding-top: 30%;" class="fa fa-link"></i>
+                                            <a onclick="showmap('{{$p->properti}}','{{$p->alamat}}',{{$p->lat}},{{$p->lng}})" href="#showmap" class="overlay-link">
+                                                <i style="padding-top: 30%;" class="fa fa-map-o"></i>
                                             </a>
                                             <a onclick="loadmodal('{{$p->id_properti}}')" class="overlay-link property-video" title="Lihat gambar">
                                                 <i style="padding-top: 30%;" class="fa fa-eye"></i>
@@ -155,7 +163,7 @@
 </div>
 @endsection
 @section('footer')
-<!-- Car Video Modal -->
+    <!-- Properti Modal -->
     <div class="modal property-modal fade" id="propertyModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -215,9 +223,79 @@
             </div>
         </div>
     </div>
+
+    {{-- map Modal --}}
+
+    <div class="modal property-modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nama-prop">
+                    </h5>
+                    <p id="lokasi-prop">
+                    </p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div style="display:block" class="row modal-raw">
+                        <div id="prop-map" style="height:400px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    {{-- <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+                    <div style="width:300px;height:300px" id="prop-map">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
     <script>
     var token='{{csrf_token()}}';
-    
+    var map;
+    var pos;
+    function showmap(nama,lokasi,lat,lng) {
+        $("#nama-prop").text(nama);
+        $("#lokasi-prop").text(lokasi);
+        $("#mapModal").modal("show");
+        pos={
+            lat:lat,
+            lng:lng
+        }
+    }
+
+    $("#mapModal").on("shown.bs.modal", function () {
+        map = new google.maps.Map(document.getElementById('prop-map'), {zoom: 14, center: pos});
+        $("#mapModal").css("width", "100%");
+        google.maps.event.trigger(map, "resize");
+        var marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+          title: 'Lokasi hunian'
+        });
+        map.setCenter({pos});
+    });
+
     function loadmodal(id) {
         $(".new").remove();
         $('#propertyModal').modal('show');

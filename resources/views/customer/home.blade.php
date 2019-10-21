@@ -2,6 +2,71 @@
 @section('title',"Bukasewa")
 @section('meta-desk','Temukan hunian dengan harga termurah, terpercaya, dan berkualitas hanya disini...')
 @section('meta-img','/img/metaimg2.jpg')
+@section('header')
+ <style>
+ #infowindow-content .title {
+        font-weight: bold;
+      }
+      #infowindow-content {
+        display: none;
+      }
+      #map #infowindow-content {
+        display: inline;
+      }
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+        z-index: 20;
+        margin:5px;
+      }
+      
+        .modal{
+            z-index: 20;   
+        }
+        .modal-backdrop{
+            z-index: 10;        
+        }
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+      #pac-input {
+        background-color: #bdb9b9;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        margin:5px;
+      }
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+      #title {
+        color: #fff;
+        background-color: #ff5159;
+        font-size: 15px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+ </style>   
+@endsection
 @section('content')
 
 <!-- Categories strat -->
@@ -16,11 +81,11 @@
             @foreach ($region as $rg)                        
             <div class="col-sm-6 col-lg-6 col-xs-6 col-pad wow fadeInUp delay-04s">
                 <div class="category">
-                    <div onclick="loadregion({{$rg->lat}},{{$rg->lng}},'{{$rg->provinsi}}')" style="background-image: url('{{$rg->img}}')" class="category_bg_box">
+                    <div onclick="loadmodal_region('{{$rg->id}}')" style="background-image: url('{{$rg->img}}')" class="category_bg_box">
                         <div class="category-overlay">
                             <div class="category-content">
                                     {{-- <div class="category-subtitle">{{$rg->jumlah}}</div> --}}
-                                    <h3 class="category-title"><a href="/hunian/region/{{$rg->id}}">{{$rg->provinsi}}</a></h3>
+                                    <h3 class="category-title"><a href="/hunian-murah-di/{{$rg->provinsi}}">{{$rg->provinsi}}</a></h3>
                             </div>
                         </div>
                     </div>
@@ -31,41 +96,44 @@
     </div>
 </div>
 <!-- Categories end-->
-<div id="div-map" style="margin-top:50px;margin-bottom:50px;display:none" class="container">
+<div id="div-mapz" style="margin-top:50px;margin-bottom:50px;display:none" class="container">
     <br>
     <div class="main-title">
             <h1>Cari hunian dan Ayo jelajahi dunia !</h1>
         </div>
-    <div class="row">
-            <div class="col-lg-8 col-xs-12 col-md-6">
-                    <div id="map"></div>
-            </div>
-            <div class="col-lg-4 col-xs-12 col-md-6">
-                    <button style="margin-bottom:10px" id="back" type="button" class="btn button-sm button-theme"><i  class="fa fa-backward"></i> Kembali</button>
-                <div class="form-group">
-                    <select class="selectpicker search-fields" name="property-status" data-live-search="true" data-live-search-placeholder="Search value">
-                        <option>Kabupaten</option>
-                        <option>For Sale</option>
-                        <option>For Rent</option>
-                    </select>
+    <div class="container">
+        <div class="pac-card" id="pac-card">
+                <div>
+                    <div id="title">
+                    <i class="fa fa-marker"></i> Cari lokasi disekitar tempat yang kamu prioritaskan
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <select class="selectpicker search-fields" name="property-status" data-live-search="true" data-live-search-placeholder="Search value">
-                        <option>Kampus</option>
-                        <option>For Sale</option>
-                        <option>For Rent</option>
-                    </select>
+                <div id="pac-container">
+                    <div class="col-lg-4 col-xs-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <select id="select-kabupaten" class="form-control">
+                                <option>Kabupaten</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <select id="select-kampus" class="form-control">
+                                <option>Kampus</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xs-4 col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <select id="select-populer" class="form-control">
+                                <option>Paling dicari</option>
+                            </select>
+                        </div>
+                    </div>
+                    
                 </div>
-
-                <div class="form-group">
-                    <select class="selectpicker search-fields" name="property-status" data-live-search="true" data-live-search-placeholder="Search value">
-                        <option>Tempat Wisata</option>
-                        <option>For Sale</option>
-                        <option>For Rent</option>
-                    </select>
-                </div>
-            </div>
+        </div>
+        <div id="map"></div>
     </div>
 </div>
 
@@ -96,6 +164,36 @@
     </div>
 </div>
 </div>
+<!-- Counters strat -->
+<div class="counters overview-bgi">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4 col-sm-4 bordered-right">
+                <div class="counter-box">
+                    <i class="flaticon-symbol-1"></i>
+                    <h1 class="counter">1276</h1>
+                    <p>List hunian yang disewakan</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 bordered-right">
+                <div class="counter-box">
+                    <i class="flaticon-people"></i>
+                    <h1 class="counter">396</h1>
+                    <p>Agents</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="counter-box">
+                    <i class="flaticon-old-telephone-ringing"></i>
+                    <h1 class="counter">177</h1>
+                    <p>Jumlah interaksi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Counters end -->
 <!-- Cari Apa Section -->
 {{-- <div style="margin-top: 50px" class="mb-100 our-service">
     <div class="container">
@@ -144,6 +242,7 @@
 </div> --}}
 <!-- Cari Apa end -->
 
+{{-- pilih kategori --}}
 <div class="modal fade" id="modalcari" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -178,7 +277,7 @@
 
 @endsection
 @section('footer')
-<script src="/nest/js/maps.js"></script>
+{{-- modal quick show --}}
 <div class="modal property-modal fade" id="propertyModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -238,31 +337,79 @@
         </div>
     </div>
 </div>
-    <div class="modal property-modal fade" id="regionModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="provinsi">Ak
-                    </h5>
-                    <p id="prov_dec">
-                    </p>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row modal-raw">
-                        <div class="col-lg-6 modal-left">
-                            
-                        </div>
-                        <div class="col-lg-6 modal-right">
-                            <div id="map"></div>
-                        </div>
+
+{{-- modal region --}}
+<div class="modal property-modal fade" id="regionModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >
+                        <i class='fa fa-map-marker'></i> <span id="nama-region"></span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row modal-raw">
+                    <div id="data_region">
+                        <div class="col-lg-5 modal-left">
+                                    <div class="modal-left-content">
+                                       <img id="imgregion" src="" alt="">
+                                       <div class="description">
+                                           <h3 id="title-deskripsi"></h3>
+                                            <p id="region-deskripsi"></p>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-lg-7 modal-right">
+                                    <div class="modal-right-content bg-white">
+                                        <strong>
+                                            <a onclick="toggle('favorit')" href="#populer">
+                                                <div class="form-group">
+                                                    <span  ><i class="fa fa-star"></i> Paling Dicari<span class="fa fa-arrows-v pull-right"></span></span>
+                                                        <ul id="favorit" style="margin-left:20px;display:none" class="list-1">
+                                                           
+                                                        </ul>
+                                                    <hr>
+                                                </div>
+                                            </a>
+                                            <a onclick="toggle('kabupaten')" href="#kabupaten">
+                                                <div class="form-group">
+                                                    <span  ><i class="fa fa-map-signs"></i> Kabupaten<span class="fa fa-arrows-v pull-right"></span></span>
+                                                        <ul id="kabupaten" style="margin-left:20px;display:none" class="list-1">
+                                                            
+                                                        </ul>
+                                                    <hr>
+                                                </div>
+                                            </a>
+                                            <a onclick="toggle('kampus')" href="#populer">
+                                                <div class="form-group">
+                                                    <span  ><i class="fa fa-university"></i> Kampus<span class="fa fa-arrows-v pull-right"></span></span>
+                                                        <ul id="kampus" style="margin-left:20px;display:none" class="list-1">
+                                                        
+                                                        </ul>
+                                                    <hr>
+                                                </div>
+                                            </a>
+                                    </div>
+                                </div>
                     </div>
                 </div>
+                <div id="region-loading" style="height:200px;display:none;">
+                    <button style="top:50%;left:50%; transform: translate(-50%, -50%);position:absolute" type="button" class="btn btn-default btn-lrg ajax" title="Ajax Request">
+                        <i class="fa fa-spin fa-refresh"></i>&nbsp; Meminta data ...
+                      </button>
+                </div>
+                
             </div>
         </div>
     </div>
+</div>
+
+<script src="/nest/js/maps.js"></script>
+
     <script>
         var latitude = 51.541216;
         var longitude = -0.095678;
@@ -271,26 +418,156 @@
         var pos="";
         var id_prov=null;
         var data_tempat=[];
-        
-        function loadregion(lat,lng,id) {
+        var map;
+
+        //load map region
+        function loadregion(lat,lng,prov,id) {
             $("#div-tempat").slideUp();
             $("#div-map").slideDown();
-            // latitude=lat;
-            // longitude=lng;
-            id_prov=id;
-            generateMap(latitude, longitude, providerName);
+            latitude=lat;
+            longitude=lng;
+            id_prov=prov;
 
-            // $.ajax({
-            //     type: "post",
-            //     url: "/get/tempat",
-            //     data: {
-            //         prov:id_prov,
-            //         _token:'{{csrf_token()}}'
-            //     },
-            //     dataType: "JSON",
-            //     success: function (response) {
-            //     }
-            // });
+            axios.post("/get/kampus",{
+                id:id
+            })
+            .then(res => {
+                console.log(res);
+                $.each(res.data, function (index, kampus) { 
+                     $("#select-kampus").append("<option value='"+kampus.id+"' id='"+kampus.id+"'>"+kampus.nama+"</option>");
+                });
+            })
+            .catch(err => {
+                console.error(err); 
+            })
+
+            //get tempat populer
+            axios.post('/get/tempat')
+            .then(res => {
+                console.log(res)
+                generateMap(res,latitude, longitude, providerName);
+                
+            })
+
+
+        }
+
+        function toggle(kode) {
+
+            $(".list-1").hide();
+            $("#"+kode).slideToggle();
+        }
+        
+        var loaded=null;
+        //load modal
+        function loadmodal_region(prov) {
+            $("#regionModal").modal("show");
+
+            if (loaded!=prov) {
+                //load data region
+                $("#data_region").toggle();
+                $("#region-loading").toggle();
+                axios.post("/get/detail/region",{
+                    prov:prov
+                })
+                .then(res => {
+                    loaded=prov;
+                    $("#data_region").toggle();
+                    $("#region-loading").toggle();
+                    
+                    $(".list-1 li").remove();
+                    $("#nama-region").text(res.data[0].prov_name);
+                    $("#title-deskripsi").text(res.data[0].title_deskripsi);
+                    $("#region-deskripsi").text(res.data[0].deskripsi);
+
+                    $("#imgregion").attr("src", res.data[0].img);
+
+                    $.each(res.data, function (index, data) { 
+                        switch (data.tag) {
+                            case "kabupaten":
+                                var content="<a href='/hunian-murah-di-kabupaten/"+data.nama+"'><li  class='removeable'>"+data.nama+"</li></a>";
+                                $("ul#kabupaten").append(content);
+                                break;
+                            case "rated":
+                                var content="<a href='/hunian-murah-disekitar/"+data.nama+"'><li  class='removeable'>"+data.nama+"</li></a>";
+                                $("ul#favorit").append(content);
+                                break;
+                            case "kampus":
+                                var content="<a href='/hunian-murah-disekitar/"+data.nama+"'><li class='removeable'>"+data.nama+"</li></a>";
+                                $("ul#kampus").append(content);
+                                break;
+                        } 
+                    });
+                    
+                    console.log(res)
+                })
+                .catch(err => {
+                    console.error(err); 
+                })   
+            } 
+            
+        }
+
+        //clear draw
+        function clearMap() {
+            for(i in map._layers) {
+                if(map._layers[i]._path != undefined) {
+                    try {
+                        map.removeLayer(map._layers[i]);
+                    }
+                    catch(e) {
+                        console.log("problem with " + e + map._layers[i]);
+                    }
+                }
+            }
+        }
+
+        //cari sekitar mark
+        function cari_sekitar(id,tempat,lt,lg) {
+
+            axios.post("/get/cari_disekitar",{
+                id:id,
+                kategori:$("#mark-kategori").val()
+            })
+            .then(res => {
+                console.log(res)
+                Swal.fire({
+                title: 'Ditemukan '+res.data.length+' hunian, disekitar '+tempat,
+                text: "You won't be able to revert this!",
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#ff5159',
+                confirmButtonText: 'Tampilkan di map',
+                cancelButtonText: 'Tampilkan di list'
+                }).then((result) => {
+                    if (result.value) {
+
+                    clearMap();
+                    map.setZoom(14,true)
+                    map.panTo([lt,lg]);
+                    var direction=1;
+                    var rMin=100, rMax=2500;
+                    var circle=L.circle([lt,lg], 2500,{color: '#ff5159', opacity:.5}).addTo(map);
+                    
+                    setInterval(function() {
+                        var radius = 1500;
+                        if ((radius > rMax) || (radius < rMin)) {
+                            direction *= -1;
+                            circle.setRadius(radius+direction*100)
+                        }
+                        
+                    }, 50);
+                    } else {
+                        window.location.href="/hunian-murah-disekitar/"+tempat 
+                        }
+                })
+                map.closePopup();
+
+            })
+            .catch(err => {
+                console.error(err); 
+            })
         }
 
         $("#back").click(function (e) {
@@ -298,6 +575,7 @@
             // $("#div-tempat").slideDown();
 
             window.location.href="/";
+            
         });
 
         $(function () {
@@ -465,5 +743,5 @@
             });
         }
     </script>
-    
+    <script src="/js/app.js"></script>
 @endsection

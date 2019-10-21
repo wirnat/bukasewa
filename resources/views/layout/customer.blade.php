@@ -4,7 +4,8 @@
 <head>
     
         {{-- async --}}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNc257lpFxxKmJxqKzdgshuSHDUdtRDmE&libraries=places"  defer></script>
+    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNc257lpFxxKmJxqKzdgshuSHDUdtRDmE&libraries=places"  defer></script> --}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCi64IHKUBeVAy0Jga2TRzEdO33klFX5p0&libraries=places"  defer></script>
     <!-- Google Tag Manager -->
     {{-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -12,6 +13,7 @@
         '../../../www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-P5MJCCG');</script> --}}
     <!-- End Google Tag Manager -->
+
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="@yield('meta-desk')">
@@ -146,15 +148,8 @@
                                 </ul>
                             </li>
                             <li class="col-lg-6 col-xs-6 col-sm-6">
-                                <ul>
+                                <ul id="listwisata">
                                     <li class="dropdown-header">Paling dicari</li>
-                                    <li><a href="faq.html">Faq 1</a></li>
-                                    <li><a href="faq-2.html">Faq 2</a></li>
-                                    <li><a href="gallery-1.html">Gallery 1</a></li>
-                                    <li><a href="gallery-2.html">Gallery 2</a></li>
-                                    <li><a href="gallery-3.html">Gallery 3</a></li>
-                                    <li><a href="properties-comparison.html">Properties Comparison</a></li>
-                                    <li><a href="search-brand.html">Search Brand</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -191,6 +186,8 @@
 <!-- Banner start -->
 @if (empty($banner))
 @else
+
+<!-- Banner start -->
 <div class="banner">
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <!-- Wrapper for slides -->
@@ -251,6 +248,7 @@
         </a>
     </div>
 </div>
+    <!-- Banner end -->
 @endif
 
 
@@ -579,15 +577,24 @@
             } else {
                 $.ajax({
                     type: "post",
-                    url: "/get/kampus",
+                    url: "/get/detail/region/all",
                     data: {
                         _token:"{{csrf_token()}}"
                     },
                     dataType: "json",
                     success: function (response) {
-                        for (let index = 0; index < response.length; index++) {
-                            $("#listkampus").append('<li><a href="/hunian-murah-disekitar/'+response[index].nama+'">'+response[index].nama+'</a></li>');
-                        }
+                        $.each(response, function (index, tempat) { 
+                             switch (tempat.tag) {
+                                 case 'rated':
+                                    $("#listwisata").append('<li><a href="/hunian-murah-disekitar/'+tempat.nama+'">'+tempat.nama+'</a></li>');
+                                     break;
+                                case 'kampus':
+                                    $("#listkampus").append('<li><a href="/hunian-murah-disekitar/'+tempat.nama+'">'+tempat.nama+'</a></li>');
+                                     break; 
+                                 default:
+                                     break;
+                             }
+                        });
                     }
                 });
                 show="true";

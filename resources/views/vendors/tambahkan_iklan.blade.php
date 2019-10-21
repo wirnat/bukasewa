@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -514,7 +513,8 @@
                 { types: ['geocode'] });
                 google.maps.event.addListener(autocomplete, 'place_changed', function() {
                 pos={lat:autocomplete.getPlace().geometry.location.lat(),lng:autocomplete.getPlace().geometry.location.lng()}
-                marker.setMap(null);
+				marker.setMap(null);
+				map.setCenter(pos);
                 mark(pos);
             });
         
@@ -532,7 +532,7 @@
 			console.log(endaddress);
 			if (setlokasi=="true") {
 				mark(pos)
-				console.log(pos);
+				console.log("success get myloc");
 			} else {
 				if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(

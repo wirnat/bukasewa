@@ -38,6 +38,7 @@ class Property extends Controller
     public function around($tempat)
     {
         $data_tempat=DB::table('tempat')->where("nama",$tempat)->first();
+
         $data['properti']=DB::table('properti')->select("users.name as pemilik","kategori.kategori as kat","properti.*","properti_img.link","region.provinsi",
         DB::raw("
         111.111 *
@@ -58,6 +59,31 @@ class Property extends Controller
 
         return view("customer.list_hunian",$data);
     }
+
+    public function district($tempat)
+    {
+        $data_tempat=DB::table('tempat')->leftJoin("region","region.id","tempat.provinsi")->select("tempat.*","region.provinsi as prov_name")->where("tempat.nama",$tempat)->first();
+
+        $data['properti']=DB::table('properti')->select("users.name as pemilik","kategori.kategori as kat","properti.*","properti_img.link","region.provinsi",
+        DB::raw("
+        111.111 *
+            DEGREES(ACOS(LEAST(COS(RADIANS(properti.lat))
+                * COS(RADIANS(".$data_tempat->latitude."))
+                * COS(RADIANS(properti.lng - ".$data_tempat->longitude."))
+                + SIN(RADIANS(properti.lat))
+                * SIN(RADIANS(".$data_tempat->latitude.")), 1.0))) AS distance"))->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->orderBy("distance","asc")->
+        leftJoin('region',"region.id","=","properti.region")->
+        leftJoin("users","users.id","=","properti.id_user")->join("kategori","kategori.id","=","properti.kategori")
+        ->having("distance","<","105")->groupBy("id_properti")->where("aktif","aktif")->where("properti.alamat",'like','%'.$tempat.', '.$data_tempat->prov_name.'%')->get();
+        $data['kategori']=$this->kategori;
+        $data['tag']=$data_tempat->tag;
+        $data['pencarian']=count($data['properti'])." Hunian disekitar $data_tempat->tag ".$tempat;
+        $data['title']="Hunian disekitar ";
+        // print_r();
+
+        return view("customer.list_hunian",$data);
+    }
+    
 
     public function find(Request $r)
     {
@@ -155,6 +181,27 @@ class Property extends Controller
         $data['status']=Session::get('status');
         // print_r($data['vendor']);
         return view('customer.detailproperti',$data);
+    }
+
+    public function cariSekitar(Request $r)
+    {
+        $tempat=DB::table('tempat')->where("id",$r->id)->first();
+        $lat=$tempat->latitude;
+        $lng=$tempat->longitude;
+
+        $properti=DB::table('properti')->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->rightJoin("users","users.id","=","properti.id_user")->leftJoin("sewa","sewa.id_property","=","properti.id_properti")->
+        select("users.name as pemilik","properti.*","properti_img.link","properti_img.tipe",DB::raw("
+        111.111 *
+            DEGREES(ACOS(LEAST(COS(RADIANS(lat))
+                * COS(RADIANS(".$lat."))
+                * COS(RADIANS(lng - ".$lng."))
+                + SIN(RADIANS(lat))
+                * SIN(RADIANS(".$lat.")), 1.0))) AS distance"))->having("distance","<","3")->where("kategori",$r->kategori)->where("aktif","aktif");
+        
+        $properti=$properti->get();
+                
+        
+        return response()->json($properti);
     }
     
 }

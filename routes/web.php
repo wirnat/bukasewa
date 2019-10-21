@@ -29,17 +29,36 @@ Route::get('belipaket/',"Vendor\Iklan@pricing");
 Route::get('hunian/kategori/{id}', 'Property@kategori');
 Route::get('hunian/', 'Property@list');
 Route::get('hunian-murah-di/{provinsi}', 'Property@regionlist');
+Route::get('hunian-murah-di-kabupaten/{kabupaten}', 'Property@district');
 Route::get('hunian-murah-disekitar/{tempat}', 'Property@around');
-Route::post('/get/kampus', function () {
-    $data=DB::table('tempat')->where('tag','kampus')->get();
+Route::post('/get/kampus_all', function () {
+    $data=DB::table('tempat')->where('tag','kampus')->orderBy("nama","asc")->get();
     return response()->json($data);
 });
 Route::post('/get/tempat', function () {
     $data=DB::table('tempat')->get();
     echo json_encode($data);
 });
+Route::post('/get/kampus', function (Request $r) {
+    $data=DB::table('tempat')->where("provinsi",$r->id)->where("tag","kampus")->orderBy("nama","asc")->get();
+    echo json_encode($data);
+});
 
+Route::post('/get/koordinat', function (Request $r) {
+    $data=DB::table('tempat')->where("id",$r->id)->orderBy("nama","asc")->first();
+    return response()->json($data);
+});
+Route::post('/get/cari_disekitar', "Property@cariSekitar");
 
+Route::post('/get/detail/region', function (Request $r) {
+    $data=DB::table('tempat')->leftJoin("region","region.id","=","tempat.provinsi")->select("tempat.*","region.title_deskripsi","region.deskripsi","region.provinsi  as prov_name","region.img")->where('tempat.provinsi',$r->prov)->orderBy('tempat.nama','asc')->get();
+    return response()->json($data, 200);
+});
+
+Route::post('/get/detail/region/all', function () {
+    $data=DB::table('tempat')->leftJoin("region","region.id","=","tempat.provinsi")->select("tempat.*","region.title_deskripsi","region.deskripsi","region.provinsi  as prov_name","region.img")->orderBy('tempat.nama','asc')->get();
+    return response()->json($data, 200);
+});
 
 //vendor panel
 Route::group(['middleware' => [MdVendor::class]], function () {

@@ -320,76 +320,46 @@ var properties = {
 };
 
 function drawInfoWindow(property) {
-    var image = 'nest/img/logo.png';
-    if (property.image) {
-        image = property.image
+    console.log(property.img)
+    if (property.img) {
+        image = property.img
     }
 
     var title = 'N/A';
-    if (property.title) {
-        title = property.title
+    if (property.nama) {
+        title = property.nama
     }
 
     var address = '';
-    if (property.address) {
-        address = property.address
+    if (property.alamat) {
+        address = property.alamat
     }
 
-    var description = 'lorem ipsum dolor sit amet, cfeugiat congue qmper lorem ipsum dolor sit amet';
-    if (property.description) {
-        description = property.description
-    }
-
-    var area = 1000;
-    if (property.area) {
-        area = property.area
-    }
-
-    var Beds = 5;
-    if (property.bedroom) {
-        Beds = property.bedroom
-    }
-
-    var bathroom = 5;
-    if (property.bathroom) {
-        bathroom = property.bathroom
-    }
-
-    var garage = 1;
-    if (property.garage) {
-        garage = property.garage
-    }
-
-    var price = 253.33;
-    if (property.price) {
-        price = property.price
+    var description = '';
+    if (property.desc) {
+        description = property.desc
     }
 
     var ibContent = '';
     ibContent =
         "<div class='map-properties'>" +
         "<div class='map-img'>" +
-        "<img src='" + image + "'/>" +
+        "<img style='height: 200px;object-fit: contain' src='/" + image + "'/>" +
         "</div>" +
         "<div class='map-content'>" +
-        "<div class='map-content-top'><h4><a href='properties-details.html'>" + title + "</a></h4>" +
+        "<div class='map-content-top'><h4><a href='/hunian-murah-disekitar/"+title+"'>" + title + "</a></h4>" +
         "<p class='address'> <i class='fa fa-map-marker'></i>" + address + "</p></div>" +
         "<p class='description'>" + description + "</p>" +
-        "<div class='map-properties-fetures'> " +
-        "<span><i class='flaticon-square-layouting-with-black-square-in-east-area'></i>  " + area + " sqft<sup>2</sup></span> " +
-        "<span><i class='flaticon-bed'></i>  " + Beds + " Bed</span> " +
-        "<span><i class='flaticon-holidays'></i>  " + bathroom + " Bath</span> " +
-        "<span><i class='flaticon-vehicle'></i>    " + garage + " Garages</span> " +
-        "</div>" +
-        "<div class='map-properties-btns'><a href='properties-details.html' class='border-button-sm border-button-theme' style='margin-right:5px;'>$" + price + "</a><a href='properties-details.html' class='button-sm button-theme'>Details</a></div>" +
+        "<select id='mark-kategori' class='form-control'><option value='1'>Kos</option><option value='2'>Rumah</option><option value='3'>Villa</option><option value='4'>Tanah</option><option value='5'>Appartemen</option></select><div class='map-properties-btns'>"+
+        "<a onclick=cari_sekitar('"+property.id+"','"+property.nama+"','"+property.latitude+"','"+property.longitude+"') href='#cari-sekitar' class='button-sm button-theme'>Cari hunian disekitar</a></div>" +
         "</div>";
     return ibContent;
 }
 
 function insertPropertyToArray(property, layout) {
     var image = 'nest/img/logo.png';
-    if (property.image) {
-        image = property.image
+    if (property.img) {
+        image = property.img
     }
 
     var title = 'N/A';
@@ -605,12 +575,32 @@ function animatedMarkers(map, propertiesMarkers, properties, layout) {
     $('.fetching-properties').html(propertiesArray);
 }
 
-function generateMap(latitude, longitude, mapProvider, layout) {
+function generateMap(res, latitude, longitude, mapProvider, layout) {
 
-    var map = L.map('map', {
+    map = L.map('map', {
         center: [latitude, longitude],
-        zoom: 9,
-        scrollWheelZoom: false
+        zoom: 10,
+        scrollWheelZoom: true
+    });
+
+    //select by kampus
+    
+
+    $("#select-kampus").change(function (e) {
+        map.closePopup();
+        var id_lokasi=$(this).val(); 
+        axios.post("/get/koordinat",{id:id_lokasi})
+        .then(res => {
+            console.log(res)
+            map.panTo([res.data.latitude,res.data.longitude]);
+            map.setZoom(15,true)
+
+            console.log('mark-'+id_lokasi);
+            $("[title='"+res.data.nama+"']").click();
+        })
+        .catch(err => {
+            console.error(err); 
+        })
     });
 
     L.tileLayer.provider(mapProvider).addTo(map);
@@ -620,15 +610,16 @@ function generateMap(latitude, longitude, mapProvider, layout) {
     });
     var propertiesMarkers = [];
 
-    $.each(properties.data, function (index, property) {
-        var icon = '<img src="nest/img/logos/logo.png">';
-        if (property.type_icon) {
-            icon = '<img src="' + property.type_icon + '">';
+    $.each(res.data, function (index, property) {
+        var icon = '<img src="/'+property.img+'">';
+        if (property.img=="") {
+            icon = '<img src="/img/logo.png">';
         }
-        console.log("z");
+
+        console.log(property.img);
         var color = '';
         var markerContent =
-            '<div class="map-marker ' + color + '">' +
+            '<div id="mark-'+property.id+'" class="map-marker ' + color + '">' +
             '<div class="icon">' +
             icon +
             '</div>' +
@@ -643,11 +634,13 @@ function generateMap(latitude, longitude, mapProvider, layout) {
         });
 
         var marker = L.marker(new L.LatLng(property.latitude, property.longitude), {
-            title: property.title,
+            title: property.nama,
             icon: _icon
         });
 
         propertiesMarkers.push(marker);
+        console.log("cek prop")
+        console.log(property)
         marker.bindPopup(drawInfoWindow(property));
         markers.addLayer(marker);
         marker.on('popupopen', function () {

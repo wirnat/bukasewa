@@ -51,11 +51,11 @@
                                         <div class="property-price">{{$p->harga}}</div>
                                         <img style="object-fit: cover;width: 360px;height: 270px" src="/{{$p->link}}" alt="fp" class="img-responsive">
                                         <div class="property-overlay">
-                                            <a href="/detail/properti/{{$p->id_properti}}" class="overlay-link">
-                                                <i style="padding-top: 30%;" class="fa fa-link"></i>
+                                            <a onclick="showmap('{{$p->properti}}','{{$p->alamat}}',{{$p->lat}},{{$p->lng}})" href="#showmap" class="overlay-link">
+                                                <i style="padding-top: 30%;" class="fa fa-map-o"></i>
                                             </a>
-                                            <a onclick="loadmodal('{{$p->id_properti}}')" class="overlay-link property-video" title="Lexus GS F">
-                                                <i style="padding-top: 30%;" class="fa fa-video-camera"></i>
+                                            <a onclick="loadmodal('{{$p->id_properti}}')" class="overlay-link property-video" title="Lihat sekilas">
+                                                <i style="padding-top: 30%;" class="fa fa-eye"></i>
                                             </a>
                                             <div onclick="magnify('{{$p->id_properti}}')" id="imgmagnify" class="property-magnify-gallery">
                                                 <a  href="{{$p->link}}" class="overlay-link">
@@ -152,7 +152,7 @@
 <!-- Map content end -->
 @endsection
 @section('footer')
-<!-- Car Video Modal -->
+<!-- Properti modal-->
 <div class="modal property-modal fade" id="propertyModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -161,13 +161,13 @@
                 </h5>
                 <p id="lokasi">
                 </p>
-                <span class="ratings">
+                {{-- <span class="ratings">
                     <i class="fa fa-star s1 active" data-score="1"></i>
                     <i class="fa fa-star s2 active" data-score="2"></i>
                     <i class="fa fa-star s3 active" data-score="3"></i>
                     <i class="fa fa-star s4 active" data-score="4"></i>
                     <i class="fa fa-star s5 active" data-score="5"></i>
-                </span>
+                </span> --}}
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -180,13 +180,6 @@
                                 <div class="carousel slide" id="properties-carousel" data-ride="carousel">
                                     <div id="imgcarausel" class="carousel-inner" role="listbox">
                                     </div>
-
-                                    <a class="control control-prev" href="#properties-carousel" role="button" data-slide="prev">
-                                        <i class="fa fa-angle-left"></i>
-                                    </a>
-                                    <a class="control control-next" href="#properties-carousel" role="button" data-slide="next">
-                                        <i class="fa fa-angle-right"></i>
-                                    </a>
                                 </div>
                             </div>
 
@@ -220,8 +213,59 @@
         </div>
     </div>
 </div>
+
+{{-- Map modal --}}
+{{-- map Modal --}}
+
+<div class="modal property-modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nama-prop">
+                    </h5>
+                    <p id="lokasi-prop">
+                    </p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div style="display:block" class="row modal-raw">
+                        <div id="prop-map" style="height:400px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <script>
+
+var map;
+var pos;
 var token='{{csrf_token()}}';
+
+function showmap(nama,lokasi,lat,lng) {
+    $("#nama-prop").text(nama);
+    $("#lokasi-prop").text(lokasi);
+    $("#mapModal").modal("show");
+    pos={
+        lat:lat,
+        lng:lng
+    }
+}
+
+$("#mapModal").on("shown.bs.modal", function () {
+    map = new google.maps.Map(document.getElementById('prop-map'), {zoom: 14, center: pos});
+    $("#mapModal").css("width", "100%");
+    google.maps.event.trigger(map, "resize");
+    var marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        title: 'Lokasi hunian'
+    });
+    map.setCenter({pos});
+});
+
 function loadmodal(id) {
     $(".new").remove();
         $('#propertyModal').modal('show');
@@ -254,9 +298,9 @@ function loadmodal(id) {
                 for (i=0;i<response.img.length;i++) {
                     if (response.img[i].tipe=="img") {
                         if (i==0) {
-                            $("#imgcarausel").append("<div class='active new item'><img style='height: 504px;object-fit: cover;' src='"+response.img[i].link+"'></div>");
+                            $("#imgcarausel").append("<div class='active new item'><img style='height: 504px;object-fit: cover;' src='/"+response.img[i].link+"'></div>");
                         } else {
-                            $("#imgcarausel").append("<div class='new item'><img style='height: 504px;object-fit: cover;' src='"+response.img[i].link+"'></div>");
+                            $("#imgcarausel").append("<div class='new item'><img style='height: 504px;object-fit: cover;' src='/"+response.img[i].link+"'></div>");
                         }
                     } else {
                         if (i==0) {
