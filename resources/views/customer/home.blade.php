@@ -74,7 +74,7 @@
     <div class="container">
         <!-- Main title -->
         <div class="main-title">
-            <h1>Tempat Terpopuler</h1>
+            <h1>Tempat Terpopuler di Indonesia</h1>
         </div>
         <div class="clearfix"></div>
         <div class="row wow">
