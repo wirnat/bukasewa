@@ -2,10 +2,9 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-    
-        {{-- async --}}
-    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNc257lpFxxKmJxqKzdgshuSHDUdtRDmE&libraries=places"  defer></script> --}}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCi64IHKUBeVAy0Jga2TRzEdO33klFX5p0&libraries=places"  defer></script>
+    {{-- async --}}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNc257lpFxxKmJxqKzdgshuSHDUdtRDmE&libraries=places"  defer></script>
+    {{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCi64IHKUBeVAy0Jga2TRzEdO33klFX5p0&libraries=places"  defer></script> --}}
     <!-- Google Tag Manager -->
     {{-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

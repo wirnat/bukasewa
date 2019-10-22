@@ -77,7 +77,7 @@ class Property extends Controller
         ->having("distance","<","105")->groupBy("id_properti")->where("aktif","aktif")->where("properti.alamat",'like','%'.$tempat.', '.$data_tempat->prov_name.'%')->get();
         $data['kategori']=$this->kategori;
         $data['tag']=$data_tempat->tag;
-        $data['pencarian']=count($data['properti'])." Hunian disekitar $data_tempat->tag ".$tempat;
+        $data['pencarian']=count($data['properti'])." Hunian di $data_tempat->tag ".$tempat;
         $data['title']="Hunian disekitar ";
         // print_r();
 
