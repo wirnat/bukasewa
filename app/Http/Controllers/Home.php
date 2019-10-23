@@ -21,6 +21,7 @@ class Home extends Controller
         $data['kategori']=$this->kategori;
         $data['region']=$data['region']=DB::table('region')->select("region.*",DB::raw("(select count(properti.id_properti) from properti where region.id=properti.region) as jumlah"))->leftJoin("properti","properti.region","=","region.id")->groupBy("region.id")->get();
         $data['message']=Session::get('message');
+        print_r(csrf_token());
         return view("customer.home",$data);
     }
 

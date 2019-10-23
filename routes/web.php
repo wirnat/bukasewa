@@ -14,8 +14,6 @@ use App\Http\Middleware\MdVendor;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Request;
 
-
-
 Route::get("/","Home@index");
 Route::get('find/',"Property@find")->name("filter");
 Route::post("rekomen","Home@api_rekomen");
@@ -59,7 +57,8 @@ Route::post('/get/detail/region/all', function () {
     $data=DB::table('tempat')->leftJoin("region","region.id","=","tempat.provinsi")->select("tempat.*","region.title_deskripsi","region.deskripsi","region.provinsi  as prov_name","region.img")->orderBy('tempat.nama','asc')->get();
     return response()->json($data, 200);
 });
-
+Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
+Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback'); 
 //vendor panel
 Route::group(['middleware' => [MdVendor::class]], function () {
 
@@ -78,5 +77,8 @@ Route::post('/api/delete/img', "Vendor\Iklan@deleteImg");
 Route::post('/api/update/hunian/lokasi', "Vendor\Iklan@api_updateLokasi");
 Route::post('/api/update/hunian/status', 'Vendor\Iklan@api_updateStatus');
 Route::post('/api/insert/transaksi', 'Vendor\Iklan@api_insertTransaksi');
+
+
+
 
 });
