@@ -77,4 +77,6 @@ Route::post('/api/insert/image', "Vendor\Iklan@insertImg");
 Route::post('/api/delete/img', "Vendor\Iklan@deleteImg");
 Route::post('/api/update/hunian/lokasi', "Vendor\Iklan@api_updateLokasi");
 Route::post('/api/update/hunian/status', 'Vendor\Iklan@api_updateStatus');
+Route::post('/api/insert/transaksi', 'Vendor\Iklan@api_insertTransaksi');
+
 });

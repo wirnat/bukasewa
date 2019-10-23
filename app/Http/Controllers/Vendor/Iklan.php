@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Watermark;
+use App\Mail\invoiceBeli;
+
 
 class Iklan extends Controller
 {
@@ -184,7 +186,7 @@ class Iklan extends Controller
             case 'deskripsi':
                 DB::table('properti')->where("id_properti",$r->id)->update(["deskripsi"=>$r->value]);
                 break;
-            case 'whatsapp':
+            case 'wa':
                 DB::table('properti')->where("id_properti",$r->id)->update(["whatsapp"=>$r->value]);
                 break;
             default:
@@ -299,12 +301,19 @@ class Iklan extends Controller
                 $data['status']="success";
             }
         }
-        
+
         $data['statuz']='status '.$status;
         $data['jumlahpaket']=$me->jumlah_iklan;
         $data['maxiklan']=$paket->max_iklan;
         $respon=response()->json($data);
         return $respon; 
     }
-}
 
+    public function api_insertTransaksi(Request $r)
+    {
+        $id=rand(1,999999);
+        DB::table('transaksi')->insert(['id_transaksi'=>$id,'jumlah_transaksi'=>'-','id_user'=>auth()->user()->id,'subjek'=>'Pembelian Paket','status'=>'Belum dibayar','paket'=>$r->id_paket]);
+        Mail::to(auth()->user()->email)->send(new invoiceBeli($id));
+        return response()->json("sukses", 200);
+    }
+}

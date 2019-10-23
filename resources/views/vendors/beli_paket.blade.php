@@ -166,7 +166,7 @@
                                         @endif
                                     </li>
                                 </ul>
-                                <div class="button"><a href="#" class="btn btn-outline pricing-btn">Beli sekarang</a></div>
+                                <div onclick="buy('{{$p->id_paket}}')" class="button"><a href="#" class="btn btn-outline pricing-btn">Beli sekarang</a></div>
                             </div>
                         </div>
                     </div>
@@ -179,5 +179,35 @@
     <!-- Pricing tables 3 end -->
 @endsection
 @section('footer')
-    
+    <script>
+        function buy(id) {
+            Swal.fire({
+            title: 'Beli paket ini?',
+            type: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Lain kali',
+            confirmButtonText: 'Ya, Beli sekarang'
+            }).then((result) => {
+                if (result.value) {
+                    axios.post("/api/insert/transaksi",{
+                    id_paket:id
+                    })
+                    .then(res => {
+                        console.log(res)
+                        Swal.fire(
+                        'Silahkan cek emailmu',
+                        'Invoice telah dikirim ke emailmu',
+                        'success'
+                        )
+                    })
+                    .catch(err => {
+                        console.error(err); 
+                    })
+                }
+            })
+        }
+    </script>
+    <script src="/js/app.js"></script>
 @endsection

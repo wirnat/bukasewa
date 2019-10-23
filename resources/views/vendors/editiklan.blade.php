@@ -72,6 +72,7 @@
         font-weight: 500;
         padding: 6px 12px;
       }
+      
 </style>
 <div class="row">
     <div class="col-lg-8 col-xs-12 col-md-12 col-sm-12">
@@ -234,14 +235,14 @@
                         </div>
                     </div>
                     <div style="margin-top:20px;margin-left:20px" class=" grid-container">
+                        <ul class="list-group row">
                         @foreach ($allfitur as $f)
-                            <div class="form-group">
-                                <div class="checkbox">
+                                <li class="list-group-item col-xs-6">
                                     <input id="{{$f->id_fitur}}" class="get_value" value="{{$f->id_fitur}}" type="checkbox" />
                                     <i class="flaticon {{$f->icon}}"></i> {{$f->fitur}}
-                                </div>
-                            </div>
-                        @endforeach                          
+                                </li>
+                        @endforeach   
+                        </ul>                       
                     </div>
                     <button id="savefasilitas" class="pull-right btn btn-danger"><i class="fa fa-save"></i> Update fasilitas</button>
 
@@ -287,6 +288,7 @@
 </div>
 @endsection
 @section('footer')
+
 {{-- async --}}
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNc257lpFxxKmJxqKzdgshuSHDUdtRDmE&libraries=places"  defer></script>
 <!-- Modal -->

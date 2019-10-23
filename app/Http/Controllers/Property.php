@@ -106,13 +106,10 @@ class Property extends Controller
             $properti=$properti->having("distance","<",$r->radius);
         }if (!empty($r->status)) {
             $properti=$properti->where("status",$r->status);
-        }if (!empty($r->toilet)) {
-            $properti=$properti->where("toilet",$r->toilet);
         }if (!empty($r->kamar)) {
             $properti=$properti->where("kamar",">=",$r->kamar);
         }if ($r->jarak=="show") {
             $data['jarak']="show";
-            $properti=$properti->orderBy("distance","ASC");
         }
         if($r->durasi!=""){
             $data["rangeharga"]="Harga mulai dari ".$r->vmin." hingga ".$r->vmax."";

@@ -27,6 +27,10 @@ class ComposerStaticInit7a2641a4fbb9b9e2d11f62cc08196f71
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'Z' => 
+        array (
+            'Zizaco\\Entrust\\' => 15,
+        ),
         'X' => 
         array (
             'XdgBaseDir\\' => 11,
@@ -123,6 +127,10 @@ class ComposerStaticInit7a2641a4fbb9b9e2d11f62cc08196f71
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'Zizaco\\Entrust\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -341,6 +349,11 @@ class ComposerStaticInit7a2641a4fbb9b9e2d11f62cc08196f71
     );
 
     public static $classMap = array (
+        'AddForeignKeysToBeliTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000947_add_foreign_keys_to_beli_table.php',
+        'AddForeignKeysToPropertiFiturTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000947_add_foreign_keys_to_properti_fitur_table.php',
+        'AddForeignKeysToPropertiImgTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000947_add_foreign_keys_to_properti_img_table.php',
+        'AddForeignKeysToPropertiTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000947_add_foreign_keys_to_properti_table.php',
+        'AddForeignKeysToSewaTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000947_add_foreign_keys_to_sewa_table.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\Dashboard' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Dashboard.php',
@@ -365,6 +378,7 @@ class ComposerStaticInit7a2641a4fbb9b9e2d11f62cc08196f71
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Mail\\invoiceBeli' => __DIR__ . '/../..' . '/app/Mail/invoiceBeli.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -380,7 +394,19 @@ class ComposerStaticInit7a2641a4fbb9b9e2d11f62cc08196f71
         'Carbon\\Laravel\\ServiceProvider' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Laravel/ServiceProvider.php',
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
         'Carbon\\Upgrade' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Upgrade.php',
+        'CreateBeliTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_beli_table.php',
+        'CreateFiturTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_fitur_table.php',
+        'CreateKategoriTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_kategori_table.php',
+        'CreateKridibilitasTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_kridibilitas_table.php',
+        'CreateLokasiTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_lokasi_table.php',
+        'CreatePaketTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_paket_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreatePropertiFiturTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_properti_fitur_table.php',
+        'CreatePropertiImgTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_properti_img_table.php',
+        'CreatePropertiTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_properti_table.php',
+        'CreateRegionTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_region_table.php',
+        'CreateSewaTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_sewa_table.php',
+        'CreateTransaksiTable' => __DIR__ . '/../..' . '/database/migrations/2019_10_16_000945_create_transaksi_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
@@ -3904,6 +3930,21 @@ class ComposerStaticInit7a2641a4fbb9b9e2d11f62cc08196f71
         'Xethron\\MigrationsGenerator\\Syntax\\DroppedTable' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Syntax/DroppedTable.php',
         'Xethron\\MigrationsGenerator\\Syntax\\RemoveForeignKeysFromTable' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Syntax/RemoveForeignKeysFromTable.php',
         'Xethron\\MigrationsGenerator\\Syntax\\Table' => __DIR__ . '/..' . '/xethron/migrations-generator/src/Xethron/MigrationsGenerator/Syntax/Table.php',
+        'Zizaco\\Entrust\\Contracts\\EntrustPermissionInterface' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Contracts/EntrustPermissionInterface.php',
+        'Zizaco\\Entrust\\Contracts\\EntrustRoleInterface' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Contracts/EntrustRoleInterface.php',
+        'Zizaco\\Entrust\\Contracts\\EntrustUserInterface' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Contracts/EntrustUserInterface.php',
+        'Zizaco\\Entrust\\Entrust' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Entrust.php',
+        'Zizaco\\Entrust\\EntrustFacade' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/EntrustFacade.php',
+        'Zizaco\\Entrust\\EntrustPermission' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/EntrustPermission.php',
+        'Zizaco\\Entrust\\EntrustRole' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/EntrustRole.php',
+        'Zizaco\\Entrust\\EntrustServiceProvider' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/EntrustServiceProvider.php',
+        'Zizaco\\Entrust\\Middleware\\EntrustAbility' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Middleware/EntrustAbility.php',
+        'Zizaco\\Entrust\\Middleware\\EntrustPermission' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Middleware/EntrustPermission.php',
+        'Zizaco\\Entrust\\Middleware\\EntrustRole' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Middleware/EntrustRole.php',
+        'Zizaco\\Entrust\\MigrationCommand' => __DIR__ . '/..' . '/zizaco/entrust/src/commands/MigrationCommand.php',
+        'Zizaco\\Entrust\\Traits\\EntrustPermissionTrait' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Traits/EntrustPermissionTrait.php',
+        'Zizaco\\Entrust\\Traits\\EntrustRoleTrait' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Traits/EntrustRoleTrait.php',
+        'Zizaco\\Entrust\\Traits\\EntrustUserTrait' => __DIR__ . '/..' . '/zizaco/entrust/src/Entrust/Traits/EntrustUserTrait.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',

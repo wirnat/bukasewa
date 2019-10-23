@@ -45,13 +45,6 @@
   hr {
     margin-top: 0px;
   }
-  .modal {
-   position:fixed;
-   top:auto;
-   right:auto;
-   left:auto;
-   bottom:0;
-}
 </style>
 </head>
 <div id="overlay">
