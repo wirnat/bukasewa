@@ -174,12 +174,9 @@
                                         <img class="img-circle" src="{{$photo}}">
                                         <p class="dropcard"><i class="fa fa-{{auth()->user()->provider}}"></i> {{auth()->user()->name}} - {{auth()->user()->email}}</p>
                                         <button id="logout" class="btn btn-flat" href="{{ route('logout') }}"
-                                            onclick="signOut();event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
+                                            onclick="signOut();">
                                             <i class="fa fa-sign-out"></i> Logout
                                         </button>
-                                        <a href="#" onclick="signOut();event.preventDefault();
-                                        document.getElementById('logout-form').submit();">Sign out</a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
@@ -711,7 +708,8 @@
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
             console.log('User signed out.');
-            document.getElementById("logout").click();
+            event.preventDefault();
+            document.getElementById('logout-form').submit();
             });
         }
 
@@ -726,12 +724,47 @@
             cancelButtonText: 'Pemilik hunian',
             confirmButtonText: 'Pencari hunian'
             }).then((result) => {
-                $("#modalSign").modal("show");
             if (result.value) {
+                $("#modalSign").modal("show");
             }else if(result.dismiss === Swal.DismissReason.cancel){
                 window.location.href="/login";
             }
             })
+        }
+        //login google
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            var cekauth='{{Auth::check()}}';
+            if (cekauth=='') {
+                $.ajax({
+                    type: "post",
+                    url: "/api/login/google",
+                    data: {
+                        id:profile.getId(),
+                        name:profile.getName(),
+                        img:profile.getImageUrl(),
+                        email:profile.getEmail(),
+                        _token:'{{csrf_token()}}'
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        $("#modalSign").modal("hide");
+                        Swal.fire(response,"","success").then(function (result) {
+                            if (result.value) {
+                                location.reload();
+                            }
+                        })
+                    },error:function () {
+                        Swal.fire("Terjadi kesalahan","coba lagi nanti","error");
+                    }
+                });
+            } else {
+                
+            }
         }
 </script>
 <script src="/js/loadnav.js"></script>

@@ -560,40 +560,7 @@
             interval: false,
         })
 
-        //login google
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-            var cekauth='{{Auth::check()}}';
-            if (cekauth=='') {
-                $.ajax({
-                    type: "post",
-                    url: "/api/login/google",
-                    data: {
-                        id:profile.getId(),
-                        name:profile.getName(),
-                        img:profile.getImageUrl(),
-                        email:profile.getEmail(),
-                        _token:'{{csrf_token()}}'
-                    },
-                    dataType: "JSON",
-                    success: function (response) {
-                        Swal.fire(response,"","success").then(function (result) {
-                            if (result.value) {
-                                location.reload();
-                            }
-                        })
-                    },error:function () {
-                        Swal.fire("Terjadi kesalahan","coba lagi nanti","error");
-                    }
-                });
-            } else {
-                
-            }
-        }
+        
         
     </script>
 @endsection
