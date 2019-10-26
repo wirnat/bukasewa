@@ -2,6 +2,8 @@
 @section('title',"Detail Property: $properti->properti")
 @section('meta-desk',substr($properti->alamat, 0, 70) . '...')
 @section('meta-img',$properti->link)
+@section('header')
+@endsection
 @section('content')
 
     <div style="margin-top:50px;padding-right: 0px; 
@@ -270,12 +272,12 @@
                                                 <p>{{$properti->alamat}}</p>
                                             </div>
                                             <div class="helping-center">
-                                                {{-- @if ($status!="in")
+                                                @if (!Auth::check())
                                                     <div id="infohide">
                                                             <div class="icon"><i class="fa fa-phone"></i></div>
                                                             <button id="sign" style="background-color: #d20023;border-color:#d20023;" class="btn btn-primary"><i class="fa fa-eye"></i> Hubungi Pemilik</button>
                                                     </div>
-                                                @else --}}
+                                                @else
                                                     <div id="infoshow">
                                                             <div class="icon"><i class="fa fa-phone"></i></div>
                                                             <h4>Phone</h4>
@@ -290,7 +292,7 @@
                                                             
                                                             <p><a href="https://api.whatsapp.com/send?phone={{$wa}}&text=Halo%20kak%20,%20apakah%20masih%20tersedia%20huniannya?%0A%0Aaku%20mendapatkan%20informasi%20dari%20https://bukasewa.com/detail/properti/{{$properti->id_properti}}">+{{$wa}}</a> </p>
                                                     </div>
-                                                {{-- @endif --}}
+                                                @endif
                                             </div>
                                         </div>
                             </div>
@@ -525,50 +527,8 @@
     </div>
 @endsection
 @section('footer')
-<!-- Modal -->
-<div class="modal fade" id="modalSign" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                <h5 class="modal-title">Masukkan Data Diri Anda</h5>
-            </div>
-            <div class="modal-body">
-                    <div class="row">
-                    <form action="/signing" method="post">
-                        <div class="col-md-4 col-sm-4">
-                            <div class="form-group">
-                                <label><i class="flaticon-people"></i> Nama</label>
-                                <input required type="text" class="form-control input-text" name="name" placeholder="Name">
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4">
-                            <div class="form-group">
-                                <label><i class="fa fa-envelope"></i> Email</label>
-                                <input required type="email" class="form-control input-text" name="email" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-4">
-                            <div class="form-group">
-                                <label><i class="fa fa-whatsapp"></i> Whatsapp</label>
-                                <input required type="text" class="input-text form-control" name="phone" placeholder="Phone">
-                            </div>
-                        </div>
-                        <input type="hidden" value="{{csrf_token()}}" name="_token">
-                        <div class="col-md-12">
-                            <button type="submit" id="signing" class="btn button-sm button-theme">Submit</button>
-                        </div>
-                    </form>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <small>NB: Untuk menghubungi pemilik hunian, kamu harus memasukkan data diri terlebih dahulu</small>
-            </div>
-        </div>
-    </div>
-</div>
+
+
     <script>
         $(document).ready(function () {
              // The location
@@ -580,20 +540,18 @@
             var marker = new google.maps.Marker({position: lokasi, map: map});
             //tombol tampilkan nomor
             $("#sign").click(function (e) { 
-                Swal.fire({
-                    title: 'Silahkan lakukan session login terlebih dahulu',
-                    text: "Lanjutkan?",
-                    type: 'info',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    cancelButtonText: 'Batal',
-                    confirmButtonText: 'Lanjutkan'
-                    }).then((result) => {
-                    if (result.value) {
-                        $('#modalSign').modal('show');
-                    }
-                })
+                // Swal.fire({
+                //     title: 'Silahkan masuk dulu',
+                //     type: 'info',
+                //     showCancelButton: false,
+                //     confirmButtonText: 'Login dengan Facebook'
+                //     }).then((result) => {
+                //     if (result.value) {
+                //         // $('#modalSign').modal('show');
+                //         window.location.href="/login/facebook/";
+                //     }
+                // })
+                $("#modalSign").modal("show");
             });
         });
 
@@ -602,5 +560,40 @@
             interval: false,
         })
 
+        //login google
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            var cekauth='{{Auth::check()}}';
+            if (cekauth=='') {
+                $.ajax({
+                    type: "post",
+                    url: "/api/login/google",
+                    data: {
+                        id:profile.getId(),
+                        name:profile.getName(),
+                        img:profile.getImageUrl(),
+                        email:profile.getEmail(),
+                        _token:'{{csrf_token()}}'
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        Swal.fire(response,"","success").then(function (result) {
+                            if (result.value) {
+                                location.reload();
+                            }
+                        })
+                    },error:function () {
+                        Swal.fire("Terjadi kesalahan","coba lagi nanti","error");
+                    }
+                });
+            } else {
+                
+            }
+        }
+        
     </script>
 @endsection

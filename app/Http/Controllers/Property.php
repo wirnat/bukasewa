@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 
 class Property extends Controller
 {
@@ -176,7 +177,7 @@ class Property extends Controller
         $data['search']="false";
         $data['message']=Session::get('message');
         $data['status']=Session::get('status');
-        // print_r($data['vendor']);
+        // print_r(Auth::check());
         return view('customer.detailproperti',$data);
     }
 

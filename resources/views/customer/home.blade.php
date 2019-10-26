@@ -31,7 +31,7 @@
       }
       
         .modal{
-            z-index: 20;   
+            z-index: 12000;   
         }
         .modal-backdrop{
             z-index: 10;        
@@ -92,11 +92,14 @@
                 </div>
             </div>
             @endforeach
+            <center>
+                    <button data-toggle="modal" data-target="#modalcari" id="carihunian" class="btn button-md button-theme"><i class="fa fa-map-marker"></i> Cari hunian disekitarmu</button>
+                    </center>
         </div>
     </div>
 </div>
 <!-- Categories end-->
-<div id="div-mapz" style="margin-top:50px;margin-bottom:50px;display:none" class="container">
+{{-- <div id="div-mapz" style="margin-top:50px;margin-bottom:50px;display:none" class="container">
     <br>
     <div class="main-title">
             <h1>Cari hunian dan Ayo jelajahi dunia !</h1>
@@ -135,13 +138,51 @@
         </div>
         <div id="map"></div>
     </div>
-</div>
+</div> --}}
 
 <div id="divrekomen" >
-<center>
-<button data-toggle="modal" data-target="#modalcari" id="carihunian" class="btn button-md button-theme"><i class="fa fa-map-marker"></i> Cari hunian disekitarmu</button>
-</center>
+
 <div class="clearfix"></div>
+
+<!-- Promo -->
+<div style="margin-top: 50px" class="mt-50 recently-properties chevron-icon">
+    <div class="container">
+        <!-- Main title -->
+        <div class="main-title">
+            <h1><span>Promo</span></h1>
+        </div>
+        <div class="row">
+                <div class="carousel our-partner slide" id="ourPartners1">
+                    <div class="col-lg-12 mrg-btm-30">
+                        <a class="right carousel-control" href="#ourPartners1" data-slide="prev"><i class="fa fa-chevron-left icon-prev"></i></a>
+                        <a class="right carousel-control" href="#ourPartners1" data-slide="next"><i class="fa fa-chevron-right icon-next"></i></a>
+                    </div>
+                    <div class="carousel-inner promo">
+                        <div class="item active">
+                            <div class="col-xs-4 col-lg-4 col-md-4">
+                                    <a href="#"><img class="promosi" src="/img/promo1.jpg" alt="promo"></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-xs-4 col-lg-4 col-md-4">
+                                    <a href="#"><img class="promosi" src="/img/promo1.jpg" alt="promo"></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-xs-4 col-lg-4 col-md-4">
+                                    <a href="#"><img class="promosi" src="/img/promo1.jpg" alt="promo"></a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="col-xs-4 col-lg-4 col-md-4">
+                                    <a href="#"><img class="promosi" src="/img/promo1.jpg" alt="promo"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
 
 <!-- Rekomendasi -->
 <div style="margin-top: 50px" class="mt-50 recently-properties chevron-icon">
@@ -163,6 +204,7 @@
         </div>
     </div>
 </div>
+
 </div>
 <!-- Counters strat -->
 <div class="counters overview-bgi">
@@ -640,6 +682,7 @@
                         
                         $("#rekomen_section").append(html);
                     }
+                    //rekomen section
                     $('.our-partners .item').each(function () {
                             var itemToClone = $(this);
                             for (var i = 1; i < 4; i++) {
@@ -651,7 +694,22 @@
                                     .addClass("cloneditem-" + (i))
                                     .appendTo($(this));
                             }
-                        }); 
+                    }); 
+
+                    $('.our-partner .item').each(function () {
+                            var itemToClone = $(this);
+                            for (var i = 1; i < 3; i++) {
+                                itemToClone = itemToClone.next();
+                                if (!itemToClone.length) {
+                                    itemToClone = $(this).siblings(':first');
+                                }
+                                itemToClone.children(':first-child').clone()
+                                    .addClass("cloneditem-" + (i))
+                                    .appendTo($(this));
+                            }
+                    }); 
+
+
                     }
                 });
                 console.log(pos);

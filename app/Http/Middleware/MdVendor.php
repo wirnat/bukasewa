@@ -17,7 +17,7 @@ class MdVendor
     {
         if (!empty(auth()->user()->tipeakun)) {
             if (auth()->user()->tipeakun!="vendor") {
-            return redirect("/login");
+            return redirect("/");
             } else {
                 return $next($request);
 

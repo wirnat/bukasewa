@@ -1,5 +1,5 @@
 @component('mail::message')
-<h4>Invoice Code: {{$data->id_invoice}}</h4>
+<h4>Ko: {{$data->id_invoice}}</h4>
 Someone want to buy your item, please contact or confirm the order.
 <hr>
 <h4>Item: {{$data->name}}</h4>

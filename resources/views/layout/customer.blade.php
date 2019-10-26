@@ -12,11 +12,12 @@
         '../../../www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-P5MJCCG');</script> --}}
     <!-- End Google Tag Manager -->
-
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>@yield('title')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="@yield('meta-desk')">
     <meta property="og:image" content="@yield('meta-img')">
+    <meta name="google-signin-client_id" content="907694286167-r57r7dthjmg0o7c0eiebsv4u65tavo98.apps.googleusercontent.com">
     <meta charset="utf-8">
     {{-- api gmap --}}
     <!-- External CSS libraries -->
@@ -77,6 +78,40 @@
         .visible-lg, .visible-md, .visible-sm, .visible-xs {
             display: block;
         }
+        .open>.dropdown-menu {
+            display: block;
+            z-index: 10000;
+        }
+        .img-circle{
+            z-index: 5;
+            height: 90px;
+            width: 90px;
+            border: 3px solid;
+            border-color: transparent;
+            border-color: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+        .drop-card{
+            text-align: center;background-color: #aaaaaa;transform: translate3d(-60px, 0px, 16px);
+        }
+        .space-text{
+            font-size: 10px;
+            background-color: #ffffff;
+            padding: 0 10px;
+            position: absolute;
+            transform: translate3d(-21px, 11px, 12px);
+            color: grey
+        }
+        .space-hr{
+            border-color: #e5e5e5;
+            width: 100%; height: 20px; border-bottom: 1px solid #e5e5e5; text-align: center;
+        }
+        .button-fb {
+            background: #1877f2;
+            border: 2px solid #1877f2;
+            color: #ffffff
+        }
     </style>
     @yield('header')
 </head>
@@ -109,11 +144,59 @@
 <!-- /Option Panel --> --}}
 
 <!-- Top header start -->
-<header class="top-header hidden-xs" id="top">
-    <div class="container">
-        <div class="list-inline pull-right">
-            <a href=""><i class="fa fa-phone"></i>08987139216</a>
+<header class="top-header" id="top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <div class="list-inline pull-left">
+            <a href=""><i class="fa fa-phone hidden-xs"></i>08987139216</a>
             <a href="tel:info@bukasewa.com"><i class="fa fa-envelope"></i>info@bukasewa.com</a>
+        </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <ul class="top-social-media pull-right">
+                @if (Auth::check())
+                    <li>
+                            <div class="dropdown dropleft float-right">
+                                    <?php
+                                        $photo;
+                                        if(auth()->user()->img[0]=="/"){
+                                            $photo=auth()->user()->img;
+                                        }else{
+                                            $photo="/".auth()->user()->img;
+                                        }
+                                    ?>
+                                    <img style="border-radius: 50%;height: 20px;" src="{{$photo}}">
+                                    <a class="sign-in dropdown-toggle" data-toggle="dropdown">
+                                      {{auth()->user()->name}} <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <div style="text-align: center;background-color: #aaaaaa;transform: translate3d(-60px, 0px, 16px);" class="dropdown-menu drop-card">
+                                        <img class="img-circle" src="{{$photo}}">
+                                        <p class="dropcard"><i class="fa fa-{{auth()->user()->provider}}"></i> {{auth()->user()->name}} - {{auth()->user()->email}}</p>
+                                        <button id="logout" class="btn btn-flat" href="{{ route('logout') }}"
+                                            onclick="signOut();event.preventDefault();
+                                                    document.getElementById('logout-form').submit();">
+                                            <i class="fa fa-sign-out"></i> Logout
+                                        </button>
+                                        <a href="#" onclick="signOut();event.preventDefault();
+                                        document.getElementById('logout-form').submit();">Sign out</a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </div>
+                                  </div>
+                    </li>
+                @else
+                        <li>
+                            <a onclick="log_to()" class="sign-in"><i class="fa fa-sign-in"></i> Login</a>
+                        </li>
+                        <li>
+                            <a href="/register" class="sign-in"><i class="fa fa-user"></i> Daftar dan pasang hunianmu? (GRATIS)</a>
+                        </li>
+                @endif
+                </ul>
+            </div>
         </div>
     </div>
 </header>
@@ -482,7 +565,30 @@
     </div>
 </div>
 <!-- Copy end right-->
-
+<!-- Modal -->
+<div class="modal fade" id="modalSign" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    <h5 style="color:#9c9ea0" class="modal-title">Login pengguna</h5>
+                </div>
+                <div class="modal-body">
+                    <center>
+                    <a href="/login/facebook"><button class="btn button-md button-fb"><i class="fa fa-facebook-square"></i> Masuk</button></a>  
+                    <div class="space-hr">
+                        <span class="space-text">
+                            atau <!--Padding is optional-->
+                        </span>
+                    </div>
+                    <div style="margin-top:15px" class="g-signin2" data-onsuccess="onSignIn">Masuk dengan</div>    
+                </center>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script src="/nest/js/jquery-2.2.0.min.js"></script>
 <script src="/nest/js/bootstrap.min.js"></script>
@@ -599,6 +705,33 @@
                 show="true";
             }
             
+        }
+        //logout google 
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+            console.log('User signed out.');
+            document.getElementById("logout").click();
+            });
+        }
+
+        //log to
+        function log_to(params) {
+            Swal.fire({
+            title: 'Login sebagai?',
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Pemilik hunian',
+            confirmButtonText: 'Pencari hunian'
+            }).then((result) => {
+                $("#modalSign").modal("show");
+            if (result.value) {
+            }else if(result.dismiss === Swal.DismissReason.cancel){
+                window.location.href="/login";
+            }
+            })
         }
 </script>
 <script src="/js/loadnav.js"></script>

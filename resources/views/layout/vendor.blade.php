@@ -47,9 +47,6 @@
   }
 </style>
 </head>
-<div id="overlay">
-    <img src="/loading.gif" alt="Loading" />
-</div>
 <body class="hold-transition skin-red-light sidebar-mini">
     
 <div style="display:none" class="wrapper">
@@ -232,6 +229,9 @@
     </section>
     <!-- Main content -->
     <section class="content">
+        <div id="overlay">
+            <img src="/loading.gif" alt="Loading" />
+        </div>
         @yield('content')
     </section>
     <!-- /.content -->

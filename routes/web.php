@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +12,6 @@
 use App\Http\Middleware\MdVendor;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Request;
-
-
 
 Route::get("/","Home@index");
 Route::get('find/',"Property@find")->name("filter");
@@ -43,26 +40,27 @@ Route::post('/get/kampus', function (Request $r) {
     $data=DB::table('tempat')->where("provinsi",$r->id)->where("tag","kampus")->orderBy("nama","asc")->get();
     echo json_encode($data);
 });
-
 Route::post('/get/koordinat', function (Request $r) {
     $data=DB::table('tempat')->where("id",$r->id)->orderBy("nama","asc")->first();
     return response()->json($data);
 });
 Route::post('/get/cari_disekitar', "Property@cariSekitar");
-
 Route::post('/get/detail/region', function (Request $r) {
     $data=DB::table('tempat')->leftJoin("region","region.id","=","tempat.provinsi")->select("tempat.*","region.title_deskripsi","region.deskripsi","region.provinsi  as prov_name","region.img")->where('tempat.provinsi',$r->prov)->orderBy('tempat.nama','asc')->get();
     return response()->json($data, 200);
 });
-
 Route::post('/get/detail/region/all', function () {
     $data=DB::table('tempat')->leftJoin("region","region.id","=","tempat.provinsi")->select("tempat.*","region.title_deskripsi","region.deskripsi","region.provinsi  as prov_name","region.img")->orderBy('tempat.nama','asc')->get();
     return response()->json($data, 200);
 });
 
+//auth provider
+Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
+Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
+Route::post('api/login/google','Auth\LoginController@loginGoogle'); 
+
 //vendor panel
 Route::group(['middleware' => [MdVendor::class]], function () {
-
 Route::get('vendor/',"Vendor\Dashboard@index");
 Route::get('vendor/iklan/edit/{id}',"Vendor\Iklan@editiklan");
 Route::get('vendor/iklan/tambah',"Vendor\Iklan@tambahiklan");
@@ -78,5 +76,4 @@ Route::post('/api/delete/img', "Vendor\Iklan@deleteImg");
 Route::post('/api/update/hunian/lokasi', "Vendor\Iklan@api_updateLokasi");
 Route::post('/api/update/hunian/status', 'Vendor\Iklan@api_updateStatus');
 Route::post('/api/insert/transaksi', 'Vendor\Iklan@api_insertTransaksi');
-
 });
