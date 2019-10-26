@@ -20,7 +20,7 @@ class TerminalTest extends TestCase
     private $lineSize;
     private $ansiCon;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->colSize = getenv('COLUMNS');
         $this->lineSize = getenv('LINES');
@@ -28,7 +28,7 @@ class TerminalTest extends TestCase
         $this->resetStatics();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         putenv($this->colSize ? 'COLUMNS='.$this->colSize : 'COLUMNS');
         putenv($this->lineSize ? 'LINES' : 'LINES='.$this->lineSize);

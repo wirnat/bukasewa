@@ -77,3 +77,10 @@ Route::post('/api/update/hunian/lokasi', "Vendor\Iklan@api_updateLokasi");
 Route::post('/api/update/hunian/status', 'Vendor\Iklan@api_updateStatus');
 Route::post('/api/insert/transaksi', 'Vendor\Iklan@api_insertTransaksi');
 });
+
+//admin
+Route::get('api/iklan', 'Admin\Iklan@index');
+Route::post('api/user',function(Request $r){
+    $data=DB::table('users')->where('tipeakun',$r->tipe)->get();
+    return response()->json($data);
+});
