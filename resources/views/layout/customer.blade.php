@@ -160,7 +160,7 @@
                             <div class="dropdown dropleft float-right">
                                     <?php
                                         $photo;
-                                        if(auth()->user()->img[0]=="/"){
+                                        if(auth()->user()->img[0]=="/"||auth()->user()->img[0]=="h"){
                                             $photo=auth()->user()->img;
                                         }else{
                                             $photo="/".auth()->user()->img;
