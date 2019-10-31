@@ -30,12 +30,7 @@
         margin:5px;
       }
       
-        .modal{
-            z-index: 12000;   
-        }
-        .modal-backdrop{
-            z-index: 10;        
-        }
+        
       .pac-controls {
         display: inline-block;
         padding: 5px 11px;
@@ -69,8 +64,10 @@
 @endsection
 @section('content')
 
+
+
 <!-- Categories strat -->
-<div id="div-tempat" style="margin-top: 50px" class="categories">
+<div id="div-tempat" style="margin-top: 50px;padding-bottom:20px" class="categories">
     <div class="container">
         <!-- Main title -->
         <div class="main-title">
@@ -92,9 +89,9 @@
                 </div>
             </div>
             @endforeach
-            <center>
+            {{-- <center>
                     <button data-toggle="modal" data-target="#modalcari" id="carihunian" class="btn button-md button-theme"><i class="fa fa-map-marker"></i> Cari hunian disekitarmu</button>
-                    </center>
+            </center> --}}
         </div>
     </div>
 </div>
@@ -140,71 +137,29 @@
     </div>
 </div> --}}
 
+
+
 <div id="divrekomen" >
-
-<div class="clearfix"></div>
-
-<!-- Promo -->
-<div style="margin-top: 50px" class="mt-50 recently-properties chevron-icon">
-    <div class="container">
-        <!-- Main title -->
-        <div class="main-title">
-            <h1><span>Promo</span></h1>
-        </div>
-        <div class="row">
-                <div class="carousel our-partner slide" id="ourPartners1">
-                    <div class="col-lg-12 mrg-btm-30">
-                        <a class="right carousel-control" href="#ourPartners1" data-slide="prev"><i class="fa fa-chevron-left icon-prev"></i></a>
-                        <a class="right carousel-control" href="#ourPartners1" data-slide="next"><i class="fa fa-chevron-right icon-next"></i></a>
-                    </div>
-                    <div class="carousel-inner promo">
-                        <div class="item active">
-                            <div class="col-xs-4 col-lg-4 col-md-4">
-                                    <a href="#"><img class="promosi" src="/img/promo1.jpg" alt="promo"></a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="col-xs-4 col-lg-4 col-md-4">
-                                    <a href="#"><img class="promosi" src="/img/promo1.jpg" alt="promo"></a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="col-xs-4 col-lg-4 col-md-4">
-                                    <a href="#"><img class="promosi" src="/img/promo1.jpg" alt="promo"></a>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="col-xs-4 col-lg-4 col-md-4">
-                                    <a href="#"><img class="promosi" src="/img/promo1.jpg" alt="promo"></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
-</div>
-
 <!-- Rekomendasi -->
-<div style="margin-top: 50px" class="mt-50 recently-properties chevron-icon">
-    <div class="container">
-        <!-- Main title -->
-        <div class="main-title">
-            <h1><span>Rekomendasi</span> Kami</h1>
-        </div>
-        <div class="row">
-            <div class="carousel our-partners slide" id="ourPartners2">
-                <div class="col-lg-12 mrg-btm-30">
-                    <a class="right carousel-control" href="#ourPartners2" data-slide="prev"><i class="fa fa-chevron-left icon-prev"></i></a>
-                    <a class="right carousel-control" href="#ourPartners2" data-slide="next"><i class="fa fa-chevron-right icon-next"></i></a>
-                </div>
-                <div id="rekomen_section" class="carousel-inner">
-                    
+    <div style="margin-top: 50px" class="mt-50 recently-properties chevron-icon">
+        <div class="container">
+            <!-- Main title -->
+            <div class="main-title">
+                <h1><span>Rekomendasi</span> Kami</h1>
+            </div>
+            <div class="row">
+                <div class="carousel our-partners slide" id="ourPartners2">
+                    <div class="col-lg-12 mrg-btm-30">
+                        <a class="right carousel-control" href="#ourPartners2" data-slide="prev"><i class="fa fa-chevron-left icon-prev"></i></a>
+                        <a class="right carousel-control" href="#ourPartners2" data-slide="next"><i class="fa fa-chevron-right icon-next"></i></a>
+                    </div>
+                    <div id="rekomen_section" class="carousel-inner">
+                        
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
 </div>
 <!-- Counters strat -->
 <div class="counters overview-bgi">
@@ -408,33 +363,68 @@
                                 <div class="col-lg-7 modal-right">
                                     <div class="modal-right-content bg-white">
                                         <strong>
-                                            <a onclick="toggle('favorit')" href="#populer">
-                                                <div class="form-group">
-                                                    <span  ><i class="fa fa-star"></i> Paling Dicari<span class="fa fa-arrows-v pull-right"></span></span>
-                                                        <ul id="favorit" style="margin-left:20px;display:none" class="list-1">
-                                                           
-                                                        </ul>
-                                                    <hr>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-xs-6 col-md-6 col-6">
+                                                    <a onclick="toggle('kabupaten')" href="#kabupaten">
+                                                        <div class="form-group">
+                                                            <span  ><i class="fa fa-map-signs"></i> Kabupaten<span class="fa fa-arrows-v pull-right"></span></span>
+                                                                <ul id="kabupaten" style="margin-left:20px;display:none" class="list-1">
+                                                                </ul>
+                                                            <hr>
+                                                        </div>
+                                                    </a>
+                                                    <a onclick="toggle('favorit')" href="#populer">
+                                                        <div class="form-group">
+                                                            <span  ><i class="fa fa-star"></i> Paling Dicari<span class="fa fa-arrows-v pull-right"></span></span>
+                                                                <ul id="favorit" style="margin-left:20px;display:none" class="list-1">
+                                                                    
+                                                                </ul>
+                                                            <hr>
+                                                        </div>
+                                                    </a>
+                                                    <a onclick="toggle('pantai')" href="#pantai">
+                                                        <div class="form-group">
+                                                            <span  ><i class="flaticon flaticon-summer"></i> Pantai<span class="fa fa-arrows-v pull-right"></span></span>
+                                                                <ul id="pantai" style="margin-left:20px;display:none" class="list-1">
+                                                                    
+                                                                </ul>
+                                                            <hr>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                            </a>
-                                            <a onclick="toggle('kabupaten')" href="#kabupaten">
-                                                <div class="form-group">
-                                                    <span  ><i class="fa fa-map-signs"></i> Kabupaten<span class="fa fa-arrows-v pull-right"></span></span>
-                                                        <ul id="kabupaten" style="margin-left:20px;display:none" class="list-1">
-                                                            
-                                                        </ul>
-                                                    <hr>
+                                                <div class="col-lg-6 col-xs-6 col-md-6 col-6">
+                                                    <a onclick="toggle('kampus')" href="#kampus">
+                                                        <div class="form-group">
+                                                            <span  ><i class="lnr lnr-graduation-hat"></i> Kampus<span class="fa fa-arrows-v pull-right"></span></span>
+                                                                <ul id="kampus" style="margin-left:20px;display:none" class="list-1">
+                                                                
+                                                                </ul>
+                                                            <hr>
+                                                        </div>
+                                                    </a>
+                                                    <a onclick="toggle('kantor')" href="#kantor">
+                                                        <div class="form-group">
+                                                            <span  ><i class="flaticon flaticon-people-1"></i> Kantor<span class="fa fa-arrows-v pull-right"></span></span>
+                                                                <ul id="kantor" style="margin-left:20px;display:none" class="list-1">
+                                                                
+                                                                </ul>
+                                                            <hr>
+                                                        </div>
+                                                    </a>
+                                                    <a onclick="toggle('airport')" href="#airport">
+                                                        <div class="form-group">
+                                                            <span  ><i class="glyphicon glyphicon-plane"></i> Airport<span class="fa fa-arrows-v pull-right"></span></span>
+                                                                <ul id="airport" style="margin-left:20px;display:none" class="list-1">
+                                                                
+                                                                </ul>
+                                                            <hr>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                            </a>
-                                            <a onclick="toggle('kampus')" href="#populer">
-                                                <div class="form-group">
-                                                    <span  ><i class="fa fa-university"></i> Kampus<span class="fa fa-arrows-v pull-right"></span></span>
-                                                        <ul id="kampus" style="margin-left:20px;display:none" class="list-1">
-                                                        
-                                                        </ul>
-                                                    <hr>
-                                                </div>
-                                            </a>
+                                            </div>
+                                            
+                                            
+                                            
                                     </div>
                                 </div>
                     </div>
@@ -537,6 +527,18 @@
                             case "kampus":
                                 var content="<a href='/hunian-murah-disekitar/"+data.nama+"'><li class='removeable'>"+data.nama+"</li></a>";
                                 $("ul#kampus").append(content);
+                                break;
+                            case "kantor":
+                                var content="<a href='/hunian-murah-disekitar/"+data.nama+"'><li class='removeable'>"+data.nama+"</li></a>";
+                                $("ul#kantor").append(content);
+                                break;
+                            case "pantai":
+                                var content="<a href='/hunian-murah-disekitar/"+data.nama+"'><li class='removeable'>"+data.nama+"</li></a>";
+                                $("ul#pantai").append(content);
+                                break;
+                            case "airport":
+                                var content="<a href='/hunian-murah-disekitar/"+data.nama+"'><li class='removeable'>"+data.nama+"</li></a>";
+                                $("ul#airport").append(content);
                                 break;
                         } 
                     });
@@ -660,7 +662,7 @@
                         html+='<div class="property-2">';
                         html+='<div class="property-img">';
                         if (response[index].paket=="3A") {
-                            html+='<div class="platinum">Hot</div>';
+                            html+='<div class="platinum">Promo</div>';
                         }else{
                             html+='<div class="featured">Rekomendasi</div>';
                         }

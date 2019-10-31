@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Vendor;
 
+use App\Mail\invoiceBeli;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Watermark;
-use App\Mail\invoiceBeli;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 
 class Iklan extends Controller
@@ -312,8 +313,9 @@ class Iklan extends Controller
     public function api_insertTransaksi(Request $r)
     {
         $id=rand(1,999999);
+        $email=auth()->user()->email;
         DB::table('transaksi')->insert(['id_transaksi'=>$id,'jumlah_transaksi'=>'-','id_user'=>auth()->user()->id,'subjek'=>'Pembelian Paket','status'=>'Belum dibayar','paket'=>$r->id_paket]);
-        Mail::to(auth()->user()->email)->send(new invoiceBeli($id));
+        Mail::to('wirawirw@gmail.com')->send(new invoiceBeli($id));
         return response()->json("sukses", 200);
     }
 }

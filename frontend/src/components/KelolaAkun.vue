@@ -4,22 +4,32 @@
     :items="users"
     sort-by="name"
     class="elevation-1"
+    :search="search"
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
-        <v-toolbar-title>Kelola Akun Vendor</v-toolbar-title>
-        <v-divider
+                <v-toolbar-title>Kelola Akun Vendor</v-toolbar-title>
+                <v-divider
           class="mx-4"
           inset
           vertical
         ></v-divider>
+        <v-spacer></v-spacer>
+        <v-text-field
+                  v-model="search"
+                  append-icon="search"
+                  label="Cari"
+                  single-line
+                  hide-details
+                  absolute
+                  style="margin-left:500px"
+        ></v-text-field>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
             </v-card-title>
-
             <v-card-text>
               <v-container>
                 <v-row>
@@ -57,11 +67,11 @@
 
     <!-- aksi -->
     <template v-slot:item.action="{ item }">
-        <router-link :to="'/detail/vendor/'+item.name">
+        <router-link :to="'/admin/detail/vendor/'+item.id">
             <v-icon
             small
             class="mr-2"
-            @click="detail(item)" to=""
+            @click="detail(item)"
         >
             remove_red_eye
         </v-icon>
@@ -92,6 +102,7 @@
   export default {
     data: () => ({
       dialog: false,
+      search:'',
       headers: [
         {
           text: 'ID',
@@ -123,7 +134,11 @@
         protein: 0,
       },
     }),
-
+  metaInfo () {
+    return {
+      title: 'Kelola Akun'
+    }
+  },
     computed: {
       formTitle () {
         return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
@@ -184,4 +199,5 @@
       },
     },
   }
+  
 </script>

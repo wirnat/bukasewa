@@ -22,7 +22,7 @@ class invoiceBeli extends Mailable
 
     public function __construct($id)
     {
-        $this->data=DB::table('transaksi')->where("id_transaksi",$id)->first();
+        $this->data=DB::table('transaksi')->select("transaksi.*","paket.nama_paket","paket.harga")->leftJoin("paket","paket.id_paket","=","transaksi.paket")->where("id_transaksi",$id)->first();
     }
 
     /**

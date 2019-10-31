@@ -3110,11 +3110,19 @@ footer .footer-item .newsletter {
     font-size: 15px;
 }
 
+.loved{
+    background: #dc4e41;
+    color: white !important;
+}
+
 /** SOCIAL MEDIA BIG AREA START **/
 .social-media li {
     list-style: none;
     float: left;
     margin: 0 5px 5px 0;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+    
+    
 }
 
 .social-media ul li a {
@@ -3125,7 +3133,11 @@ footer .footer-item .newsletter {
     border-radius: 3px;
     text-align: center;
     line-height: 45px;
-    background: #f3f3f3;
+    
+}
+
+.social-media ul li a .loved{
+    color: white;
 }
 
 .social-media ul li a:hover {
@@ -3333,7 +3345,11 @@ strong {
 }
 
 .linkedin:hover {
-    color: #1c82ca !important;
+    color: #1bdd45 !important;
+}
+
+.linkedin-bg{
+    color: #ff5159;
 }
 
 .google:hover {
@@ -3353,13 +3369,24 @@ strong {
     background: #56d7fe;
 }
 
+.twitter-bg{
+    color: #ff5159;
+}
+
 .linkedin-bg:hover {
-    background: #1c82ca;
+    background: #1bdd45;
 }
 
 .google-bg:hover {
     background: #dc4e41;
 }
+
+.google-bg {
+    color: #dc4e41;
+    
+}
+
+
 
 .rss-bg:hover {
     background: #e78733;

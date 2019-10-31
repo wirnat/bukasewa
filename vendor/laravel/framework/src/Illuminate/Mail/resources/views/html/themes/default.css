@@ -82,7 +82,7 @@ img {
 /* Layout */
 
 .wrapper {
-    background-color: #f5f8fa;
+    background-color: #ff5159;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -108,7 +108,7 @@ img {
 }
 
 .header a {
-    color: #bbbfc3;
+    color: white;
     font-size: 19px;
     font-weight: bold;
     text-decoration: none;
@@ -164,7 +164,7 @@ img {
 }
 
 .footer p {
-    color: #AEAEAE;
+    color: white;;
     font-size: 12px;
     text-align: center;
 }

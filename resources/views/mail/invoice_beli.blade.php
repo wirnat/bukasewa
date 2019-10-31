@@ -1,29 +1,18 @@
 @component('mail::message')
-<h4>Ko: {{$data->id_invoice}}</h4>
-Someone want to buy your item, please contact or confirm the order.
+<h4>Kode invoice anda : {{$data->id_transaksi}}</h4>
+<h4>Paket akun : {{$data->nama_paket}}</h4>
+<h4>Harga : {{$data->harga}}</h4>
 <hr>
-<h4>Item: {{$data->name}}</h4>
-<h4>Customer info : </h4>
- Name: {{$data->firstname}},{{$data->lastname}} 
- <br>
- Email: {{$data->email}}
- <br>
- Phone: {{$data->phone}}
- <br>
- Country:{{$data->country}}
- <br>
- Address:{{$data->address}}
- <br>
- City:{{$data->city}}
- <br>
- Order date:{{$data->created_at}}
- <br>
+<p>Paketmu akan segera diaktifkan, silahkan lakukan tahap berikut :</p>
+<ol>
+    <li>Masukkan <b>{{$data->id_transaksi}}</b> di kolom referal pada saat akan melakukan transfer pembayaran</li>
+    <li>Transfer pembayaran sesuai harga ke rekening : <b>BCA</b> 2810062579 (yodi fadhil)</li>
+    <li>Tunggu proses upgrade dari admin kami</li>
+    <hr>
+    Jika kamu sudah membayar tapi paket belum diupgrade dalam waktu 1x24jam, silahkan konfirmasi terlebih dahulu <a href='https://bukasewa.com/konfirmasi_transaksi/{{$data->id_transaksi}}'>disini</a>
+</ol>
 <hr>
-<h4>Payment method : {{$data->payment}}</h4>
 
-@component('mail::button', ['url' => "indoartssfbali.com/order/".$data->id_item, 'color' => 'success'])
-View Order
-@endcomponent
 <br>
-Thanks for attention :) . indoartssfbali.com
+Thanks for attention | Bukasewa.com 
 @endcomponent

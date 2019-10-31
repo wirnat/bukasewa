@@ -54,7 +54,12 @@ class Property extends Controller
         $data['kategori']=$this->kategori;
         $data['tag']=$data_tempat->tag;
         $data['jarak']="show";
-        $data['pencarian']=count($data['properti'])." Hunian disekitar $data_tempat->tag ".$tempat;
+        $kata="";
+        if ($data_tempat->tag=="kampus") {
+            $kata=$data_tempat->tag;
+        }
+        
+        $data['pencarian']=count($data['properti'])." Hunian disekitar $kata".$tempat;
         $data['title']="Hunian disekitar ";
         // print_r();
 
@@ -102,7 +107,7 @@ class Property extends Controller
                 * SIN(RADIANS(".$r->lat.")), 1.0))) AS distance"));
 
         if (empty($r->radius)) {
-            $properti=$properti->having("distance","<","30");
+            $properti=$properti->having("distance","<","10");
         }elseif(!empty($r->radius)){
             $properti=$properti->having("distance","<",$r->radius);
         }if (!empty($r->status)) {
@@ -112,6 +117,7 @@ class Property extends Controller
         }if ($r->jarak=="show") {
             $data['jarak']="show";
         }
+        $data['jarak']="show";
         if($r->durasi!=""){
             $data["rangeharga"]="Harga mulai dari ".$r->vmin." hingga ".$r->vmax."";
             $min=str_replace(".","",$r->vmin);
@@ -121,9 +127,11 @@ class Property extends Controller
             preg_match_all('!\d+!', $max, $vmax);
             
             $properti=$properti->where("sewa.durasi",$r->durasi)->whereRaw("digits(sewa.harga) >= ".implode(" ",$vmin[0])."")->whereRaw("digits(sewa.harga) <=".implode(" ",$vmax[0])."");
+            print_r($min);
         }else{
             $data["rangeharga"]="";
         }
+       
         if(!empty($r->order)){
             switch($r->order){
                 case 'distance':$properti=$properti->orderBy("distance","ASC");
@@ -142,8 +150,10 @@ class Property extends Controller
         $data['kategori']=$this->kategori;
         $data['sewa']=DB::table('sewa')->get();
         $shortlokasi=explode(",", $r->lokasi);
-        $data['pencarian']=count($data['properti'])." ".$kategori." di ".$shortlokasi[0].",".$shortlokasi[1];
+        $data['pencarian']=count($data['properti'])." ".$kategori." di sekitar".$shortlokasi[0].",".$shortlokasi[1];
+       
         //tampilkan view
+        
         return view("customer.find",$data);
     }
     public function api_detailproperti(Request $r)
@@ -167,9 +177,9 @@ class Property extends Controller
     }
     public function detail($id)
     {
-        $data['properti']=DB::table('properti')->leftJoin('region','region.id',"=","properti.region")->where('properti.id_properti',$id)->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->where('properti_img.tipe',"img")->first();
+        $data['properti']=DB::table('properti')->select("properti.*","properti_img.link")->leftJoin('region','region.id',"=","properti.region")->where('properti.id_properti',$id)->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->where('properti_img.tipe',"img")->first();
         $data['fitur']=DB::table('properti_fitur')->join("fitur","fitur.id_fitur","=","properti_fitur.id_fitur")->where('id_properti',$id)->get();
-        $data['img']=DB::table('properti_img')->where('id_properti',$id)->where("tipe","img")->get();
+        $data['imgs']=DB::table('properti_img')->where('id_properti',$id)->where("tipe","img")->get();
         $data['harga']=DB::table('sewa')->where('id_property',$id)->get();
         $data['vendor']=DB::table('users')->where("tipeakun","vendor")->where("id",$data['properti']->id_user)->first();
         $data['video']=DB::table('properti_img')->where('id_properti',$id)->where('tipe','video')->get();
@@ -177,7 +187,14 @@ class Property extends Controller
         $data['search']="false";
         $data['message']=Session::get('message');
         $data['status']=Session::get('status');
-        // print_r(Auth::check());
+        if (Auth::check()) {
+            $data['cek_love']=DB::table('rekam_jejak')->where("id_user",auth()->user()->id)->where("id_iklan",$id)->where("aksi",'simpan')->get();
+        } else {
+            $data['cek_love']=DB::table('rekam_jejak')->where("id_user","nothing")->where("id_iklan",$id)->where("aksi",'simpan')->get();
+        }
+        
+        
+        // print_r($data['properti']);
         return view('customer.detailproperti',$data);
     }
 

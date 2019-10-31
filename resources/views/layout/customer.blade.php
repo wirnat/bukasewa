@@ -17,7 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="@yield('meta-desk')">
     <meta property="og:image" content="@yield('meta-img')">
-    <meta name="google-signin-client_id" content="907694286167-r57r7dthjmg0o7c0eiebsv4u65tavo98.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="236981898188-rmgcsdejgctvj810slh76eptqtv564i4.apps.googleusercontent.com">
     <meta charset="utf-8">
     {{-- api gmap --}}
     <!-- External CSS libraries -->
@@ -59,6 +59,12 @@
     <![endif]-->
     {{-- swal 2 size --}}
     <style>
+        .modal{
+            z-index: 12000;   
+        }
+        .modal-backdrop{
+            z-index: 10;        
+        }
         .swal2-popup {
             font-size: 1.6rem !important;
         }
@@ -80,7 +86,6 @@
         }
         .open>.dropdown-menu {
             display: block;
-            z-index: 10000;
         }
         .img-circle{
             z-index: 5;
@@ -147,13 +152,13 @@
 <header class="top-header" id="top">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="list-inline pull-left">
-            <a href=""><i class="fa fa-phone hidden-xs"></i>08987139216</a>
+            <a class=" hidden-xs" href=""><i class="fa fa-phone"></i>08987139216</a>
             <a href="tel:info@bukasewa.com"><i class="fa fa-envelope"></i>info@bukasewa.com</a>
         </div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <ul class="top-social-media pull-right">
                 @if (Auth::check())
                     <li>
@@ -170,9 +175,11 @@
                                     <a class="sign-in dropdown-toggle" data-toggle="dropdown">
                                       {{auth()->user()->name}} <i class="fa fa-angle-down"></i>
                                     </a>
-                                    <div style="text-align: center;background-color: #aaaaaa;transform: translate3d(-60px, 0px, 16px);" class="dropdown-menu drop-card">
+                                    <div style="z-index:99999;text-align: center;background-color: #aaaaaa;transform: translate3d(-60px, 0px, 16px);" class="dropdown-menu drop-card">
                                         <img class="img-circle" src="{{$photo}}">
                                         <p class="dropcard"><i class="fa fa-{{auth()->user()->provider}}"></i> {{auth()->user()->name}} - {{auth()->user()->email}}</p>
+                                        
+                                        
                                         <button id="logout" class="btn btn-flat" href="{{ route('logout') }}"
                                             onclick="signOut();">
                                             <i class="fa fa-sign-out"></i> Logout
@@ -221,14 +228,19 @@
                             Lokasi  <span class="caret"></span>
                         </a>
                         <ul  class="dropdown-menu mega-dropdown-menu row">
+                            <li style="text-align: center;margin-bottom:10px" class="col-lg-12 col-xs-12 col-sm-12">
+                                <select id="region" onchange="reshownav()" class="nav-region">
+                                </select>
+                            </li>
                             <li class="col-lg-6 col-xs-6 col-sm-6">
                                 <ul id="listkampus">
-                                    <li class="dropdown-header">Dekat kampus</li>
+                                    <li class="dropdown-header">Dekat kampus 
+                                    </li>
                                 </ul>
                             </li>
                             <li class="col-lg-6 col-xs-6 col-sm-6">
                                 <ul id="listwisata">
-                                    <li class="dropdown-header">Paling dicari</li>
+                                    <li style="text-align:right" class="dropdown-header"><span>Paling dicari</span></li>
                                 </ul>
                             </li>
                         </ul>
@@ -326,119 +338,119 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    
 </div>
     <!-- Banner end -->
 @endif
 
-
-<!-- Banner end -->
-
 <!-- Search area start -->
 @if (empty($search))
-    <div class="search-area">
-        <div class="container">
-            <div class="search-area-inner">
-                <div class="search-contents ">
-                    <form method="get" action="/find/">
-                        <input type="hidden" name="lat" id="lat">
-                        <input type="hidden" name="lng" id="lng">
+<div class="search-area">
+    <div class="container">
+        <div class="search-area-inner">
+            <div class="search-contents ">
+                <form method="get" action="/find/">
+                    <input type="hidden" name="lat" id="lat">
+                    <input type="hidden" name="lng" id="lng">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <input required id="searchlokasi" class="form-control search-fields" name="lokasi"  placeholder="Masukkan lokasi hunian, misal : Jl. kenyeri">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                            <div class="form-group">
+                                <select required class="selectpicker search-fields" name="kategori">
+                                    @foreach ($kategori as $kat)
+                                        <option value="{{$kat->id}}">{{$kat->kategori}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
+                            <div class="form-group">
+                                <button class="search-button" id="cari"><i class="fa fa-search"></i> Cari</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <a class="show-more-options" data-toggle="collapse" data-target="#options-content">
+                            <i class="fa fa-plus-circle"></i> Pilihan lainnya
+                        </a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <a style="" class="show-more-options pull-right" data-toggle="collapse" data-target="#options-price">
+                            <i class="fa fa-plus-circle"></i> Tentukan harga
+                        </a>
+                        </div>
+                    </div>
+                    <div  id="options-content" class="collapse">
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <input required id="searchlokasi" class="form-control search-fields" name="lokasi"  placeholder="Cari Lokasi Hunian">
+                                    <select required class="selectpicker search-fields" type="number" name="radius" >
+                                        <option value="10">Dalam radius 10 km</option>
+                                        <option value="10">20 km</option>
+                                        <option value="100"> 100 km</option>
+                                        <option value="50">50 km</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <select required class="selectpicker search-fields" name="kategori">
-                                        @foreach ($kategori as $kat)
-                                            <option value="{{$kat->id}}">{{$kat->kategori}}</option>
-                                        @endforeach
+                                    <select class="selectpicker search-fields" name="toilet">
+                                        <option value="dalam">Toilet</option>
+                                        <option value="dalam">Dalam</option>
+                                        <option value="luar">Luar</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 ">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                                 <div class="form-group">
-                                    <button class="search-button" id="cari"><i class="fa fa-search"></i> Cari</button>
+                                    <select class="selectpicker search-fields" name="kamar" >
+                                        <option value="">Kamar</option>
+                                        <option value="1">>1</option>
+                                        <option value="4">>4</option>
+                                        <option value="8">>8</option>
+                                    </select>
                                 </div>
                             </div>
                             
                         </div>
+                    </div>
+                    <div class="collapse" id="options-price">
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <a class="show-more-options" data-toggle="collapse" data-target="#options-content">
-                                <i class="fa fa-plus-circle"></i> Pilihan lainnya
-                            </a>
+                            <div class="col-lg-7 col-xs-12">
+                                <div class="form-group">
+                                    <div class="range-slider">
+                                        <div onclick="require_durasi()" data-min="400000" data-max="100000000" data-unit="Rp." data-min-name="min_price" data-max-name="max_price" class="range-slider-ui ui-slider" aria-disabled="false"></div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <a style="" class="show-more-options pull-right" data-toggle="collapse" data-target="#options-price">
-                                <i class="fa fa-plus-circle"></i> Tentukan harga
-                            </a>
+                            <div class="col-lg-2 col-xs-12">
+                                <div class="form-group">
+                                <select id="durasi" name="durasi" class="selectpicker search-fields" name="area-from">   <option value="">Durasi</option>
+                                    <option value="bulan">/Bulan</option>
+                                    <option value="tahun">/Tahun</option>
+                                    <option value='hari'>/Hari</option>
+                                </select>
                             </div>
-                        </div>
-                        <div  id="options-content" class="collapse">
-                            <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                    <div class="form-group">
-                                        <select required class="selectpicker search-fields" type="number" name="radius" >
-                                            <option value="20">Dalam radius 20 km</option>
-                                            <option value="100"> 100 km</option>
-                                            <option value="50">50 km</option>
-                                            <option value="10">10 km</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                    <div class="form-group">
-                                        <select class="selectpicker search-fields" name="toilet">
-                                            <option value="dalam">Toilet</option>
-                                            <option value="dalam">Dalam</option>
-                                            <option value="luar">Luar</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                                    <div class="form-group">
-                                        <select class="selectpicker search-fields" name="kamar" >
-                                            <option value="">Kamar Tidur</option>
-                                            <option value="1">>1</option>
-                                            <option value="4">>4</option>
-                                            <option value="8">>8</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
                             </div>
                         </div>
-                        <div class="collapse" id="options-price">
-                            <div class="row">
-                                <div class="col-lg-7 col-xs-12">
-                                    <div class="form-group">
-                                        <div class="range-slider">
-                                            <div data-min="400000" data-max="100000000" data-unit="Rp." data-min-name="min_price" data-max-name="max_price" class="range-slider-ui ui-slider" aria-disabled="false"></div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-xs-12">
-                                    <div class="form-group">
-                                    <select name="durasi" class="selectpicker search-fields" name="area-from">   <option value="">Durasi</option>
-                                        <option value="bulan">/Bulan</option>
-                                        <option value="tahun">/Tahun</option>
-                                        <option value='hari'>/Hari</option>
-                                    </select>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 @else
-    
+
 @endif
+<!-- Banner end -->
+
 
 <!-- Search area start -->
 
@@ -574,7 +586,7 @@
                 </div>
                 <div class="modal-body">
                     <center>
-                    <a href="/login/facebook"><button class="btn button-md button-fb"><i class="fa fa-facebook-square"></i> Masuk</button></a>  
+                    <a style="    box-shadow: 0 2px 4px 0 rgba(0,0,0,.25);" href="/login/facebook"><button class="btn button-md button-fb"><i class="fa fa-facebook-square"></i> Masuk</button></a>  
                     <div class="space-hr">
                         <span class="space-text">
                             atau <!--Padding is optional-->
@@ -582,6 +594,11 @@
                     </div>
                     <div style="margin-top:15px" class="g-signin2" data-onsuccess="onSignIn">Masuk dengan</div>    
                 </center>
+                </div>
+                <div class="modal-footer">
+                    <center>
+                    <small>NB: Login diperlukan untuk integritas sistem, kami tidak akan menyalahgunakan data pribadi milik anda</small>
+                    </center>
                 </div>
             </div>
         </div>
@@ -673,36 +690,73 @@
 			rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
 			return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 		}
+
+        var select_region="1";
         function shownav() {
             if (show=="true") {
                 
             } else {
+                //load region
                 $.ajax({
                     type: "post",
-                    url: "/get/detail/region/all",
-                    data: {
+                    url: "/get/region",
+                    data:{
                         _token:"{{csrf_token()}}"
                     },
-                    dataType: "json",
+                    dataType: "JSON",
                     success: function (response) {
-                        $.each(response, function (index, tempat) { 
-                             switch (tempat.tag) {
-                                 case 'rated':
-                                    $("#listwisata").append('<li><a href="/hunian-murah-disekitar/'+tempat.nama+'">'+tempat.nama+'</a></li>');
-                                     break;
-                                case 'kampus':
-                                    $("#listkampus").append('<li><a href="/hunian-murah-disekitar/'+tempat.nama+'">'+tempat.nama+'</a></li>');
-                                     break; 
-                                 default:
-                                     break;
-                             }
+                        $.each(response, function (i, res) {
+                            var option="<option id='"+res.id+"' value='"+res.id+"'>"+res.provinsi+"</option>" 
+                            $("select#region").append(option);
+                            console.log("option")
                         });
                     }
                 });
+
+                load_tempat(select_region);
+                
                 show="true";
             }
             
         }
+
+        //reshow region
+        function reshownav() {
+            var prov=$("select#region").val();
+            show="false";
+            $(".removeable").remove();
+            load_tempat(prov)
+        }
+
+        //load tempat berdasarkan region
+        function load_tempat(prov) {
+            //load tempat 
+            console.log("prov:"+prov)
+            $.ajax({
+                type: "post",
+                url: "/get/detail/region",
+                data: {
+                    _token:"{{csrf_token()}}",
+                    prov: prov
+                },
+                dataType: "json",
+                success: function (response) {
+                    $.each(response, function (index, tempat) { 
+                            switch (tempat.tag) {
+                                case 'rated':
+                                $("#listwisata").append('<li class="removeable"><a href="/hunian-murah-disekitar/'+tempat.nama+'">'+tempat.nama+'</a></li>');
+                                    break;
+                            case 'kampus':
+                                $("#listkampus").append('<li class="removeable"><a href="/hunian-murah-disekitar/'+tempat.nama+'">'+tempat.nama+'</a></li>');
+                                    break; 
+                                default:
+                                    break;
+                            }
+                    });
+                }
+            });
+        }
+
         //logout google 
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
@@ -711,6 +765,11 @@
             event.preventDefault();
             document.getElementById('logout-form').submit();
             });
+        }
+
+        //require durasi
+        function require_durasi() {
+            $("#durasi").prop('required',true);
         }
 
         //log to

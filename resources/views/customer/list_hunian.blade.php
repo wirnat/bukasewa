@@ -62,7 +62,7 @@
                                         @endif
                                         <div class="property-tag button sale"> {{$p->kat}}</div>
                                         <div class="property-price">{{$p->harga}}</div>
-                                        <img style="object-fit: cover;width: 360px;height: 270px" src="/{{$p->link}}" alt="fp" class="img-responsive">
+                                        <img style="object-fit: cover;width: 360px;height: 270px" src="/{{$p->link}}" alt="Gambar {{$p->properti}}" class="img-responsive">
                                         <div class="property-overlay">
                                             <a onclick="showmap('{{$p->properti}}','{{$p->alamat}}',{{$p->lat}},{{$p->lng}})" href="#showmap" class="overlay-link">
                                                 <i style="padding-top: 30%;" class="fa fa-map-o"></i>

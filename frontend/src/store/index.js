@@ -5,10 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    dialog: false
   },
   mutations: {
+    aksidialog(state){
+      state.dialog="true"
+    }
   },
   actions: {
+
   },
   modules: {
   }

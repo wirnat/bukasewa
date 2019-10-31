@@ -3,9 +3,16 @@
 @section('meta-desk',substr($properti->alamat, 0, 70) . '...')
 @section('meta-img',$properti->link)
 @section('header')
+	<link rel="stylesheet" href="/expan_gallery/css/style.css"> <!-- Resource style -->
+    <script src="js/modernizr.js"></script> <!-- Modernizr -->
+    <style>
+        .cd-img{
+        height: 400px;
+        object-fit: cover;
+        }
+    </style>
 @endsection
 @section('content')
-
     <div style="margin-top:50px;padding-right: 0px; 
     padding-left: 0px;" class="container">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -27,58 +34,70 @@
                 <!-- Properties details section start -->
                 <div class="Properties-details-section sidebar-widget">
                     <!-- Properties detail slider start -->
-                    <div class="properties-detail-slider simple-slider mb-40">
-                        <div id="carousel-custom" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-outer">
-                                <!-- Wrapper for slides -->
-                                <div class="carousel-inner">
-                                        <?php $i=0?>
-                                        @foreach ($img as $m)
-                                        <?php $i++?>
-                                            @if ($i==1)
-                                                <div class="item active ">
-                                                        <img src="/{{$m->link}}" class="thumb-preview"  alt="Chevrolet Impala">
-                                                </div> 
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="properties-detail-slider simple-slider mb-40">
+                                <section class="cd-single-item">
+                                    <div class="cd-slider-wrapper">
+                                        <ul class="cd-slider">
+                                            {{-- load image --}}
+                                            <?php $i=0; ?>
+                                            @foreach ($imgs as $img)
+                                            @if ($i==0)
+                                            <?php $i++ ?>
+                                            <li class="selected"><img class="cd-img" src="/{{$img->link}}" alt="Product Image 1"></li>             
                                             @else
-                                                <div class="item">
-                                                        <img src="/{{$m->link}}" class="thumb-preview"  alt="Chevrolet Impala">
-                                                </div> 
-                                            @endif                                                                              
-                                        @endforeach
-                                </div>
-                                {{-- <!-- Controls -->
-                                <a class="left carousel-control" href="#carousel-custom" role="button" data-slide="prev">
-                                    <span class="slider-mover-left no-bg t-slider-r pojison" aria-hidden="true">
-                                        <i class="fa fa-angle-left"></i>
-                                    </span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="right carousel-control" href="#carousel-custom" role="button" data-slide="next">
-                                    <span class="slider-mover-right no-bg t-slider-l pojison" aria-hidden="true">
-                                        <i class="fa fa-angle-right"></i>
-                                    </span>
-                                    <span class="sr-only">Next</span>
-                                </a> --}}
+                                            <li><img class="cd-img" src="/{{$img->link}}" alt="Product Image 2"></li>
+                                            @endif
+                                            @endforeach
+                                        </ul> <!-- cd-slider -->
+                            
+                                        <ul class="cd-slider-navigation">
+                                            <li><a href="#0" class="cd-prev inactive">Next</a></li>
+                                            <li><a href="#0" class="cd-next">Prev</a></li>
+                                        </ul> <!-- cd-slider-navigation -->
+                            
+                                        <a href="#0" class="cd-close">Close</a>
+                                    </div> <!-- cd-slider-wrapper -->
+                                </section> <!-- cd-single-item -->
                             </div>
-                            <!-- Indicators -->
-                            <ol class="carousel-indicators thumbs visible-lg visible-md">
-                                <?php $i=0?>
-                                @foreach ($img as $m)
-                                    @if ($i==0)
-                                        <div class="active item">
-                                            <li data-target="#carousel-custom" data-slide-to="{{$i}}" class="active"><img src="/{{$m->link}}" alt="Thumbnail gambar hunian"></li>
-                                        </div> 
+                            <!-- Properties detail slider end -->
+                        </div>
+                        <div class="col-lg-4">
+                            <div style="margin-bottom: 0px;" class="social-media sidebar-widget clearfix">
+                                <!-- Main Title 2 -->
+                                <div class="hidden-xs main-title-2">
+                                    <h1><span>Aksi</h1>
+                                </div>
+
+                                <?php
+                                    if ($properti->whatsapp[0]=="0") {
+                                        $kode="62";
+                                        $wa=$kode.substr($properti->whatsapp, 1);
+                                    }else{
+                                        $wa=$properti->whatsapp;
+                                    }
+                                ?>
+
+                                <!-- Social list -->
+                                <ul style="margin-left:25%" class="social-list">
+                                    <li><a href="#" class="twitter-bg"><i class="fa fa-share-alt"></i></a></li>
+                                    @if (Auth::check())
+                                        {{-- cek apa status favorit --}}
+                                        <li><a href="https://api.whatsapp.com/send?phone={{$wa}}&text=Halo%20kak%20,%20apakah%20masih%20tersedia%20huniannya?%0A%0Aaku%20mendapatkan%20informasi%20dari%20https://bukasewa.com/detail/properti/{{$properti->id_properti}}" class="linkedin-bg"><i class="fa fa-whatsapp"></i></a></li>
+                                        @if (count($cek_love)>0)
+                                            <li id="love"><a onclick="lovethis('{{$properti->id_properti}}','unlove')" class="loved"><i class="fa fa-heart"></i></a></li>
+                                        @else
+                                            <li id="love"><a onclick="lovethis('{{$properti->id_properti}}','simpan')" class="google-bg"><i class="fa fa-heart"></i></a></li>
+                                        @endif
                                     @else
-                                        <div class="item">
-                                            <li data-target="#carousel-custom" data-slide-to="{{$i}}"><img src="/{{$m->link}}" alt="Thumbnail gambar hunian"></li>
-                                        </div> 
+                                        <li><a class="google-bg sign"><i class="fa fa-heart"></i></a></li>
+                                        <li><a class="linkedin-bg sign"><i class="fa fa-whatsapp"></i></a></li>
                                     @endif
-                                    <?php $i++?>                                                                              
-                                @endforeach
-                            </ol>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <!-- Properties detail slider end -->
 
                     <!-- Property description start -->
                     <div class="panel-box properties-panel-box Property-description">
@@ -90,7 +109,7 @@
                                     <li class=""><a href="#tab3default" data-toggle="tab" aria-expanded="false">Fasilitas</a></li>
                                     <li class=""><a href="#tab4default" data-toggle="tab" aria-expanded="false">Ruangan</a></li>
                                     @if ($video->count()>0)
-                                    <li class=""><a href="#tab5default" data-toggle="tab" aria-expanded="false">Video</a></li>
+                                    <li><a href="#tab5default" data-toggle="tab" aria-expanded="false">Video</a></li>
                                     @endif
                                 </ul>
                                 <div class="panel with-nav-tabs panel-default">
@@ -275,22 +294,24 @@
                                                 @if (!Auth::check())
                                                     <div id="infohide">
                                                             <div class="icon"><i class="fa fa-phone"></i></div>
-                                                            <button id="sign" style="background-color: #d20023;border-color:#d20023;" class="btn btn-primary"><i class="fa fa-eye"></i> Hubungi Pemilik</button>
+                                                            <button class="btn sign button-sm" style="background: #c7c2c2;
+                                                            border: 2px solid #c7c2c2;color:white"><i class="fa fa-lock"></i> Chat Pemilik</button>
                                                     </div>
                                                 @else
                                                     <div id="infoshow">
                                                             <div class="icon"><i class="fa fa-phone"></i></div>
                                                             <h4>Phone</h4>
-                                                            <?php
-                                                                if ($properti->whatsapp[0]=="0") {
-                                                                   $kode="62";
-                                                                   $wa=$kode.substr($properti->whatsapp, 1);
-                                                                }else{
-                                                                    $wa=$properti->whatsapp;
-                                                                }
-                                                            ?>
                                                             
-                                                            <p><a href="https://api.whatsapp.com/send?phone={{$wa}}&text=Halo%20kak%20,%20apakah%20masih%20tersedia%20huniannya?%0A%0Aaku%20mendapatkan%20informasi%20dari%20https://bukasewa.com/detail/properti/{{$properti->id_properti}}">+{{$wa}}</a> </p>
+                                                            <p>
+                                                                <input id="copy_wa" value="{{$wa}}" type="hidden">
+                                                                <span title="copy ke clipboard"><span id="wa_vendor">{{"+".$wa}}</span> <a id="copy_number" onclick='copyToClipboard("#wa_vendor")' href="#copy"><span style="    bottom: 5px;
+                                                                position: relative;" class="fa fa-copy"></span></a>
+                                                                </span>
+                                                            </p>
+                                                            <hr>
+                                                            <center>
+                                                            <p><a class="btn button-sm button-theme" href="https://api.whatsapp.com/send?phone={{$wa}}&text=Halo%20kak%20,%20apakah%20masih%20tersedia%20huniannya?%0A%0Aaku%20mendapatkan%20informasi%20dari%20https://bukasewa.com/detail/properti/{{$properti->id_properti}}"><span style="font-size: 18px" class="fa fa-whatsapp"></span> Chat dengan pemilik</a> </p>
+                                                            </center>
                                                     </div>
                                                 @endif
                                             </div>
@@ -304,7 +325,7 @@
                 <!-- Properties details section end -->
 
                 <!-- Location start -->
-                <div class="location sidebar-widget">
+                <div id="componen-map" class="location sidebar-widget">
                     <div class="map">
                         <!-- Main Title 2 -->
                         <div class="main-title-2">
@@ -315,252 +336,164 @@
                     </div>
                 </div>
                 <!-- Location end -->
-
-                <!-- Properties details section start -->
-                {{-- <div class="Properties-details-section sidebar-widget">
-                    <!-- Properties comments start -->
-                    <div class="properties-comments mb-40">
-                        <!-- Comments section start -->
-                        <div class="comments-section">
-                            <!-- Main Title 2 -->
-                            <div class="main-title-2">
-                                <h1><span>Comments </span> Section</h1>
-                            </div>
-
-                            <ul class="comments">
-                                <li>
-                                    <div class="comment">
-                                        <div class="comment-author">
-                                            <a href="#">
-                                                <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
-                                            </a>
-                                        </div>
-                                        <div class="comment-content">
-                                            <div class="comment-meta">
-                                                <div class="comment-meta-author">
-                                                    Jane Doe
-                                                </div>
-                                                <div class="comment-meta-reply">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                                <div class="comment-meta-date">
-                                                    <span class="hidden-xs">8:42 PM 3/3/2017</span>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div class="comment-body">
-                                                <div class="comment-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui. Pellentesque sed ante sed ligula hendrerit condimentum. Suspendisse rhoncus fringilla ipsum quis porta.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <div class="comment">
-                                                <div class="comment-author">
-                                                    <a href="#">
-                                                        <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
-                                                    </a>
-                                                </div>
-
-                                                <div class="comment-content">
-                                                    <div class="comment-meta">
-                                                        <div class="comment-meta-author">
-                                                            Jane Doe
-                                                        </div>
-
-                                                        <div class="comment-meta-reply">
-                                                            <a href="#">Reply</a>
-                                                        </div>
-
-                                                        <div class="comment-meta-date">
-                                                            <span class="hidden-xs">8:42 PM 3/3/2017</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="comment-body">
-                                                        <div class="comment-rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half-o"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <div class="comment">
-                                        <div class="comment-author">
-                                            <a href="#">
-                                                <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
-                                            </a>
-                                        </div>
-                                        <div class="comment-content">
-                                            <div class="comment-meta">
-                                                <div class="comment-meta-author">
-                                                    Jane Doe
-                                                </div>
-                                                <div class="comment-meta-reply">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                                <div class="comment-meta-date">
-                                                    <span class="hidden-xs">8:42 PM 3/3/2017</span>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div class="comment-body">
-                                                <div class="comment-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <div class="comment comment-mrg-bdr-nane">
-                                                <div class="comment-author">
-                                                    <a href="#">
-                                                        <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
-                                                    </a>
-                                                </div>
-
-                                                <div class="comment-content">
-                                                    <div class="comment-meta">
-                                                        <div class="comment-meta-author">
-                                                            Jane Doe
-                                                        </div>
-
-                                                        <div class="comment-meta-reply">
-                                                            <a href="#">Reply</a>
-                                                        </div>
-
-                                                        <div class="comment-meta-date">
-                                                            <span class="hidden-xs">8:42 PM 3/3/2017</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="comment-body">
-                                                        <div class="comment-rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half-o"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Comments section end -->
-                    </div>
-                    <!-- Properties comments end -->
-
-                    <!-- Contact 1 start -->
-                    <div class="contact-1">
-                        <div class="contact-form">
-                            <!-- Main Title 2 -->
-                            <div class="main-title-2">
-                                <h1><span>Contact</span> with us</h1>
-                            </div>
-                            <form id="contact_form" action="https://storage.googleapis.com/themevessel-products/the-nest/index.html" method="GET" enctype="multipart/form-data">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group fullname">
-                                            <input type="text" name="full-name" class="input-text" placeholder="Full Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group enter-email">
-                                            <input type="email" name="email" class="input-text" placeholder="Enter email">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group subject">
-                                            <input type="text" name="subject" class="input-text" placeholder="Subject">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group number">
-                                            <input type="text" name="phone" class="input-text" placeholder="Phone Number">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="form-group message">
-                                            <textarea class="input-text" name="message" placeholder="Write message"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                        <div class="form-group send-btn mb-0">
-                                            <button type="submit" class="button-md button-theme">Send Message</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- Contact 1 end -->
-                </div> --}}
-                <!-- Properties details section end -->
             </div>
     </div>
 @endsection
 @section('footer')
 
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script>
-        $(document).ready(function () {
-             // The location
+<script src="/expan_gallery/js/main.js"></script> <!-- Resource jQuery -->
+<script>
+    var ceklat="{{$properti->lat}}";
+    $(document).ready(function () {
+
+            // The location
+        if (ceklat!="") {
             var lokasi = {lat: {{$properti->lat}}, lng: {{$properti->lng}} };
             // The map, centered at location
             var map = new google.maps.Map(
                 document.getElementById('mymap'), {zoom: 10, center: lokasi});
             // The marker, positioned at location
             var marker = new google.maps.Marker({position: lokasi, map: map});
-            //tombol tampilkan nomor
-            $("#sign").click(function (e) { 
-                // Swal.fire({
-                //     title: 'Silahkan masuk dulu',
-                //     type: 'info',
-                //     showCancelButton: false,
-                //     confirmButtonText: 'Login dengan Facebook'
-                //     }).then((result) => {
-                //     if (result.value) {
-                //         // $('#modalSign').modal('show');
-                //         window.location.href="/login/facebook/";
-                //     }
-                // })
-                $("#modalSign").modal("show");
-            });
+        } else {
+            $("#componen-map").remove();
+        }
+        
+        //tombol tampilkan nomor
+        $(".sign").click(function (e) { 
+            $("#modalSign").modal("show");
         });
+    });
 
-        //stop auto slider
-        $('.carousel').carousel({
-            interval: false,
+    //stop auto slider
+    $('.carousel').carousel({
+        interval: false,
+    })
+
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
         })
 
-        
-        
-    </script>
+        Toast.fire({
+        type: 'success',
+        title: 'Nomor disalin ke clipboard'
+        })
+    }
+
+    function lovethis(id_prop,status) {
+        console.log("love this")
+        if (status=="simpan") {
+            $.ajax({
+                type: "post",
+                url: "/api/rekam_jejak",
+                data: {
+                    id:id_prop,
+                    aksi:'simpan',
+                    _token:'{{csrf_token()}}'
+                },
+                dataType: "JSON",
+                success: function (response) {
+
+                    $("#love").remove();
+                    var html="<li id='love'><a onclick=lovethis('{{$properti->id_properti}}','unlove') class='loved'><i class='fa fa-heart'></i></a></li>";
+                    $(".social-list").append(html);
+
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                    })
+
+                    Toast.fire({
+                    type: 'success',
+                    title: response
+                    })
+
+                },error: function () {
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                    })
+
+                    Toast.fire({
+                    type: 'error',
+                    title: 'Wah, ada kesalahan, coba nanti ya'
+                    })
+                }
+            });
+        } else {
+            $.ajax({
+                type: "post",
+                url: "/api/delete/favorit",
+                data: {
+                    id:id_prop,
+                    _token:'{{csrf_token()}}'
+                },
+                dataType: "JSON",
+                success: function (response) {
+
+                    $("#love").remove();
+                    var html="<li id='love'><a onclick=lovethis('{{$properti->id_properti}}','simpan') class='google-bg'><i class='fa fa-heart'></i></a></li>";
+                    $(".social-list").append(html);
+
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                    })
+
+                    Toast.fire({
+                    type: 'success',
+                    title: response
+                    })
+                    
+                },error: function () {
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                    })
+
+                    Toast.fire({
+                    type: 'error',
+                    title: 'Wah, ada kesalahan, coba nanti ya'
+                    })
+                }
+            });
+        }
+    }
+    
+    
+</script>
 @endsection
