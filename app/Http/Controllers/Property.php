@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Users;
+use App\Testimonial;
+use App\Properti;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
@@ -167,8 +170,14 @@ class Property extends Controller
     }
     public function detail($id)
     {
-        $data['properti']=DB::table('properti')->leftJoin('region','region.id',"=","properti.region")->where('properti.id_properti',$id)->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")->where('properti_img.tipe',"img")->first();
-        $data['fitur']=DB::table('properti_fitur')->join("fitur","fitur.id_fitur","=","properti_fitur.id_fitur")->where('id_properti',$id)->get();
+        $data['properti']=DB::table('properti')->leftJoin('region','region.id',"=","properti.region")
+                                               ->where('properti.id_properti',$id)
+                                               ->leftJoin("properti_img","properti_img.id_properti","=","properti.id_properti")
+                                               ->where('properti_img.tipe',"img")->first();
+
+        $data['fitur']=DB::table('properti_fitur')->join("fitur","fitur.id_fitur","=","properti_fitur.id_fitur")
+                                                  ->where('id_properti',$id)->get();
+
         $data['img']=DB::table('properti_img')->where('id_properti',$id)->where("tipe","img")->get();
         $data['harga']=DB::table('sewa')->where('id_property',$id)->get();
         $data['vendor']=DB::table('users')->where("tipeakun","vendor")->where("id",$data['properti']->id_user)->first();
@@ -177,8 +186,59 @@ class Property extends Controller
         $data['search']="false";
         $data['message']=Session::get('message');
         $data['status']=Session::get('status');
-        // print_r(Auth::check());
+
+        $data['testimonials']=Testimonial::select(
+                                                'properti_testimonials.id as id', 
+                                                'properti_testimonials.id_properti as id_properti',
+                                                'properti_testimonials.comment as comment', 
+                                                'properti_testimonials.rate as rate',
+                                                'properti_testimonials.id_user as id_user',
+                                                'properti_testimonials.show as show',
+                                                'properti_testimonials.created_at as created_at',
+                                                'users.name as name',
+                                                'users.img as img'
+                                                )
+                                                ->leftJoin("properti","properti.id_properti","=","properti_testimonials.id_properti")
+                                                ->leftJoin("users","users.id","=","properti_testimonials.id_user")
+                                                ->where('properti_testimonials.id_properti',$id)->get();
+        
+        $data['total_rating']=Testimonial::where('properti_testimonials.id_properti',$id)->sum('rate');
+        $data['user_rating']=Testimonial::where('properti_testimonials.id_properti',$id)->count('id_user');
+        $data['average_rating']= $data['total_rating'] / $data['user_rating'];
+        
+        $user_id = array();
+        foreach ($data['testimonials'] as $row){
+            array_push($user_id, $row->id_user);
+        }
+        
+        $data['user_comment']=Users::select('name','img')->whereIn("id",$user_id)->get();
+        
+        $data['id'] = $id;
+
         return view('customer.detailproperti',$data);
+    }
+
+    public function store(Request $request)
+    {
+        $id_user = \Auth::user()->id;
+          
+        // check User comment
+        $user_id = Testimonial::where([['id_user','=',$id_user]])->count();
+        // dd($user_id);
+        if($user_id > 0){
+            return redirect()->back()->with('comment', 'Cannot Comment Again.');
+        }
+        
+        $comment = new Testimonial;
+        // $comment->id_properti       = "h5d9a372349a6c";
+        $comment->id_properti       = $request->id_properti;
+        $comment->comment           = $request->comment;
+        $comment->rate              = $request->star;
+        $comment->id_user           = $id_user;
+        $comment->show              = 1;
+        $comment->save();
+
+        return redirect()->back()->with('alert', 'Comment has been post.');
     }
 
     public function cariSekitar(Request $r)

@@ -6,6 +6,7 @@
 @endsection
 @section('content')
 
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <div style="margin-top:50px;padding-right: 0px; 
     padding-left: 0px;" class="container">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -22,6 +23,22 @@
                         <p>
                             <i class="fa fa-map-marker"></i>{{$properti->alamat}}
                         </p>
+                    </div>
+                    <div class="pull-right">
+                        <div class="comment-rating">
+                            @foreach(range(1,5) as $i)
+                                @if($average_rating >0)
+                                    @if($average_rating >0.5)
+                                        <i class="fa fa-star"></i>
+                                    @else
+                                        <i class="fa fa-star-half-o"></i>
+                                    @endif
+                                @else
+                                    <i class="fa fa-star-o"></i>
+                                @endif
+                            <?php $average_rating--; ?>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <!-- Properties details section start -->
@@ -317,7 +334,7 @@
                 <!-- Location end -->
 
                 <!-- Properties details section start -->
-                {{-- <div class="Properties-details-section sidebar-widget">
+                <div class="Properties-details-section sidebar-widget">
                     <!-- Properties comments start -->
                     <div class="properties-comments mb-40">
                         <!-- Comments section start -->
@@ -329,147 +346,50 @@
 
                             <ul class="comments">
                                 <li>
+                                    @foreach ($testimonials as $testi)
                                     <div class="comment">
-                                        <div class="comment-author">
-                                            <a href="#">
-                                                <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
-                                            </a>
-                                        </div>
-                                        <div class="comment-content">
-                                            <div class="comment-meta">
-                                                <div class="comment-meta-author">
-                                                    Jane Doe
-                                                </div>
-                                                <div class="comment-meta-reply">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                                <div class="comment-meta-date">
-                                                    <span class="hidden-xs">8:42 PM 3/3/2017</span>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div class="comment-body">
-                                                <div class="comment-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui. Pellentesque sed ante sed ligula hendrerit condimentum. Suspendisse rhoncus fringilla ipsum quis porta.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <div class="comment">
-                                                <div class="comment-author">
-                                                    <a href="#">
+                                            <div class="comment-author">
+                                                <a href="#">
+                                                    @if($testi->img='null')
                                                         <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
-                                                    </a>
-                                                </div>
-
-                                                <div class="comment-content">
-                                                    <div class="comment-meta">
-                                                        <div class="comment-meta-author">
-                                                            Jane Doe
-                                                        </div>
-
-                                                        <div class="comment-meta-reply">
-                                                            <a href="#">Reply</a>
-                                                        </div>
-
-                                                        <div class="comment-meta-date">
-                                                            <span class="hidden-xs">8:42 PM 3/3/2017</span>
-                                                        </div>
+                                                    @else
+                                                        <img src="{{$testi->img}}" alt="avatar-5">
+                                                    @endif
+                                                </a>
+                                            </div>
+                                            <div class="comment-content">
+                                                <div class="comment-meta">
+                                                    <div class="comment-meta-author">
+                                                        {{$testi->name}}
                                                     </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="comment-body">
-                                                        <div class="comment-rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half-o"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui.</p>
+                                                    {{-- <div class="comment-meta-reply">
+                                                        <a href="#">Reply</a>
+                                                    </div> --}}
+                                                    <div class="comment-meta-date">
+                                                        <span class="hidden-xs">{{$testi->created_at}}</span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <div class="comment">
-                                        <div class="comment-author">
-                                            <a href="#">
-                                                <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
-                                            </a>
-                                        </div>
-                                        <div class="comment-content">
-                                            <div class="comment-meta">
-                                                <div class="comment-meta-author">
-                                                    Jane Doe
+                                                <div class="clearfix"></div>
+                                                <div class="comment-body">
+                                                    <div class="comment-rating">
+                                                        @foreach(range(1,5) as $i)
+                                                            @if($testi->rate >0)
+                                                                @if($testi->rate >0.5)
+                                                                    <i class="fa fa-star"></i>
+                                                                @else
+                                                                    <i class="fa fa-star-half-o"></i>
+                                                                @endif
+                                                            @else
+                                                                <i class="fa fa-star-o"></i>
+                                                            @endif
+                                                        <?php $testi->rate--; ?>
+                                                        @endforeach
+                                                    </div>
+                                                    <p>{{$testi->comment}}</p>
                                                 </div>
-                                                <div class="comment-meta-reply">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                                <div class="comment-meta-date">
-                                                    <span class="hidden-xs">8:42 PM 3/3/2017</span>
-                                                </div>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <div class="comment-body">
-                                                <div class="comment-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                                                </p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <div class="comment comment-mrg-bdr-nane">
-                                                <div class="comment-author">
-                                                    <a href="#">
-                                                        <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
-                                                    </a>
-                                                </div>
-
-                                                <div class="comment-content">
-                                                    <div class="comment-meta">
-                                                        <div class="comment-meta-author">
-                                                            Jane Doe
-                                                        </div>
-
-                                                        <div class="comment-meta-reply">
-                                                            <a href="#">Reply</a>
-                                                        </div>
-
-                                                        <div class="comment-meta-date">
-                                                            <span class="hidden-xs">8:42 PM 3/3/2017</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="comment-body">
-                                                        <div class="comment-rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half-o"></i>
-                                                            <i class="fa fa-star-o"></i>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec luctus tincidunt aliquam. Aliquam gravida massa at sem vulputate interdum et vel eros. Maecenas eros enim, tincidunt vel turpis vel, dapibus tempus nulla. Donec vel nulla dui.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                    @endforeach
                                 </li>
                             </ul>
                         </div>
@@ -482,38 +402,50 @@
                         <div class="contact-form">
                             <!-- Main Title 2 -->
                             <div class="main-title-2">
-                                <h1><span>Contact</span> with us</h1>
+                                <h1><span>Leave</span> A Reply</h1>
                             </div>
-                            <form id="contact_form" action="https://storage.googleapis.com/themevessel-products/the-nest/index.html" method="GET" enctype="multipart/form-data">
+                            @if (session('alert'))
+                                <div class="alert alert-success">
+                                    {{ session('alert') }}
+                                </div>
+                            @elseif (session('comment'))
+                                <div class="alert alert-danger">
+                                    {{ session('comment') }}
+                                </div>
+                            @endif
+                            {!! csrf_field() !!}
+                            <form action="/comment" method="POST" enctype="multipart/form-data">
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group fullname">
-                                            <input type="text" name="full-name" class="input-text" placeholder="Full Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group enter-email">
-                                            <input type="email" name="email" class="input-text" placeholder="Enter email">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group subject">
-                                            <input type="text" name="subject" class="input-text" placeholder="Subject">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group number">
-                                            <input type="text" name="phone" class="input-text" placeholder="Phone Number">
-                                        </div>
-                                    </div>
+                                    <input type="hidden" name="id_properti" value="{{$id}}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="form-group message">
-                                            <textarea class="input-text" name="message" placeholder="Write message"></textarea>
+                                            <textarea class="input-text" name="comment" placeholder="Write your comment here"></textarea>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <div class="main-title-2">
+                                                <h1><span>Give</span> Rating :</h1>
+                                            </div>
+                                        </div>
+                                            <div class="col-sm-10" style="text-align: left;">
+                                              <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                              <label class="star star-5" for="star-5"></label>
+                                              <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                              <label class="star star-4" for="star-4"></label>
+                                              <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                              <label class="star star-3" for="star-3"></label>
+                                              <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                              <label class="star star-2" for="star-2"></label>
+                                              <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                              <label class="star star-1" for="star-1"></label>
+                                             </div>
+                                          </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">&nbsp;</div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                         <div class="form-group send-btn mb-0">
-                                            <button type="submit" class="button-md button-theme">Send Message</button>
+                                            <button type="submit" class="button-md button-theme">Post Comment</button>
                                         </div>
                                     </div>
                                 </div>
@@ -521,7 +453,7 @@
                         </div>
                     </div>
                     <!-- Contact 1 end -->
-                </div> --}}
+                </div>
                 <!-- Properties details section end -->
             </div>
     </div>
