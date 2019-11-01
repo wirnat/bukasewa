@@ -152,13 +152,13 @@
 <header class="top-header" id="top">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="list-inline pull-left">
-            <a class=" hidden-xs" href=""><i class="fa fa-phone"></i>08987139216</a>
-            <a href="tel:info@bukasewa.com"><i class="fa fa-envelope"></i>info@bukasewa.com</a>
-        </div>
+            <div class="col-xs-4 col-sm-6 col-md-6 col-lg-6">
+                <div class="list-inline hidden-xs  pull-left">
+                    <a class=" hidden-xs" href=""><i class="fa fa-phone"></i>08987139216</a>
+                    <a href="tel:info@bukasewa.com"><i class="fa fa-envelope"></i>info@bukasewa.com</a>
+                </div>
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <ul class="top-social-media pull-right">
                 @if (Auth::check())
                     <li>
@@ -175,12 +175,12 @@
                                     <a class="sign-in dropdown-toggle" data-toggle="dropdown">
                                       {{auth()->user()->name}} <i class="fa fa-angle-down"></i>
                                     </a>
-                                    <div style="z-index:99999;text-align: center;background-color: #aaaaaa;transform: translate3d(-60px, 0px, 16px);" class="dropdown-menu drop-card">
+                                    <div style="z-index:99999;text-align: center;transform: translate3d(-60px, 0px, 16px);  background-color: rgba(0,0,0,0.1);                                    " class="dropdown-menu drop-card">
                                         <img class="img-circle" src="{{$photo}}">
-                                        <p class="dropcard"><i class="fa fa-{{auth()->user()->provider}}"></i> {{auth()->user()->name}} - {{auth()->user()->email}}</p>
+                                        <p style="background-color:#b7c0bd" class="dropcard"><i class="fa fa-{{auth()->user()->provider}}"></i> {{auth()->user()->name}} - {{auth()->user()->email}}</p>
                                         
-                                        
-                                        <button id="logout" class="btn btn-flat" href="{{ route('logout') }}"
+                                        <button class="btn button button-theme" id="fav"><i class="fa fa-heart"></i> Favoritku</button>
+                                        <button id="logout" class="btn button button-transparent" href="{{ route('logout') }}"
                                             onclick="signOut();">
                                             <i class="fa fa-sign-out"></i> Logout
                                         </button>
@@ -196,7 +196,7 @@
                             <a onclick="log_to()" class="sign-in"><i class="fa fa-sign-in"></i> Login</a>
                         </li>
                         <li>
-                            <a href="/register" class="sign-in"><i class="fa fa-user"></i> Daftar dan pasang hunianmu? (GRATIS)</a>
+                            <a href="/register" class="sign-in"><i class="fa fa-user"></i> Daftarkan iklan (GRATIS!)</a>
                         </li>
                 @endif
                 </ul>
@@ -250,12 +250,12 @@
                             List Hunian
                         </a>
                     </li>
-                    <li onclick="window.location.href='/hunian'">
+                    <li class="comingsoon">
                         <a  tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
                             Bandingkan
                         </a>
                     </li>
-                    <li onclick="window.location.href='/hunian'">
+                    <li class="comingsoon">
                         <a  tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
                             Promo
                         </a>
@@ -790,6 +790,12 @@
             }
             })
         }
+
+        $(".comingsoon").click(function (e) { 
+            e.preventDefault();
+            Swal.fire("Fitur ini akan datang sbentar lagi","SABAR YAA","info")
+        });
+
         //login google
         function onSignIn(googleUser) {
             var profile = googleUser.getBasicProfile();

@@ -1,5 +1,5 @@
 @extends('layout.customer')
-@section('title',"Bukasewa")
+@section('title',"Bukasewa-Penyewaan utama di Indonesia")
 @section('meta-desk','Temukan hunian dengan harga termurah, terpercaya, dan berkualitas hanya disini...')
 @section('meta-img','/img/metaimg2.jpg')
 @section('header')
@@ -64,7 +64,9 @@
 @endsection
 @section('content')
 
-
+<div class="hidden-lg hidden-md container">
+    <img class="banner-join" src="/img/ikutagent.jpg" alt="join us">
+</div>
 
 <!-- Categories strat -->
 <div id="div-tempat" style="margin-top: 50px;padding-bottom:20px" class="categories">
@@ -164,7 +166,6 @@
 <!-- Counters strat -->
 <div class="counters overview-bgi">
     <div class="container">
-
         <div class="row">
             <div class="col-md-4 col-sm-4 bordered-right">
                 <div class="counter-box">
@@ -440,6 +441,30 @@
     </div>
 </div>
 
+{{-- map Modal --}}
+
+<div class="modal property-modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nama-prop">
+                </h5>
+                <p id="lokasi-prop">
+                </p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="display:block" class="row modal-raw">
+                    <div id="prop-map" style="height:400px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="/nest/js/maps.js"></script>
 
     <script>
@@ -669,7 +694,7 @@
                         html+='<div class="price-ratings"><div class="price">'+response[index].harga+'</div></div>';
                         html+='<img style="object-fit:cover;width: 360px;height: 270px;" src="/'+response[index].link+'" alt="Image Rekomen" class="img-responsive">';
                         html+='<div class="property-overlay">';
-                        html+='<a href="/detail/properti/'+response[index].id_properti+'" class="overlay-link"><i class="fa fa-link"></i></a>';
+                        html+='<a onclick="showmap(`'+response[index].properti+'`,`'+response[index].alamat+'`,'+response[index].lat+','+response[index].lng+')" class="overlay-link"><i class="fa fa-map"></i></a>';
                         html+='<a onclick=loadmodal("'+response[index].id_properti+'") class="overlay-link property-video" title="Look detail"><i class="fa fa-eye"></i></a>';
                         html+='<div class="property-magnify-gallery">';
                         html+='<a href="/'+response[index].link+'" class="overlay-link"><i class="fa fa-expand"></i></a>';
@@ -730,6 +755,31 @@
             //modal
             
         });
+
+        function showmap(nama,lokasi,lat,lng) {
+            $("#nama-prop").text(nama);
+            $("#lokasi-prop").text(lokasi);
+            $("#mapModal").modal("show");
+            pos={
+                lat:lat,
+                lng:lng
+            }
+            console.log(pos)
+        }
+
+        $("#mapModal").on("shown.bs.modal", function () {
+            map = new google.maps.Map(document.getElementById('prop-map'), {zoom: 14, center: pos});
+            $("#mapModal").css("width", "100%");
+            google.maps.event.trigger(map, "resize");
+            var marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: 'Lokasi hunian'
+            });
+            map.setCenter({pos});
+        });
+
+
         function loadmodal(id) {
             $(".new").remove();
             $('#propertyModal').modal('show');

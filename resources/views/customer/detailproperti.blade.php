@@ -35,9 +35,9 @@
                 <div class="Properties-details-section sidebar-widget">
                     <!-- Properties detail slider start -->
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div id="zoom_area" class="col-lg-8">
                             <div class="properties-detail-slider simple-slider mb-40">
-                                <section class="cd-single-item">
+                                <section onclick="zoom()" class="cd-single-item">
                                     <div class="cd-slider-wrapper">
                                         <ul class="cd-slider">
                                             {{-- load image --}}
@@ -81,7 +81,7 @@
 
                                 <!-- Social list -->
                                 <ul style="margin-left:25%" class="social-list">
-                                    <li><a href="#" class="twitter-bg"><i class="fa fa-share-alt"></i></a></li>
+                                    <li><a data-toggle="modal" data-target="#modalshare" href="#" class="twitter-bg"><i class="fa fa-share-alt"></i></a></li>
                                     @if (Auth::check())
                                         {{-- cek apa status favorit --}}
                                         <li><a href="https://api.whatsapp.com/send?phone={{$wa}}&text=Halo%20kak%20,%20apakah%20masih%20tersedia%20huniannya?%0A%0Aaku%20mendapatkan%20informasi%20dari%20https://bukasewa.com/detail/properti/{{$properti->id_properti}}" class="linkedin-bg"><i class="fa fa-whatsapp"></i></a></li>
@@ -98,7 +98,21 @@
                             </div>
                         </div>
                     </div>
+{{-- <!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
+<!-- Your share button code -->
+<div class="fb-share-button" 
+  data-href="http://localhost/" 
+  data-layout="button_count">
+</div> --}}
                     <!-- Property description start -->
                     <div class="panel-box properties-panel-box Property-description">
                         <div class="row">
@@ -342,8 +356,8 @@
 @section('footer')
 
 <!-- Modal -->
-<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="modalshare" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"></h5>
@@ -352,7 +366,22 @@
                     </button>
             </div>
             <div class="modal-body">
-                
+                <center>
+                    <div class="social-media sidebar-widget align-items-center justify-content-center clearfix">
+                            <!-- Main Title 2 -->
+                            <div class="main-title-2">
+                                <h1><span>Share</span> ke </h1>
+                            </div>
+                            <!-- Social list -->
+                            <div>
+                                <ul style="padding:auto" class="social-list">
+                                    <li><a href="#" class="facebook-bg"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#" class="linkedin-bg"><i class="fa fa-whatsapp"></i></a></li>
+                                    <li><a href="#" class="instagram-bg"><i class="fa fa-instagram"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                </center>
             </div>
         </div>
     </div>
@@ -385,6 +414,16 @@
     $('.carousel').carousel({
         interval: false,
     })
+
+
+    function zoom() {
+        $("#zoom_area").removeClass("col-lg-8");
+        $("#zoom_area").addClass("col-lg-12 col-md-12");
+    }
+    
+    $(".cd-close").click(function (e) { 
+        $("#zoom_area").removeClass("col-lg-12");
+    });
 
     function copyToClipboard(element) {
         var $temp = $("<input>");

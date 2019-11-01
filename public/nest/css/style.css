@@ -3373,6 +3373,10 @@ strong {
     color: #ff5159;
 }
 
+.facebook-bg{
+    color: #ff5159;
+}
+
 .linkedin-bg:hover {
     background: #1bdd45;
 }
@@ -3381,9 +3385,15 @@ strong {
     background: #dc4e41;
 }
 
+.instagram-bg:hover{
+    background: #e6da32;
+}
+.instagram-bg {
+    color: #dc4e41;
+}
+
 .google-bg {
     color: #dc4e41;
-    
 }
 
 

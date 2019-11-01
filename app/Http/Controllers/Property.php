@@ -127,7 +127,7 @@ class Property extends Controller
             preg_match_all('!\d+!', $max, $vmax);
             
             $properti=$properti->where("sewa.durasi",$r->durasi)->whereRaw("digits(sewa.harga) >= ".implode(" ",$vmin[0])."")->whereRaw("digits(sewa.harga) <=".implode(" ",$vmax[0])."");
-            print_r($min);
+            // print_r($min);
         }else{
             $data["rangeharga"]="";
         }

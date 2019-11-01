@@ -40,6 +40,11 @@
                 <td><a href="/vendor/iklan/edit/{{$p->id_properti}}" class="fa fa-pencil"> Edit</a> </td>
             </tr> 
             @endforeach
+            @if ($properti->count()<1)
+                <tr>
+                    <td class="text-center" colspan="6"><a href="/vendor/iklan/tambah"><button class="btn btn-social">Kamu belum punya iklan, tambah iklan sekarang ? <i class="fa fa-plus"></i></button></a></td>
+                </tr>
+            @endif
           </tbody></table>
         </div>
         <!-- /.box-body -->

@@ -218,25 +218,25 @@
 {{-- map Modal --}}
 
 <div class="modal property-modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="carModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="nama-prop">
-                    </h5>
-                    <p id="lokasi-prop">
-                    </p>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div style="display:block" class="row modal-raw">
-                        <div id="prop-map" style="height:400px"></div>
-                    </div>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nama-prop">
+                </h5>
+                <p id="lokasi-prop">
+                </p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="display:block" class="row modal-raw">
+                    <div id="prop-map" style="height:400px"></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 <script>
 
