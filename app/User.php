@@ -13,9 +13,9 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array
-     */
+     */ 
     protected $fillable = [
-        'name', 'email', 'password','alamat','tipeakun','img','provider','id_provider'
+        'id','name', 'email', 'password','alamat','tipeakun','img','provider','id_provider'
     ];
 
     /**
@@ -26,4 +26,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function testimonial()
+    {
+      return $this->hasMany('App\Testimonial', 'id_user','id');
+    }
 }

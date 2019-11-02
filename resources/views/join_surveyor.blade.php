@@ -62,7 +62,7 @@
                                 </span>
                                 </div>
                             </div>
-                            <input style="display:none" id="photo_ktp" type="file" name="photo_ktp">
+                            <input style="display:none" id="photo_ktp" type="file" name="photo_ktpz">
                             <button type="submit" class="btn button button-theme"><i class="fa fa-archive"></i> Daftar Sekarang!</button>
                         </div>
                     </form>

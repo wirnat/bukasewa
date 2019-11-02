@@ -13,6 +13,11 @@
     </style>
 @endsection
 @section('content')
+<<<<<<< HEAD
+=======
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+>>>>>>> 51cd479ee3e3f3f7ecb4307c34ca42d0aea9f893
     <div style="margin-top:50px;padding-right: 0px; 
     padding-left: 0px;" class="container">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -29,6 +34,22 @@
                         <p>
                             <i class="fa fa-map-marker"></i>{{$properti->alamat}}
                         </p>
+                    </div>
+                    <div class="pull-right">
+                        <div class="comment-rating">
+                            @foreach(range(1,5) as $i)
+                                @if($average_rating >0)
+                                    @if($average_rating >0.5)
+                                        <i class="fa fa-star"></i>
+                                    @else
+                                        <i class="fa fa-star-half-o"></i>
+                                    @endif
+                                @else
+                                    <i class="fa fa-star-o"></i>
+                                @endif
+                            <?php $average_rating--; ?>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <!-- Properties details section start -->
@@ -343,7 +364,7 @@
                     <div class="map">
                         <!-- Main Title 2 -->
                         <div class="main-title-2">
-                            <h1><span>Location</span></h1>
+                            <h1><span>Lokasi</span></h1>
                         </div>
                         <div style="width:100%;height:300px" id="mymap">
                         </div>
@@ -355,6 +376,7 @@
 @endsection
 @section('footer')
 
+<<<<<<< HEAD
 <!-- Modal -->
 <div class="modal fade" id="modalshare" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
@@ -382,6 +404,130 @@
                             </div>
                         </div>
                 </center>
+=======
+                <!-- Properties details section start -->
+                <div class="Properties-details-section sidebar-widget">
+                    <!-- Properties comments start -->
+                    <div class="properties-comments mb-40">
+                        <!-- Comments section start -->
+                        <div class="comments-section">
+                            <!-- Main Title 2 -->
+                            <div class="main-title-2">
+                                <h1><span>Bagian </span> Ulasan</h1>
+                            </div>
+
+                            <ul class="comments">
+                                <li>
+                                    @foreach ($testimonials as $testi)
+                                    <div class="comment">
+                                            <div class="comment-author">
+                                                <a href="#">
+                                                    @if($testi->img='null')
+                                                        <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
+                                                    @else
+                                                        <img src="{{$testi->img}}" alt="avatar-5">
+                                                    @endif
+                                                </a>
+                                            </div>
+                                            <div class="comment-content">
+                                                <div class="comment-meta">
+                                                    <div class="comment-meta-author">
+                                                        {{$testi->name}}
+                                                    </div>
+                                                    {{-- <div class="comment-meta-reply">
+                                                        <a href="#">Reply</a>
+                                                    </div> --}}
+                                                    <div class="comment-meta-date">
+                                                        <span class="hidden-xs">{{$testi->created_at}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="comment-body">
+                                                    <div class="comment-rating">
+                                                        @foreach(range(1,5) as $i)
+                                                            @if($testi->rate >0)
+                                                                @if($testi->rate >0.5)
+                                                                    <i class="fa fa-star"></i>
+                                                                @else
+                                                                    <i class="fa fa-star-half-o"></i>
+                                                                @endif
+                                                            @else
+                                                                <i class="fa fa-star-o"></i>
+                                                            @endif
+                                                        <?php $testi->rate--; ?>
+                                                        @endforeach
+                                                    </div>
+                                                    <p>{{$testi->comment}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Comments section end -->
+                    </div>
+                    <!-- Properties comments end -->
+
+                    <!-- Contact 1 start -->
+                    <div class="contact-1">
+                        <div class="contact-form">
+                            <!-- Main Title 2 -->
+                            <div class="main-title-2">
+                                <h1><span>Tinggalkan</span> Ulasan</h1>
+                            </div>
+                            @if (session('alert'))
+                                <div class="alert alert-success">
+                                    {{ session('alert') }}
+                                </div>
+                            @elseif (session('comment'))
+                                <div class="alert alert-danger">
+                                    {{ session('comment') }}
+                                </div>
+                            @endif
+                            {!! csrf_field() !!}
+                            <form action="/comment" method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                    <input type="hidden" name="id_properti" value="{{$id}}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group message">
+                                            <textarea class="input-text" name="comment" placeholder="Tuliskan ulasanmu disini"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <div class="main-title-2">
+                                                <h1><span>Berikan</span> Rating :</h1>
+                                            </div>
+                                        </div>
+                                            <div class="col-sm-9" style="text-align: left;">
+                                              <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                              <label class="star star-5" for="star-5"></label>
+                                              <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                              <label class="star star-4" for="star-4"></label>
+                                              <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                              <label class="star star-3" for="star-3"></label>
+                                              <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                              <label class="star star-2" for="star-2"></label>
+                                              <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                              <label class="star star-1" for="star-1"></label>
+                                             </div>
+                                          </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">&nbsp;</div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                        <div class="form-group send-btn mb-0">
+                                            <button type="submit" class="button-md button-theme">Kirim Ulasan</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Contact 1 end -->
+                </div>
+                <!-- Properties details section end -->
+>>>>>>> 51cd479ee3e3f3f7ecb4307c34ca42d0aea9f893
             </div>
         </div>
     </div>

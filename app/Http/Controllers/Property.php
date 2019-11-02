@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Users;
+use App\Testimonial;
+use App\Properti;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
@@ -196,7 +199,70 @@ class Property extends Controller
         
         
         // print_r($data['properti']);
+
+        $data['testimonials']=Testimonial::select(
+                                                'properti_testimonials.id as id', 
+                                                'properti_testimonials.id_properti as id_properti',
+                                                'properti_testimonials.comment as comment', 
+                                                'properti_testimonials.rate as rate',
+                                                'properti_testimonials.id_user as id_user',
+                                                'properti_testimonials.show as show',
+                                                'properti_testimonials.created_at as created_at',
+                                                'users.name as name',
+                                                'users.img as img'
+                                                )
+                                                ->leftJoin("properti","properti.id_properti","=","properti_testimonials.id_properti")
+                                                ->leftJoin("users","users.id","=","properti_testimonials.id_user")
+                                                ->where([
+                                                        ['properti_testimonials.show','=',1],
+                                                        ['properti_testimonials.id_properti',$id]
+                                                        ])->get();
+        // dd($data['testimonials']);
+        
+        $data['total_rating']=Testimonial::where('properti_testimonials.id_properti',$id)->sum('rate');
+        
+        if($data['total_rating'] === 0){
+            $data['user_rating'] = 1;
+        }else{
+            $data['user_rating']=Testimonial::where('properti_testimonials.id_properti',$id)->count('id_user');
+        }
+            
+        $data['average_rating']= $data['total_rating'] / $data['user_rating'];
+        // dd($data['average_rating']);
+
+        $user_id = array();
+        foreach ($data['testimonials'] as $row){
+            array_push($user_id, $row->id_user);
+        }
+        
+        $data['user_comment']=Users::select('name','img')->whereIn("id",$user_id)->get();
+        
+        $data['id'] = $id;
+
         return view('customer.detailproperti',$data);
+    }
+
+    public function store(Request $request)
+    {
+        $id_user = \Auth::user()->id;
+          
+        // check User comment
+        $user_id = Testimonial::where([['id_user','=',$id_user], ['id_properti','=',$request->id_properti]])->count();
+        // dd($user_id);
+        if($user_id > 0){
+            return redirect()->back()->with('comment', 'Tidak dapat mengulas lagi.');
+        }
+        
+        $comment = new Testimonial;
+        // $comment->id_properti       = "h5d9a372349a6c";
+        $comment->id_properti       = $request->id_properti;
+        $comment->comment           = $request->comment;
+        $comment->rate              = $request->star;
+        $comment->id_user           = $id_user;
+        $comment->show              = 0;
+        $comment->save();
+
+        return redirect()->back()->with('alert', 'Ulasan telah terposting. mohon tunggu untuk persetujuan atas komenmu oleh admin');
     }
 
     public function cariSekitar(Request $r)
