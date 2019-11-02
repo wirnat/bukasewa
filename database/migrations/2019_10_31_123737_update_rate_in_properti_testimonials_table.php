@@ -19,7 +19,7 @@ class UpdateRateInPropertiTestimonialsTable extends Migration
         });
     }
 
-    /**
+    /** 
      * Reverse the migrations.
      *
      * @return void

@@ -18,7 +18,7 @@ class Testimonial extends Model {
                             'updated_at'
                             ];
 
-    // public static $rules = array();
+    // public static $rules = array(); 
     
     public function rules()
     {

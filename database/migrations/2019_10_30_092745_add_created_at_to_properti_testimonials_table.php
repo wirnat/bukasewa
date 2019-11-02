@@ -13,7 +13,7 @@ class AddCreatedAtToPropertiTestimonialsTable extends Migration
      */
     public function up()
     {
-        //
+        // 
         Schema::table('properti_testimonials', function (Blueprint $table) {
             //
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
