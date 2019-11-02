@@ -325,7 +325,7 @@
                     <div class="map">
                         <!-- Main Title 2 -->
                         <div class="main-title-2">
-                            <h1><span>Location</span></h1>
+                            <h1><span>Lokasi</span></h1>
                         </div>
                         <div style="width:100%;height:300px" id="mymap">
                         </div>
@@ -341,7 +341,7 @@
                         <div class="comments-section">
                             <!-- Main Title 2 -->
                             <div class="main-title-2">
-                                <h1><span>Comments </span> Section</h1>
+                                <h1><span>Bagian </span> Ulasan</h1>
                             </div>
 
                             <ul class="comments">
@@ -402,7 +402,7 @@
                         <div class="contact-form">
                             <!-- Main Title 2 -->
                             <div class="main-title-2">
-                                <h1><span>Leave</span> A Reply</h1>
+                                <h1><span>Tinggalkan</span> Ulasan</h1>
                             </div>
                             @if (session('alert'))
                                 <div class="alert alert-success">
@@ -420,16 +420,16 @@
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="form-group message">
-                                            <textarea class="input-text" name="comment" placeholder="Write your comment here"></textarea>
+                                            <textarea class="input-text" name="comment" placeholder="Tuliskan ulasanmu disini"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-3">
                                             <div class="main-title-2">
-                                                <h1><span>Give</span> Rating :</h1>
+                                                <h1><span>Berikan</span> Rating :</h1>
                                             </div>
                                         </div>
-                                            <div class="col-sm-10" style="text-align: left;">
+                                            <div class="col-sm-9" style="text-align: left;">
                                               <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
                                               <label class="star star-5" for="star-5"></label>
                                               <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
@@ -445,7 +445,7 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">&nbsp;</div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                         <div class="form-group send-btn mb-0">
-                                            <button type="submit" class="button-md button-theme">Post Comment</button>
+                                            <button type="submit" class="button-md button-theme">Kirim Ulasan</button>
                                         </div>
                                     </div>
                                 </div>

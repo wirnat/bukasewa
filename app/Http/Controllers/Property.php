@@ -200,12 +200,23 @@ class Property extends Controller
                                                 )
                                                 ->leftJoin("properti","properti.id_properti","=","properti_testimonials.id_properti")
                                                 ->leftJoin("users","users.id","=","properti_testimonials.id_user")
-                                                ->where('properti_testimonials.id_properti',$id)->get();
+                                                ->where([
+                                                        ['properti_testimonials.show','=',1],
+                                                        ['properti_testimonials.id_properti',$id]
+                                                        ])->get();
+        // dd($data['testimonials']);
         
         $data['total_rating']=Testimonial::where('properti_testimonials.id_properti',$id)->sum('rate');
-        $data['user_rating']=Testimonial::where('properti_testimonials.id_properti',$id)->count('id_user');
-        $data['average_rating']= $data['total_rating'] / $data['user_rating'];
         
+        if($data['total_rating'] === 0){
+            $data['user_rating'] = 1;
+        }else{
+            $data['user_rating']=Testimonial::where('properti_testimonials.id_properti',$id)->count('id_user');
+        }
+            
+        $data['average_rating']= $data['total_rating'] / $data['user_rating'];
+        // dd($data['average_rating']);
+
         $user_id = array();
         foreach ($data['testimonials'] as $row){
             array_push($user_id, $row->id_user);
@@ -223,10 +234,10 @@ class Property extends Controller
         $id_user = \Auth::user()->id;
           
         // check User comment
-        $user_id = Testimonial::where([['id_user','=',$id_user]])->count();
+        $user_id = Testimonial::where([['id_user','=',$id_user], ['id_properti','=',$request->id_properti]])->count();
         // dd($user_id);
         if($user_id > 0){
-            return redirect()->back()->with('comment', 'Cannot Comment Again.');
+            return redirect()->back()->with('comment', 'Tidak dapat mengulas lagi.');
         }
         
         $comment = new Testimonial;
@@ -235,10 +246,10 @@ class Property extends Controller
         $comment->comment           = $request->comment;
         $comment->rate              = $request->star;
         $comment->id_user           = $id_user;
-        $comment->show              = 1;
+        $comment->show              = 0;
         $comment->save();
 
-        return redirect()->back()->with('alert', 'Comment has been post.');
+        return redirect()->back()->with('alert', 'Ulasan telah terposting. mohon tunggu untuk persetujuan atas komenmu oleh admin');
     }
 
     public function cariSekitar(Request $r)

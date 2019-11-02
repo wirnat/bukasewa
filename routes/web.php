@@ -18,9 +18,9 @@ Route::get('find/',"Property@find")->name("filter");
 Route::post("rekomen","Home@api_rekomen");
 Auth::routes();
 Route::get('/laravel', 'HomeController@index')->name('home');
-Route::post('detail/properti', "Property@api_detailproperti");
 Route::post('comment', "Property@store");
 Route::post('load/magnify', "Property@api_magnify");
+Route::post('detail/properti', "Property@api_detailproperti");
 Route::get('detail/properti/{id}', 'Property@detail')->name('detail_prop');
 Route::post('signing/', "Customer@signing");
 Route::get('belipaket/',"Vendor\Iklan@pricing");
@@ -63,6 +63,7 @@ Route::post('api/login/google','Auth\LoginController@loginGoogle');
 //vendor panel
 Route::group(['middleware' => [MdVendor::class]], function () {
 Route::get('vendor/',"Vendor\Dashboard@index");
+Route::post('changeStatusTesti', 'Vendor\Dashboard@changeStatusTesti');
 Route::get('vendor/iklan/edit/{id}',"Vendor\Iklan@editiklan");
 Route::get('vendor/iklan/tambah',"Vendor\Iklan@tambahiklan");
 Route::get('vendor/iklan/kelola',"Vendor\Iklan@kelolaiklan");
