@@ -2,7 +2,7 @@
 @section('title','Beli paket iklan')
 @section('content')
 <!-- Sub banner start -->
-<div class="sub-banner overview-bgi">
+    <div class="sub-banner overview-bgi">
         <div class="overlay">
             <div class="container">
                 <div class="breadcrumb-area">
@@ -16,7 +16,6 @@
         </div>
     </div>
     <!-- Sub Banner end -->
-    
     <!-- Pricing tables 3 start -->
     <div class="pricing-tables-3 content-area-8">
         <div class="container">

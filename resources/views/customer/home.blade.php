@@ -57,15 +57,15 @@
         color: #fff;
         background-color: #ff5159;
         font-size: 15px;
-        font-weight: 500;
+        font-weight: 500; 
         padding: 6px 12px;
       }
  </style>   
 @endsection
 @section('content')
 
-<div class="hidden-lg hidden-md container">
-    <img class="banner-join" src="/img/ikutagent.jpg" alt="join us">
+<div class="container">
+    <a href="/join/surveyor"><img class="banner-join" src="/img/banner-web-2.jpg" alt="join us">
 </div>
 
 <!-- Categories strat -->
@@ -78,25 +78,23 @@
         <div class="clearfix"></div>
         <div class="row wow">
             @foreach ($region as $rg)                        
-            <div class="col-sm-6 col-lg-6 col-xs-6 col-pad wow fadeInUp delay-04s">
-                <div class="category">
-                    <div onclick="loadmodal_region('{{$rg->id}}')" style="background-image: url('{{$rg->img}}')" class="category_bg_box">
-                        <div class="category-overlay">
-                            <div class="category-content">
-                                    {{-- <div class="category-subtitle">{{$rg->jumlah}}</div> --}}
-                                    <h3 class="category-title"><a href="/hunian-murah-di/{{$rg->provinsi}}">{{$rg->provinsi}}</a></h3>
+                <div class="col-sm-6 col-lg-6 col-xs-6 col-pad wow fadeInUp delay-04s">
+                    <div class="category">
+                        <div onclick="loadmodal_region('{{$rg->id}}')" style="background-image: url('{{$rg->img}}')" class="category_bg_box">
+                            <div class="category-overlay">
+                                <div class="category-content">
+                                        {{-- <div class="category-subtitle">{{$rg->jumlah}}</div> --}}
+                                        <h3 class="category-title"><a href="/hunian-murah-di/{{$rg->provinsi}}">{{$rg->provinsi}}</a></h3>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             @endforeach
-            {{-- <center>
-                    <button data-toggle="modal" data-target="#modalcari" id="carihunian" class="btn button-md button-theme"><i class="fa fa-map-marker"></i> Cari hunian disekitarmu</button>
-            </center> --}}
         </div>
     </div>
 </div>
+
 <!-- Categories end-->
 {{-- <div id="div-mapz" style="margin-top:50px;margin-bottom:50px;display:none" class="container">
     <br>
@@ -138,8 +136,6 @@
         <div id="map"></div>
     </div>
 </div> --}}
-
-
 
 <div id="divrekomen" >
 <!-- Rekomendasi -->

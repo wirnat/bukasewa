@@ -186,6 +186,7 @@ class Property extends Controller
         $data['kategori']=$this->kategori;
         $data['search']="false";
         $data['message']=Session::get('message');
+        $data['error']=Session::get('error-message');
         $data['status']=Session::get('status');
         if (Auth::check()) {
             $data['cek_love']=DB::table('rekam_jejak')->where("id_user",auth()->user()->id)->where("id_iklan",$id)->where("aksi",'simpan')->get();

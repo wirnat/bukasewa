@@ -36,5 +36,32 @@ class Home extends Controller
                 * SIN(RADIANS(".$r->lat.")), 1.0))) AS distance"))->where("paket","!=","0A")->groupBy("users.id")->orderBy("users.paket","desc")->where("aktif","aktif");
         return response()->json($properti->take('10')->get()); 
     }
+
+    public function join_surveyor(Request $r)
+    {
+        $data['kategori']=$this->kategori;
+        $data['search']="hide";
+        $data['breadcrumb']="show";
+        $data['message']=Session::get('message');
+        return view("join_surveyor",$data);
+    }
+
+    public function insert_surveyor(Request $r)
+    {
+        try { 
+            $file = $r->file('photo_ktpz');
+     
+            $nama_file = time()."_".$file->getClientOriginalName(); 
+            $tujuan_upload = '/img/ktp/';
+            $file->move($tujuan_upload,$nama_file);
+            
+            DB::table('surveyor')->insert(['nama'=>$r->name,'alamat'=>$r->address,'email'=>$r->email,'tlp'=>$r->telp,'umur'=>$r->umur,'pendidikan'=>$r->pendidikan,'link_ktp'=>$tujuan_upload.$nama_file]);
+            return Redirect::back()->with('message','Terimakasih, telah mendaftar menjadi partner kami.')->with("message-tiny","silahkan tunggu konfirmasi dari kami");
+        }
+        catch(\Illuminate\Database\QueryException $ex){ 
+            return Redirect::back()->with('error-message','Email ini sudah terdaftar')->with("message-tiny","silahkan pakai email lain")->with("error","error");
+        // Note any method of class PDOException can be called on $ex.
+        }
+    }
 }
 

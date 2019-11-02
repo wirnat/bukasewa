@@ -11,6 +11,7 @@
 */
 use App\Http\Middleware\MdVendor;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Request;
 
 Route::get("/","Home@index");
@@ -28,6 +29,9 @@ Route::get('hunian/', 'Property@list');
 Route::get('hunian-murah-di/{provinsi}', 'Property@regionlist');
 Route::get('hunian-murah-di-kabupaten/{kabupaten}', 'Property@district');
 Route::get('hunian-murah-disekitar/{tempat}', 'Property@around');
+Route::get('join/surveyor', 'Home@join_surveyor');
+Route::post('join/surveyor/save','Home@insert_surveyor');
+
 
 //api pelanggan
 Route::post('/get/kampus_all', function () {
