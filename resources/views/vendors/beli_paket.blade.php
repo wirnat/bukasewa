@@ -1,6 +1,7 @@
 @extends('layout.customer')
 @section('title','Beli paket iklan')
 @section('content')
+
 <!-- Sub banner start -->
     <div class="sub-banner overview-bgi">
         <div class="overlay">
@@ -187,22 +188,28 @@
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             cancelButtonText: 'Lain kali',
-            confirmButtonText: 'Ya, Beli sekarang'
-            }).then((result) => {
-                if (result.value) {
+            confirmButtonText: 'Ya, Beli sekarang',
+            showLoaderOnConfirm: true,
+            preConfirm: function() {
+                return new Promise(function(resolve) {
                     axios.post("/api/insert/transaksi",{
                     id_paket:id
                     })
                     .then(res => {
                         console.log(res)
-                        Swal.fire(
-                        'Silahkan cek emailmu',
-                        'Invoice telah dikirim ke emailmu',
-                        'success'
-                        )
+                        resolve()
                     })
                     .catch(err => {
                         console.error(err); 
+                    })
+                });
+            },
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire("Invoice telah terkirim ke emailmu","silahkan cek dan lakukan pembayaran","success").then((result)=>{
+                        if (result.value) {
+                            window.location.href="/vendor"   
+                        }
                     })
                 }
             })

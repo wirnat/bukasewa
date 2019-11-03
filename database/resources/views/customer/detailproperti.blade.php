@@ -302,14 +302,13 @@
                 </div>
                 <!-- Properties details section end -->
                 <div class="slider slideimg">
+                    @foreach ($img as $m)
+                        <div>
+                                <img  src="/{{$m->link}}" class="thumb-preview"  alt="gambar hunian {{$properti->properti}}">
 
-                @foreach ($img as $m)
-                    <div>
-                            <img  src="/{{$m->link}}" class="thumb-preview"  alt="gambar hunian {{$properti->properti}}">
-
-                    </div>
-                @endforeach
-            </div>
+                        </div>
+                    @endforeach
+                </div>
 
 
                 <!-- Location start -->

@@ -363,9 +363,9 @@
             success: function (response) {
                 for (let index = 0; index < response.length; index++) {
                     if (index==1) {
-                        $("#imgmagnify").append('<a  href="'+response[index].link+'"><i style="padding-top: 30%;" class="fa fa-expand"></i></a>');
+                        $("#imgmagnify").append('<a  href="/'+response[index].link+'"><i style="padding-top: 30%;" class="fa fa-expand"></i></a>');
                     } else {
-                        $("#imgmagnify").append('<a href="'+response[index].link+'" class="hidden new"></a>'); 
+                        $("#imgmagnify").append('<a href="/'+response[index].link+'" class="hidden new"></a>'); 
                     }
 
                 }

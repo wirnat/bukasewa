@@ -3,7 +3,7 @@
 @section('content')
 
             <!-- LINE CHART -->
-            <div class="box box-danger">
+            {{-- <div class="box box-danger">
                 <div class="box-header with-border">
                     <h3 class="box-title">Statistik Klik </h3>
 
@@ -16,8 +16,8 @@
                 <div class="box-body chart-responsive">
                     <div class="chart" id="line-chart" style="height: 300px;"></div>
                 </div>
-            <!-- /.box-body -->
-            </div>
+                <!-- /.box-body -->
+            </div> --}}
             <!-- /.box -->
             <!-- Chat box -->
             <div class="box box-success">

@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             <input style="display:none" id="photo_ktp" type="file" name="photo_ktpz">
-                            <button type="submit" class="btn button button-theme"><i class="fa fa-archive"></i> Daftar Sekarang!</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-archive"></i> Daftar Sekarang!</button>
                         </div>
                     </form>
                 </div>
@@ -74,7 +74,7 @@
                     <h3>{{Session::get('message')}}</h3>
                     <p>{{Session::get('message-tiny')}}</p>
                     <center>
-                        <a href="/"><button class="btn button button-theme"><span class="fa fa-backward"></span> Kembali</button></a>
+                        <a href="/"><button class="btn btn-primary"><span class="fa fa-backward"></span> Kembali</button></a>
                     </center>
                 </div>
             </div>

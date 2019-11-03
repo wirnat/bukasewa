@@ -13,11 +13,8 @@
     </style>
 @endsection
 @section('content')
-<<<<<<< HEAD
-=======
 
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
->>>>>>> 51cd479ee3e3f3f7ecb4307c34ca42d0aea9f893
     <div style="margin-top:50px;padding-right: 0px; 
     padding-left: 0px;" class="container">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -102,8 +99,63 @@
 
                                 <!-- Social list -->
                                 <ul style="margin-left:25%" class="social-list">
-                                    <li><a data-toggle="modal" data-target="#modalshare" href="#" class="twitter-bg"><i class="fa fa-share-alt"></i></a></li>
-                                    @if (Auth::check())
+                                    <div>
+                                <div class="share-dialog">
+                                    <div class="header_share">
+                                      <h3 class="dialog-title">Bagiin ke temenmu</h3>
+                                      <button class="close-button"><svg><use href="#close"></use></svg></button>
+                                    </div>
+                                    <div class="targets">
+                                      <a class="button">
+                                        <svg>
+                                          <use href="#facebook"></use>
+                                        </svg>
+                                        <span>Facebook</span>
+                                      </a>
+                                      
+                                      <a class="button">
+                                        <svg>
+                                          <use href="#twitter"></use>
+                                        </svg>
+                                        <span>Twitter</span>
+                                      </a>
+                                      
+                                      <a class="button">
+                                        <svg>
+                                          <use href="#linkedin"></use>
+                                        </svg>
+                                        <span>LinkedIn</span>
+                                      </a>
+                                      
+                                      <a class="button">
+                                        <svg>
+                                          <use href="#email"></use>
+                                        </svg>
+                                        <span>Email</span>
+                                      </a>
+                                    </div>
+                                </div>
+                                  
+                                <li><a class="share-button twitter-bg"><i class="fa fa-share-alt"></i></a></li>
+
+                                  
+                                  <svg class="hidden">
+                                    <defs>
+                                      <symbol id="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></symbol>
+                                      
+                                      <symbol id="facebook" viewBox="0 0 24 24" fill="#3b5998" stroke="#3b5998" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></symbol>
+                                      
+                                      <symbol id="twitter" viewBox="0 0 24 24" fill="#1da1f2" stroke="#1da1f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></symbol>
+                                      
+                                      <symbol id="email" viewBox="0 0 24 24" fill="#777" stroke="#fafafa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></symbol>
+                                      
+                                      <symbol id="linkedin" viewBox="0 0 24 24" fill="#0077B5" stroke="#0077B5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></symbol>
+                                      
+                                      <symbol id="close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></symbol>
+                                    </defs>
+                                  </svg>
+                            </div>
+                            @if (Auth::check())
                                         {{-- cek apa status favorit --}}
                                         <li><a href="https://api.whatsapp.com/send?phone={{$wa}}&text=Halo%20kak%20,%20apakah%20masih%20tersedia%20huniannya?%0A%0Aaku%20mendapatkan%20informasi%20dari%20https://bukasewa.com/detail/properti/{{$properti->id_properti}}" class="linkedin-bg"><i class="fa fa-whatsapp"></i></a></li>
                                         @if (count($cek_love)>0)
@@ -371,12 +423,139 @@
                     </div>
                 </div>
                 <!-- Location end -->
+
+                <!-- Properties details section start -->
+                <div class="Properties-details-section sidebar-widget">
+                        <!-- Properties comments start -->
+                        <div class="properties-comments mb-40">
+                            <!-- Comments section start -->
+                            <div class="comments-section">
+                                <!-- Main Title 2 -->
+                                @if ($testimonials->count()>0)
+                                <div class="main-title-2">
+                                    <h1><span>Bagian </span> Ulasan</h1>
+                                </div>
+                                @endif
+                                <ul class="comments">
+                                    <li>
+                                        @foreach ($testimonials as $testi)
+                                        <div class="comment">
+                                                <div class="comment-author">
+                                                    <a href="#">
+                                                        @if($testi->img='null')
+                                                            <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
+                                                        @else
+                                                            <img src="{{$testi->img}}" alt="avatar-5">
+                                                        @endif
+                                                    </a>
+                                                </div>
+                                                <div class="comment-content">
+                                                    <div class="comment-meta">
+                                                        <div class="comment-meta-author">
+                                                            {{$testi->name}}
+                                                        </div>
+                                                        {{-- <div class="comment-meta-reply">
+                                                            <a href="#">Reply</a>
+                                                        </div> --}}
+                                                        <div class="comment-meta-date">
+                                                            <span class="hidden-xs">{{$testi->created_at}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <div class="comment-body">
+                                                        <div class="comment-rating">
+                                                            @foreach(range(1,5) as $i)
+                                                                @if($testi->rate >0)
+                                                                    @if($testi->rate >0.5)
+                                                                        <i class="fa fa-star"></i>
+                                                                    @else
+                                                                        <i class="fa fa-star-half-o"></i>
+                                                                    @endif
+                                                                @else
+                                                                    <i class="fa fa-star-o"></i>
+                                                                @endif
+                                                            <?php $testi->rate--; ?>
+                                                            @endforeach
+                                                        </div>
+                                                        <p>{{$testi->comment}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Comments section end -->
+                        </div>
+                        <!-- Properties comments end -->
+    
+                        <!-- Contact 1 start -->
+                        <div class="contact-1">
+                            <div class="contact-form">
+                                <!-- Main Title 2 -->
+                                <div class="main-title-2">
+                                    <h1><span>Tinggalkan</span> Ulasan</h1>
+                                </div>
+                                @if (session('alert'))
+                                    <div class="alert alert-success">
+                                        {{ session('alert') }}
+                                    </div>
+                                @elseif (session('comment'))
+                                    <div class="alert alert-danger">
+                                        {{ session('comment') }}
+                                    </div>
+                                @endif
+                                {!! csrf_field() !!}
+                                <form action="/comment" method="POST" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <input type="hidden" name="id_properti" value="{{$id}}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="form-group message">
+                                                <textarea required class="input-text" name="comment" placeholder="Tuliskan ulasanmu disini"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-3">
+                                                <div class="main-title-2">
+                                                    <h1><span>Berikan</span> Rating :</h1>
+                                                </div>
+                                            </div>
+                                                <div class="col-sm-9" style="text-align: left;">
+                                                  <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
+                                                  <label class="star star-5" for="star-5"></label>
+                                                  <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
+                                                  <label class="star star-4" for="star-4"></label>
+                                                  <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
+                                                  <label class="star star-3" for="star-3"></label>
+                                                  <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
+                                                  <label class="star star-2" for="star-2"></label>
+                                                  <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
+                                                  <label class="star star-1" for="star-1"></label>
+                                                 </div>
+                                              </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">&nbsp;</div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                            <div class="form-group send-btn mb-0">
+                                                @if (Auth::check())
+                                                <button type="submit" class="button-md button-theme">Kirim Ulasan</button>
+                                                @else
+                                                <button type="button" class="button-md button-theme sign">Kirim Ulasan</button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Contact 1 end -->
+                    </div>
+                    <!-- Properties details section end -->
             </div>
     </div>
 @endsection
 @section('footer')
 
-<<<<<<< HEAD
 <!-- Modal -->
 <div class="modal fade" id="modalshare" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
@@ -395,139 +574,9 @@
                                 <h1><span>Share</span> ke </h1>
                             </div>
                             <!-- Social list -->
-                            <div>
-                                <ul style="padding:auto" class="social-list">
-                                    <li><a href="#" class="facebook-bg"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#" class="linkedin-bg"><i class="fa fa-whatsapp"></i></a></li>
-                                    <li><a href="#" class="instagram-bg"><i class="fa fa-instagram"></i></a></li>
-                                </ul>
-                            </div>
+                            
                         </div>
                 </center>
-=======
-                <!-- Properties details section start -->
-                <div class="Properties-details-section sidebar-widget">
-                    <!-- Properties comments start -->
-                    <div class="properties-comments mb-40">
-                        <!-- Comments section start -->
-                        <div class="comments-section">
-                            <!-- Main Title 2 -->
-                            <div class="main-title-2">
-                                <h1><span>Bagian </span> Ulasan</h1>
-                            </div>
-
-                            <ul class="comments">
-                                <li>
-                                    @foreach ($testimonials as $testi)
-                                    <div class="comment">
-                                            <div class="comment-author">
-                                                <a href="#">
-                                                    @if($testi->img='null')
-                                                        <img src="/nest/img/avatar/avatar-5.png" alt="avatar-5">
-                                                    @else
-                                                        <img src="{{$testi->img}}" alt="avatar-5">
-                                                    @endif
-                                                </a>
-                                            </div>
-                                            <div class="comment-content">
-                                                <div class="comment-meta">
-                                                    <div class="comment-meta-author">
-                                                        {{$testi->name}}
-                                                    </div>
-                                                    {{-- <div class="comment-meta-reply">
-                                                        <a href="#">Reply</a>
-                                                    </div> --}}
-                                                    <div class="comment-meta-date">
-                                                        <span class="hidden-xs">{{$testi->created_at}}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                                <div class="comment-body">
-                                                    <div class="comment-rating">
-                                                        @foreach(range(1,5) as $i)
-                                                            @if($testi->rate >0)
-                                                                @if($testi->rate >0.5)
-                                                                    <i class="fa fa-star"></i>
-                                                                @else
-                                                                    <i class="fa fa-star-half-o"></i>
-                                                                @endif
-                                                            @else
-                                                                <i class="fa fa-star-o"></i>
-                                                            @endif
-                                                        <?php $testi->rate--; ?>
-                                                        @endforeach
-                                                    </div>
-                                                    <p>{{$testi->comment}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Comments section end -->
-                    </div>
-                    <!-- Properties comments end -->
-
-                    <!-- Contact 1 start -->
-                    <div class="contact-1">
-                        <div class="contact-form">
-                            <!-- Main Title 2 -->
-                            <div class="main-title-2">
-                                <h1><span>Tinggalkan</span> Ulasan</h1>
-                            </div>
-                            @if (session('alert'))
-                                <div class="alert alert-success">
-                                    {{ session('alert') }}
-                                </div>
-                            @elseif (session('comment'))
-                                <div class="alert alert-danger">
-                                    {{ session('comment') }}
-                                </div>
-                            @endif
-                            {!! csrf_field() !!}
-                            <form action="/comment" method="POST" enctype="multipart/form-data">
-                                <div class="row">
-                                    <input type="hidden" name="id_properti" value="{{$id}}">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="form-group message">
-                                            <textarea class="input-text" name="comment" placeholder="Tuliskan ulasanmu disini"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-3">
-                                            <div class="main-title-2">
-                                                <h1><span>Berikan</span> Rating :</h1>
-                                            </div>
-                                        </div>
-                                            <div class="col-sm-9" style="text-align: left;">
-                                              <input class="star star-5" value="5" id="star-5" type="radio" name="star"/>
-                                              <label class="star star-5" for="star-5"></label>
-                                              <input class="star star-4" value="4" id="star-4" type="radio" name="star"/>
-                                              <label class="star star-4" for="star-4"></label>
-                                              <input class="star star-3" value="3" id="star-3" type="radio" name="star"/>
-                                              <label class="star star-3" for="star-3"></label>
-                                              <input class="star star-2" value="2" id="star-2" type="radio" name="star"/>
-                                              <label class="star star-2" for="star-2"></label>
-                                              <input class="star star-1" value="1" id="star-1" type="radio" name="star"/>
-                                              <label class="star star-1" for="star-1"></label>
-                                             </div>
-                                          </div>
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">&nbsp;</div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                        <div class="form-group send-btn mb-0">
-                                            <button type="submit" class="button-md button-theme">Kirim Ulasan</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- Contact 1 end -->
-                </div>
-                <!-- Properties details section end -->
->>>>>>> 51cd479ee3e3f3f7ecb4307c34ca42d0aea9f893
             </div>
         </div>
     </div>
@@ -537,7 +586,6 @@
 <script>
     var ceklat="{{$properti->lat}}";
     $(document).ready(function () {
-
             // The location
         if (ceklat!="") {
             var lokasi = {lat: {{$properti->lat}}, lng: {{$properti->lng}} };
@@ -678,6 +726,18 @@
             });
         }
     }
+
+    const shareButton = document.querySelector('.share-button');
+    const shareDialog = document.querySelector('.share-dialog');
+    const closeButton = document.querySelector('.close-button');
+
+    shareButton.addEventListener('click', event => {
+    shareDialog.classList.add('is-open');
+    });
+
+    closeButton.addEventListener('click', event => {
+    shareDialog.classList.remove('is-open');
+    });
     
     
 </script>

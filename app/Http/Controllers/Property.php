@@ -262,7 +262,7 @@ class Property extends Controller
         $comment->show              = 0;
         $comment->save();
 
-        return redirect()->back()->with('alert', 'Ulasan telah terposting. mohon tunggu untuk persetujuan atas komenmu oleh admin');
+        return redirect()->back()->with('alert', 'Ulasan telah terposting dan sedang menunggu persetujuan penyedia hunian untuk ditampilkan');
     }
 
     public function cariSekitar(Request $r)

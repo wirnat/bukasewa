@@ -184,11 +184,11 @@
               <li><a href=""><i class="fa fa-circle-o"></i>Penagihan</a></li>
             </ul>
           </li>
-        <li >
+        {{-- <li >
             <a href="pages/widgets.html">
               <i class="fa  fa-question-circle"></i> <span>Bantuan</span>
             </a>
-        </li>
+        </li> --}}
       </ul>
     </section>
     <!-- /.sidebar -->

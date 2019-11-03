@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-<?php namespace App;
-=======
 <?php
 namespace App;
->>>>>>> 51cd479ee3e3f3f7ecb4307c34ca42d0aea9f893
 
 use Illuminate\Database\Eloquent\Model;
 
 class Properti extends Model {
-<<<<<<< HEAD
-
-	public $table="properti";
-
-=======
-    
     protected $table = 'properti';
 
     protected $fillable = [
@@ -54,5 +44,4 @@ class Properti extends Model {
     {
       return $this->hasMany('App\Testimonial', 'id_user','id');
     }
->>>>>>> 51cd479ee3e3f3f7ecb4307c34ca42d0aea9f893
 }

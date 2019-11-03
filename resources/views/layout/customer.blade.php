@@ -214,7 +214,7 @@
                                         <img class="img-circle" src="{{$photo}}">
                                         <p style="background-color:#b7c0bd" class="dropcard"><i class="fa fa-{{auth()->user()->provider}}"></i> {{auth()->user()->name}} - {{auth()->user()->email}}</p>
                                         
-                                        <button class="btn button button-theme" id="fav"><i class="fa fa-heart"></i> Favoritku</button>
+                                        <a href="/penyewa/favorit"><button class="btn button button-theme" id="fav"><i class="fa fa-heart"></i> Favoritku</button></a>
                                         <button id="logout" class="btn button button-transparent" href="{{ route('logout') }}"
                                             onclick="signOut();">
                                             <i class="fa fa-sign-out"></i> Logout
@@ -269,13 +269,13 @@
                             </li>
                             <li class="col-lg-6 col-xs-6 col-sm-6">
                                 <ul id="listkampus">
-                                    <li class="dropdown-header">Dekat kampus 
+                                    <li style="text-align:center" class="dropdown-header">Dekat kampus 
                                     </li>
                                 </ul>
                             </li>
                             <li class="col-lg-6 col-xs-6 col-sm-6">
                                 <ul id="listwisata">
-                                    <li style="text-align:right" class="dropdown-header"><span>Paling dicari</span></li>
+                                    <li style="text-align:center" class="dropdown-header"><span>Paling dicari</span></li>
                                 </ul>
                             </li>
                         </ul>
@@ -285,13 +285,13 @@
                             List Hunian
                         </a>
                     </li>
-                    <li class="comingsoon">
-                        <a  tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                    <li>
+                        <a  onclick="pemberitahuan('Coming Soon')" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
                             Bandingkan
                         </a>
                     </li>
-                    <li class="comingsoon">
-                        <a  tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                    <li >
+                        <a onclick="pemberitahuan('Sabar ya, Masih belum ada promo')" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
                             Promo
                         </a>
                     </li>
@@ -842,10 +842,9 @@
             })
         }
 
-        $(".comingsoon").click(function (e) { 
-            e.preventDefault();
-            Swal.fire("Fitur ini akan datang sbentar lagi","SABAR YAA","info")
-        });
+        function pemberitahuan(text) {
+            Swal.fire(text,"","info")
+        }
 
         //login google
         function onSignIn(googleUser) {

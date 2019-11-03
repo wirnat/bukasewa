@@ -23,22 +23,13 @@ class Dashboard extends Controller
         // dd($user_properti);    
 
         $data['testimonials']=Testimonial::select(
-            'properti_testimonials.id as id', 
-            'properti_testimonials.id_properti as id_properti',
-            'properti_testimonials.comment as comment', 
-            'properti_testimonials.rate as rate',
-            'properti_testimonials.id_user as id_user',
-            'properti_testimonials.show as show',
-            'properti_testimonials.created_at as created_at',
+            'properti_testimonials.*',
             'users.name as name',
-            'users.img as img'
+            'users.img as img',
+            'properti.id_user as pemilik'
             )
             ->leftJoin("properti","properti.id_properti","=","properti_testimonials.id_properti")
-            ->leftJoin("users","users.id","=","properti_testimonials.id_user")
-            ->where('properti_testimonials.id_properti',$user_properti->id_properti)->get();
-
-        // dd($data['testimonials']);
-
+            ->leftJoin("users","users.id","=","properti_testimonials.id_user")->where("properti.id_user",auth()->user()->id)->get();
         return view("vendors.dashboard",$data);
     }
 

@@ -24,7 +24,6 @@ Route::post('load/magnify', "Property@api_magnify");
 Route::post('detail/properti', "Property@api_detailproperti");
 Route::get('detail/properti/{id}', 'Property@detail')->name('detail_prop');
 Route::post('signing/', "Customer@signing");
-Route::get('belipaket/',"Vendor\Iklan@pricing");
 Route::get('hunian/kategori/{id}', 'Property@kategori');
 Route::get('hunian/', 'Property@list');
 Route::get('hunian-murah-di/{provinsi}', 'Property@regionlist');
@@ -32,7 +31,10 @@ Route::get('hunian-murah-di-kabupaten/{kabupaten}', 'Property@district');
 Route::get('hunian-murah-disekitar/{tempat}', 'Property@around');
 Route::get('join/surveyor', 'Home@join_surveyor');
 Route::post('join/surveyor/save','Home@insert_surveyor');
+Route::get('penyewa/favorit', 'Penyewa@favorit')->middleware('penyewa');
 
+
+Route::get('/login/penyewa', 'Penyewa@login');
 
 //api pelanggan
 Route::post('/get/kampus_all', function () {
@@ -84,7 +86,7 @@ Route::post('/api/rekam_jejak', function (Request $r) {
       }
     
     return response()->json($data, 200);
-});
+})->middleware('penyewa');;
 
 //hapus favorit
 Route::post('/api/delete/favorit', function (Request $r) {
@@ -103,7 +105,7 @@ Route::post('/api/delete/favorit', function (Request $r) {
       }
     
     return response()->json($data, 200);
-});
+})->middleware('penyewa');;
     
 //auth provider
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
@@ -111,8 +113,9 @@ Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCall
 Route::post('api/login/google','Auth\LoginController@loginGoogle'); 
 
 //vendor panel
-Route::group(['middleware' => [MdVendor::class]], function () {
+Route::group(['middleware' => 'vendor'], function () {
 Route::get('vendor/',"Vendor\Dashboard@index");
+Route::get('belipaket/',"Vendor\Iklan@pricing");
 Route::post('changeStatusTesti', 'Vendor\Dashboard@changeStatusTesti');
 Route::get('vendor/iklan/edit/{id}',"Vendor\Iklan@editiklan");
 Route::get('vendor/iklan/tambah',"Vendor\Iklan@tambahiklan");
